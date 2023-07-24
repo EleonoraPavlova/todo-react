@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import "./style/App.css";
 import TodoList, { Task } from './components/TodoList';
+// import App1 from "./homework/App1";
+// import dataState from "./homework/state";
 
 
 export type FilterValues = "all" | "complited" | "active"
@@ -37,6 +39,7 @@ function App() {
   return (
     <div className="App">
       <TodoList tasks={tasksForTodo} title1={"This is title one"} removeTask={removeTask} changeFilter={changeFilter} />
+      {/* <App1 title={dataState.data1.title} tasks={dataState.data1.tasks} students={dataState.data1.students} /> */}
     </div>
   );
 }
