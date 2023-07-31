@@ -3,8 +3,6 @@ import "./style/App.css";
 import TodoList, { Task } from './components/TodoList';
 import { v1 } from "uuid";
 
-// import App1 from "./homework/App1";
-// import dataState from "./homework/state";
 
 
 
@@ -20,7 +18,6 @@ function App() {
     setTasks(tasks.filter(t => t.id !== id))
   }
 
-
   function addTask(inputValue: string) {
     let newTask = { id: v1(), title: inputValue, isDone: false }
     let newTasks = [newTask, ...tasks]
@@ -31,7 +28,6 @@ function App() {
   return (
     <div className="App">
       <TodoList tasks={tasks} title1={"This is title one"} removeTask={removeTask} addTask={addTask} />
-      {/* <App1 title={dataState.data1.title} tasks={dataState.data1.tasks} students={dataState.data1.students} /> */}
     </div>
   );
 }
