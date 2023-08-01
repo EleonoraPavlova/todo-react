@@ -23,5 +23,10 @@
   "include": [
     "src",
     "src/homework2/App2.tsx"
+  ],
+  "plugins": [
+    {
+      "name": "typescript-plugin-css-modules"
+    }
   ]
 }

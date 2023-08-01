@@ -12,6 +12,7 @@
     "@types/node": "^16.18.38",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/styled-components": "^5.1.26",
     "gh-pages": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -48,6 +49,10 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@types/uuid": "^9.0.2"
+    "@types/uuid": "^9.0.2",
+    "typescript-plugin-css-modules": "^5.0.1"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   }
 }

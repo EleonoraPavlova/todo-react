@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./style/App.css";
-import TodoList, { Task } from './components/TodoList';
+import TodoList, { Task } from './components/TodoList/TodoList';
 import { v1 } from "uuid";
 
 
@@ -24,10 +24,17 @@ function App() {
     setTasks(newTasks)
   }
 
+  function changeStatus(taskId: string, isDone: boolean) {
+    let task = tasks.find(t => t.id === taskId)
+    if (task) {
+      return task.isDone = isDone;
+    }
+    setTasks([...tasks]) //чтобы был перерендер изменения! обязательно!
+  }
 
   return (
     <div className="App">
-      <TodoList tasks={tasks} title1={"This is title one"} removeTask={removeTask} addTask={addTask} />
+      <TodoList tasks={tasks} title1={"This is title one"} removeTask={removeTask} addTask={addTask} changeStatus={changeStatus} />
     </div>
   );
 }
