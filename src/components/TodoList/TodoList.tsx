@@ -1,12 +1,10 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { Button } from "../Button/Button";
+import { ButtonComponent } from "../ButtonComponent/ButtonComponent";
 import style from "./TodoList.module.scss"
 
 
 type TodoListProps = {
-  title1?: string
-  title2?: number
-  title3?: boolean
+  title?: string
   tasks: Task[]
   removeTask: (id: string) => void
   addTask: (inputValue: string) => void
@@ -69,16 +67,16 @@ function TodoList(props: TodoListProps) {
         props.changeStatus(item.id, e.currentTarget.checked);
       //console.log(e.currentTarget.checked) //вывожу в консоль смену состояния чеков
 
-      return (<li key={item.id} ><input type="checkbox" checked={item.isDone} onChange={onChangeHandler} />
+      return (<li key={item.id} className={item.isDone ? style.done : ""} ><input type="checkbox" checked={item.isDone} onChange={onChangeHandler} />
         <span>{item.title}</span>
-        <Button name="X" callBack={onRemoveHandler} />
+        <ButtonComponent name="X" callBack={onRemoveHandler} />
       </li>)
     })
   }
 
   return (
     <div>
-      <h3>{props.title1}{props.title2}</h3>
+      <h3>{props.title}</h3>
       <div>
         <input type="text" placeholder="Type here...."
           value={inputValue}
@@ -87,19 +85,18 @@ function TodoList(props: TodoListProps) {
           className={error ? "error" : ""}
 
         />
-        <Button name="+" callBack={() => { addTaskHandler(inputValue) }} />
+        <ButtonComponent name="+" callBack={() => { addTaskHandler(inputValue) }} />
       </div>
       {error && <div className={style.errorMes}>{error}</div>}
       <ul>
         {mappedTasks()}
       </ul>
       <div>
-        <Button name="All" callBack={() => { changeFilterHandler("all") }} />
-        <Button name="Active" callBack={() => { changeFilterHandler("active") }} />
-        <Button name="Completed" callBack={() => { changeFilterHandler("completed") }} />
+        <ButtonComponent active={filter === "all"} name="All" callBack={() => { changeFilterHandler("all") }} />
+        <ButtonComponent active={filter === "active"} name="Active" callBack={() => { changeFilterHandler("active") }} />
+        <ButtonComponent active={filter === "completed"} name="Completed" callBack={() => { changeFilterHandler("completed") }} />
       </div>
     </div >
-
   );
 }
 

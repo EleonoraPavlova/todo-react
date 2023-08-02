@@ -34,7 +34,7 @@ function App() {
 
   return (
     <div className="App">
-      <TodoList tasks={tasks} title1={"This is title one"} removeTask={removeTask} addTask={addTask} changeStatus={changeStatus} />
+      <TodoList tasks={tasks} title={"This is title"} removeTask={removeTask} addTask={addTask} changeStatus={changeStatus} />
     </div>
   );
 }
