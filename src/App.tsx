@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./style/App.css";
-import TodoList from './components/TodoList/TodoList';
+import TodoList, { Task } from './components/TodoList/TodoList';
 import { v1 } from "uuid";
 
 export type TodoListsType = {
@@ -8,6 +8,11 @@ export type TodoListsType = {
   title: string
   filter: FilterValues
 }
+
+type tasksObjType = {
+  [key: string]: Task[]
+}
+
 
 export type FilterValues = "all" | "completed" | "active"
 
@@ -23,7 +28,7 @@ function App() {
   let todoListId1 = v1()
   let todoListId2 = v1()
 
-  let [tasksObj, setTasks] = useState({
+  let [tasksObj, setTasks] = useState<tasksObjType>({
     [todoListId1]: [ //id этот передала пропсами id={l.id}  в  TodoList
       { id: v1(), title: "HTML&CSS", isDone: true },
       { id: v1(), title: "JS", isDone: true },
@@ -79,7 +84,6 @@ function App() {
 
 
   function removeTodolist(togoListId: string) {
-    debugger
     let removeTodoList = todoLists.filter(l => l.id !== togoListId) //filter возвращает новый массив
     setTodoLists(removeTodoList)
     delete tasksObj[togoListId]
