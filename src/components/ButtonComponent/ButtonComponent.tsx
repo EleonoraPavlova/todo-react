@@ -16,13 +16,13 @@ export const ButtonComponent = (props: ButtonProps) => {
   return (<Button type="button" onClick={onClickHandler} className={props.additionalClass} $active={props.active}>{props.name}</Button>)
 }
 
-//// const Button = styled.button<Pick<ButtonProps, 'active'>>`
+// const Button = styled.button<Pick<ButtonProps, 'active'>>`
 const Button = styled.button<{ $active?: boolean }>`
-background - color: inherit;
+background-color: inherit;
 cursor: pointer;
-margin - left: 10px;
+margin-left: 10px;
 padding: 7px;
-border - radius: 3px;
+border-radius: 3px;
 color: ${props => props.$active ? "green" : "gray"};
-border: ${props => props.$active ? "1px solid green" : "gray"};
+border: ${props => props.$active ? "1px solid green" : "1px solid gray"};
 }`

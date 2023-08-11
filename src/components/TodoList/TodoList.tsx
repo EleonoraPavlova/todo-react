@@ -1,14 +1,19 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { ButtonComponent } from "../ButtonComponent/ButtonComponent";
 import style from "./TodoList.module.scss"
+import { FilterValues } from "../../App";
 
 
 type TodoListProps = {
   title?: string
   tasks: Task[]
-  removeTask: (id: string) => void
-  addTask: (inputValue: string) => void
-  changeStatus: (taskId: string, isDone: boolean) => void
+  removeTask: (id: string, togoListId: string) => void
+  addTask: (inputValue: string, togoListId: string) => void
+  changeStatus: (taskId: string, isDone: boolean, togoListId: string) => void
+  id: string // id из конкретно каждого массива, который лежит в объекте
+  filter: FilterValues
+  changeFilterHandler: (value: FilterValues, id: string) => void
+  removeTodolist: (togoListId: string) => void
 }
 
 export type Task = {
@@ -17,29 +22,12 @@ export type Task = {
   isDone: boolean
 }
 
-type FilterValues = "all" | "completed" | "active"
 
 function TodoList(props: TodoListProps) {
-  let [filter, setFilter] = useState<FilterValues>("all")
   let [error, setError] = useState<string | null>(null)
-
-  const filterList = () => {
-    switch (filter) {
-      case "completed": {
-        return props.tasks.filter(t => t.isDone);
-      }
-      case "active": {
-        return props.tasks.filter(t => !t.isDone);
-      }
-      default: return props.tasks;
-    }
-  }
-
-  function changeFilterHandler(value: FilterValues) {
-    return setFilter(value)
-  }
-
   let [inputValue, setInputValue] = useState("")
+
+
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value); //тот элемент с которым произошло событие
   }
@@ -53,7 +41,7 @@ function TodoList(props: TodoListProps) {
 
   const addTaskHandler = (taskName: string) => {
     if (/[a-zа-яё]/i.test(taskName)) {
-      props.addTask(taskName);
+      props.addTask(taskName, props.id);
       setInputValue("");
     } else {
       setError('Required')
@@ -61,10 +49,10 @@ function TodoList(props: TodoListProps) {
   }
 
   const mappedTasks = () => {
-    return filterList().map(item => {
-      const onRemoveHandler = () => props.removeTask(item.id)
+    return props.tasks.map(item => {
+      const onRemoveHandler = () => props.removeTask(item.id, props.id)
       const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
-        props.changeStatus(item.id, e.currentTarget.checked);
+        props.changeStatus(item.id, e.currentTarget.checked, props.id);
       //console.log(e.currentTarget.checked) //вывожу в консоль смену состояния чеков
 
       return (<li key={item.id} className={item.isDone ? style.done : ""} ><input type="checkbox" checked={item.isDone} onChange={onChangeHandler} />
@@ -74,8 +62,13 @@ function TodoList(props: TodoListProps) {
     })
   }
 
+  const removeTodolistHandler = () => {
+    return props.removeTodolist(props.id)
+  }
+
   return (
     <div>
+      <ButtonComponent name="remove" callBack={removeTodolistHandler} />
       <h3>{props.title}</h3>
       <div>
         <input type="text" placeholder="Type here...."
@@ -92,9 +85,9 @@ function TodoList(props: TodoListProps) {
         {mappedTasks()}
       </ul>
       <div>
-        <ButtonComponent active={filter === "all"} name="All" callBack={() => { changeFilterHandler("all") }} />
-        <ButtonComponent active={filter === "active"} name="Active" callBack={() => { changeFilterHandler("active") }} />
-        <ButtonComponent active={filter === "completed"} name="Completed" callBack={() => { changeFilterHandler("completed") }} />
+        <ButtonComponent active={props.filter === "all"} name="All" callBack={() => { props.changeFilterHandler("all", props.id) }} />
+        <ButtonComponent active={props.filter === "active"} name="Active" callBack={() => { props.changeFilterHandler("active", props.id) }} />
+        <ButtonComponent active={props.filter === "completed"} name="Completed" callBack={() => { props.changeFilterHandler("completed", props.id) }} />
       </div>
     </div >
   );
