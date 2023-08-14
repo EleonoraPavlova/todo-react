@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "./style/App.css";
 import TodoList, { Task } from './components/TodoList/TodoList';
 import { v1 } from "uuid";
+import { AddItemForm } from "./components/AddItemForm/AddItemForm";
 
 export type TodoListsType = {
   id: string
@@ -41,8 +42,7 @@ function App() {
       { id: v1(), title: "Meat", isDone: false },
       { id: v1(), title: "Bread", isDone: false }
     ]
-  }
-  )
+  })
 
   function removeTask(id: string, togoListId: string) {
     let tasks = tasksObj[togoListId]//достала нужный массив сначала
@@ -53,9 +53,14 @@ function App() {
   }
 
   function addTask(inputValue: string, togoListId: string) {
+    debugger
     let tasks = tasksObj[togoListId]//достала нужный массив сначала
+    debugger
     let newTask = { id: v1(), title: inputValue, isDone: false }
+    debugger
     tasksObj[togoListId] = [newTask, ...tasks]
+    debugger
+    console.log({ ...tasksObj })
     setTasks({ ...tasksObj })
   }
 
@@ -69,8 +74,8 @@ function App() {
   }
 
   let [todoLists, setTodoLists] = useState<TodoListsType[]>([ //этот стейт для управления  map отрисовки TodoList
-    { id: todoListId1, title: "What to learn", filter: "active" },
-    { id: todoListId2, title: "What to buy", filter: "completed" }
+    { id: todoListId1, title: "What to learn", filter: "all" },
+    { id: todoListId2, title: "What to buy", filter: "all" }
   ])
 
 
@@ -91,25 +96,30 @@ function App() {
     console.log(tasksObj)
   }
 
+  function addTodoList(input: string) {
+    addTask(input, todoListId1)
+  }
+
   return (
-    <div className="App">{todoLists.map((l) => {
+    <div className="App">
+      <AddItemForm addTask={addTodoList} />
+      {todoLists.map((l) => {
 
-      let tasksForTodolist = tasksObj[l.id];
-      if (l.filter === 'completed') {
-        tasksForTodolist = tasksObj[l.id].filter(t => t.isDone);
-      }
-      if (l.filter === 'active') {
-        tasksForTodolist = tasksObj[l.id].filter(t => !t.isDone);
-      }
+        let tasksForTodolist = tasksObj[l.id];
+        if (l.filter === 'completed') {
+          tasksForTodolist = tasksObj[l.id].filter(t => t.isDone);
+        }
+        if (l.filter === 'active') {
+          tasksForTodolist = tasksObj[l.id].filter(t => !t.isDone);
+        }
 
-      return (<div key={l.id} >
-        <TodoList tasks={tasksForTodolist} title={l.title}
-          removeTask={removeTask} addTask={addTask} changeStatus={changeStatus}
-          id={l.id} filter={l.filter} changeFilterHandler={changeFilterHandler} removeTodolist={removeTodolist} />
-      </div>
-      )
-    }
-    )}
+        return (<div key={l.id} >
+          <TodoList tasks={tasksForTodolist} title={l.title}
+            removeTask={removeTask} addTask={addTask} changeStatus={changeStatus}
+            id={l.id} filter={l.filter} changeFilterHandler={changeFilterHandler} removeTodolist={removeTodolist} />
+        </div>)
+      }
+      )}
     </div>
   );
 }
