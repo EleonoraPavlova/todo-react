@@ -1,6 +1,9 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { ButtonComponent } from "../ButtonComponent/ButtonComponent";
-import style from "./../TodoList/TodoList.module.scss"
+//import { ButtonComponent } from "../ButtonComponent/ButtonComponent";
+import { Button, IconButton, TextField } from "@mui/material";
+import styled from "./AddItemForm.module.scss"
+import AddTaskIcon from '@mui/icons-material/AddTask';
+
 
 
 type AddItemFormType = {
@@ -10,6 +13,7 @@ type AddItemFormType = {
 export const AddItemForm: React.FC<AddItemFormType> = ({ addTask }: AddItemFormType) => {
   let [error, setError] = useState<string | null>(null)
   let [inputValue, setInputValue] = useState("")
+
 
   const addItemHandler = (taskName: string) => {
     if (/[a-zа-яё]/i.test(taskName)) {
@@ -27,20 +31,29 @@ export const AddItemForm: React.FC<AddItemFormType> = ({ addTask }: AddItemFormT
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(null);
     if (e.key === "Enter") {
-      addTask(e.currentTarget.value);
+      addItemHandler(inputValue)
     }
   }
 
   return (
-    <div>
-      <input type="text" placeholder="Type here...."
+    <div className={styled.addItemForm}>
+      <TextField type="text" label="Type here...."
         value={inputValue}
         onChange={onChangeHandler}
         onKeyDown={onKeyDownHandler}
-        className={error ? "error" : ""}
+        variant={"outlined"}
+        error={!!error}
+        helperText={error}
+        size="small"
       />
-      <ButtonComponent name="Add" callBack={() => addItemHandler(inputValue)} />
-      {error && <div className={style.errorMes}>{error}</div>}
-    </div>
+      {/* <ButtonComponent name="Add" callBack={() => addItemHandler(inputValue)} /> */}
+
+      <IconButton
+        onClick={() => addItemHandler(inputValue)}>
+        <AddTaskIcon fontSize="small" color="success" />
+      </IconButton>
+      {/* {error && <div className={styled.errorMes}>{error}</div>} */}
+    </div >
   )
 }
+

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components";
+import style from "styled-components";
 
 type ButtonProps = {
   active?: boolean;
@@ -17,7 +17,7 @@ export const ButtonComponent = (props: ButtonProps) => {
 }
 
 // const Button = styled.button<Pick<ButtonProps, 'active'>>`
-const Button = styled.button<{ $active?: boolean }>`
+const Button = style.button<{ $active?: boolean }>`
 background-color: inherit;
 cursor: pointer;
 margin-left: 10px;
