@@ -27,7 +27,6 @@ export const EditableSpan: React.FC<EditableSpanType> = ({ title, onChange }: Ed
   }
 
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    console.log("e.currentTarget.value", e.currentTarget.value)
     if (e.key === "Enter") {
       setInput(e.currentTarget.value)
       setEditMode(false)

@@ -3,7 +3,7 @@ import "./style/App.css";
 import TodoList, { Task } from './components/TodoList/TodoList';
 import { v1 } from "uuid";
 import { AddItemForm } from "./components/AddItemForm/AddItemForm";
-import { AppBar, Container, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 
 
@@ -95,7 +95,7 @@ function App() {
 
   function addTodoList(input: string) { //добавление новой колонки списка задач
     let newTodolist: TodoListsType = {
-      id: "newTodolist",
+      id: v1(),
       title: input,
       filter: "all"
     }
@@ -120,49 +120,56 @@ function App() {
     }
   }
 
+  const mappedList = () => {
+    return todoLists.map((l) => {
+      let tasksForTodolist = tasksObj[l.id];
+      if (l.filter === 'completed') {
+        tasksForTodolist = tasksObj[l.id].filter(t => t.isDone);
+      }
+      if (l.filter === 'active') {
+        tasksForTodolist = tasksObj[l.id].filter(t => !t.isDone);
+      }
+
+      return (<Grid item key={l.id}>
+        <Paper className="paper">
+          <TodoList tasks={tasksForTodolist}
+            title={l.title}
+            removeTask={removeTask}
+            addTask={addTask}
+            changeStatus={changeStatus}
+            id={l.id} filter={l.filter}
+            changeFilterHandler={changeFilterHandler}
+            removeTodolist={removeTodolist}
+            changeEditableSpan={changeEditableSpan}
+            changeEditableSpanTitle={changeEditableSpanTitle}
+          />
+        </Paper>
+      </Grid>
+      )
+    })
+  }
 
   return (
     <div className="App">
       <AppBar position="static">
-        <Container fixed>
-          <Toolbar variant="dense">
-            <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-              <Menu />
-            </IconButton>
-            <Typography variant="h6" color="inherit" component="div">
-              Menu
-            </Typography>
-          </Toolbar>
-        </Container>
+        <Toolbar variant="dense">
+          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+            <Menu />
+          </IconButton>
+          <Typography variant="h6" color="inherit" component="div">
+            Menu
+          </Typography>
+        </Toolbar>
       </AppBar>
-      <Container fixed>
-        <div>
-          <AddItemForm addTask={addTodoList} />
-          {todoLists.map((l) => {
-
-            let tasksForTodolist = tasksObj[l.id];
-            if (l.filter === 'completed') {
-              tasksForTodolist = tasksObj[l.id].filter(t => t.isDone);
-            }
-            if (l.filter === 'active') {
-              tasksForTodolist = tasksObj[l.id].filter(t => !t.isDone);
-            }
-
-            return (<div key={l.id} >
-              <TodoList tasks={tasksForTodolist}
-                title={l.title}
-                removeTask={removeTask}
-                addTask={addTask}
-                changeStatus={changeStatus}
-                id={l.id} filter={l.filter}
-                changeFilterHandler={changeFilterHandler}
-                removeTodolist={removeTodolist}
-                changeEditableSpan={changeEditableSpan}
-                changeEditableSpanTitle={changeEditableSpanTitle}
-              />
-            </div>)
-          })}
-        </div>
+      <Container>
+        <Container maxWidth="sm" >
+          <div className="container" >
+            <AddItemForm addTask={addTodoList} />
+          </div>
+        </Container>
+        <Grid container spacing={7} className="grid">
+          {mappedList()}
+        </Grid>
       </Container >
     </div >
   );

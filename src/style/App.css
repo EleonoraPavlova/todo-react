@@ -7,3 +7,19 @@
 .App > div {
   margin-right: 50px;
 } */
+
+.paper {
+  padding: 20px;
+}
+
+.container {
+  padding: 25px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid {
+  margin: 20px 0;
+  justify-content: center;
+}
