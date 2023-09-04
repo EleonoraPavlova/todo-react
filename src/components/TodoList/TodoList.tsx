@@ -99,3 +99,4 @@ function TodoList(props: TodoListProps) {
 // active={props.filter === "active"}
 //active={props.filter === "completed"}
 export default TodoList;
+//sx={{ mr: "4px" }}  писать стили в компроненте прям так

@@ -13,7 +13,7 @@ export type TodoListsType = {
   filter: FilterValues
 }
 
-type tasksObjType = {
+export type tasksObjType = {
   [key: string]: Task[]
 }
 
@@ -23,13 +23,6 @@ let todoListId1 = v1()
 let todoListId2 = v1()
 
 function App() {
-  // let [tasks, setTasks] = useState<Task[]>([
-  //   { id: v1(), title: "HTML&CSS", isDone: true },
-  //   { id: v1(), title: "JS", isDone: true },
-  //   { id: v1(), title: "ReactJS", isDone: false },
-  //   { id: v1(), title: "Redax", isDone: false }
-  // ])
-
   let [tasksObj, setTasks] = useState<tasksObjType>({
     [todoListId1]: [ //id этот передала пропсами id={l.id}  в  TodoList
       { id: v1(), title: "HTML&CSS", isDone: true },
@@ -68,7 +61,6 @@ function App() {
   function changeStatus(togoListId: string, taskId: string, isDone: boolean) {
     setTasks({ ...tasksObj, [togoListId]: tasksObj[togoListId].map(t => t.id === taskId ? { ...t, isDone: isDone } : t) })
     // [togoListId]: это зашли в объект по id!!!
-
     // let tasks = tasksObj[togoListId]//достала нужный массив сначала
     // let task = tasks.find(t => t.id === taskId)
     // if (task) {
