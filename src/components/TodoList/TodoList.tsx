@@ -30,7 +30,6 @@ export type Task = {
 }
 
 
-
 function TodoList(props: TodoListProps) {
   const mappedTasks = () => {
     return props.tasks.map(item => {

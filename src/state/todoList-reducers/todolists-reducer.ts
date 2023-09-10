@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { FilterValues, TodoListsType } from "../App";
+import { FilterValues, TodoListsType } from "../../App";
 
 
 export type RemoveTodoList = {
@@ -10,6 +10,7 @@ export type RemoveTodoList = {
 export type AddTodoList = {
   type: "ADD-TODOLIST",
   title: string
+  todolistId: string
 }
 
 export type ChangeTitleTodoList = {
@@ -41,7 +42,7 @@ export const todolistsReducer = (state: TodoListsType[], action: ActionsType): T
     case "ADD-TODOLIST": {
       //положили старые листы в массив и добавили новый(объект)!
       return [...state, {
-        id: v1(),
+        id: action.todolistId,
         title: action.title, //приходит из тестов с action
         filter: "all"
       }]
@@ -57,18 +58,21 @@ export const todolistsReducer = (state: TodoListsType[], action: ActionsType): T
   }
 }
 
-export const RemoveTodolistAC = (todolistId: string): RemoveTodoList => {
+
+//action creator
+export const removeTodolistAC = (todolistId: string): RemoveTodoList => {
   return { type: 'REMOVE-TODOLIST', id: todolistId }
 }
 
-export const AddTodolistAC = (title: string): AddTodoList => {
+export const addTodolistAC = (title: string): AddTodoList => {
   return {
     type: 'ADD-TODOLIST',
-    title: title
+    title: title,
+    todolistId: v1()
   }
 }
 
-export const ChangeTitleTodolistAC = (id: string, title: string,): ChangeTitleTodoList => {
+export const changeTitleTodolistAC = (id: string, title: string,): ChangeTitleTodoList => {
   return {
     type: 'CHANGE-TODOLIST-TITLE',
     id: id,
@@ -76,7 +80,7 @@ export const ChangeTitleTodolistAC = (id: string, title: string,): ChangeTitleTo
   }
 }
 
-export const ChangeFilterTodolistAC = (id: string, filter: FilterValues,): ChangeFilterTodoList => {
+export const changeFilterTodolistAC = (id: string, filter: FilterValues,): ChangeFilterTodoList => {
   return {
     type: 'CHANGE-TODOLIST-FILTER',
     id: id,

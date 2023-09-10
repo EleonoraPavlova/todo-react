@@ -6,14 +6,13 @@ import { AddItemForm } from "./components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 
-
 export type TodoListsType = {
   id: string
   title: string
   filter: FilterValues
 }
 
-export type tasksObjType = {
+export type TasksObjType = {
   [key: string]: Task[]
 }
 
@@ -23,7 +22,7 @@ let todoListId1 = v1()
 let todoListId2 = v1()
 
 function App() {
-  let [tasksObj, setTasks] = useState<tasksObjType>({
+  let [tasksObj, setTasks] = useState<TasksObjType>({
     [todoListId1]: [ //id этот передала пропсами id={l.id}  в  TodoList
       { id: v1(), title: "HTML&CSS", isDone: true },
       { id: v1(), title: "JS", isDone: true },
@@ -58,8 +57,8 @@ function App() {
     setTasks({ ...tasksObj })
   }
 
-  function changeStatus(togoListId: string, taskId: string, isDone: boolean) {
-    setTasks({ ...tasksObj, [togoListId]: tasksObj[togoListId].map(t => t.id === taskId ? { ...t, isDone: isDone } : t) })
+  function changeStatus(togoListId: string, id: string, isDone: boolean) {
+    setTasks({ ...tasksObj, [togoListId]: tasksObj[togoListId].map(t => t.id === id ? { ...t, isDone: isDone } : t) })
     // [togoListId]: это зашли в объект по id!!!
     // let tasks = tasksObj[togoListId]//достала нужный массив сначала
     // let task = tasks.find(t => t.id === taskId)
