@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import React, { ChangeEvent, useState, KeyboardEvent } from 'react';
 
 
@@ -40,5 +40,6 @@ export const EditableSpan: React.FC<EditableSpanType> = ({ title, onChange }: Ed
       onBlur={activateViewMode}
       onKeyDown={onKeyDownHandler}
       autoFocus variant="standard" /> :
-    <span onDoubleClick={activateEditMode}>{title}</span>)
+    <Box component="span" onDoubleClick={activateEditMode}>{title}</Box>
+  )
 }

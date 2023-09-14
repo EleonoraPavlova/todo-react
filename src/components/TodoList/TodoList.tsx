@@ -1,9 +1,10 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import styled from "./TodoList.module.scss"
 import { FilterValues } from "../../App";
 import { AddItemForm } from "../AddItemForm/AddItemForm";
 import { EditableSpan } from "../EditableSpan";
-import { Button, Checkbox, IconButton } from "@mui/material";
+import { Button, Checkbox, IconButton, List, ListItem } from "@mui/material";
+import { Box } from '@mui/system';
 import { Delete } from "@mui/icons-material";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
@@ -42,17 +43,18 @@ function TodoList(props: TodoListProps) {
       const EditableSpanHandler = (input: string) => {
         props.changeEditableSpan(item.id, input, props.id);
       }
-      return (<li key={item.id} className={`${styled.list} ${item.isDone ? styled.done : ""}`} >
+      return (<ListItem sx={{ justifyContent: "space-between" }} key={item.id} className={`${styled.list} ${item.isDone ? styled.done : ""}`} >
         <Checkbox checked={item.isDone} onChange={onChangeHandler}
           icon={<BookmarkBorderIcon />}
           checkedIcon={<BookmarkIcon />}
           color="success"
         />
+
         <EditableSpan title={item.title} onChange={EditableSpanHandler} />
         <IconButton aria-label="delete" onClick={onRemoveHandler} size="small" >
           <Delete fontSize="inherit" />
         </IconButton>
-      </li>)
+      </ListItem>)
     })
   }
 
@@ -70,15 +72,17 @@ function TodoList(props: TodoListProps) {
 
   return (
     <div>
-      <EditableSpan title={props.title} onChange={EditableSpanTitleHandler} />
-      <IconButton aria-label="delete" onClick={removeTodolistHandler} size="small" >
-        <Delete />
-      </IconButton>
+      <Box component={"div"} sx={{ display: "flex", gap: "10px", alignItems: "center", justifyContent: "space-between" }}>
+        <EditableSpan title={props.title} onChange={EditableSpanTitleHandler} />
+        <IconButton aria-label="delete" onClick={removeTodolistHandler} size="small" >
+          <Delete />
+        </IconButton>
+      </Box>
       {/* <ButtonComponent name="remove" callBack={removeTodolistHandler} /> */}
       <AddItemForm addTask={addTasks} />
-      <ul>
+      <List>
         {mappedTasks()}
-      </ul>
+      </List>
       <div>
         <Button size="small" variant={props.filter === "all" ? "contained" : "text"}
           children={"All"}

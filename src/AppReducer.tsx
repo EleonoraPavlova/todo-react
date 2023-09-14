@@ -101,7 +101,7 @@ function AppReducer() {
       }
 
       return (<Grid item key={l.id}>
-        <Paper className="paper">
+        <Paper sx={{ padding: "20px" }} elevation={3}>
           <TodoList tasks={tasksForTodolist}
             title={l.title}
             removeTask={removeTask}
