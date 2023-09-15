@@ -25,3 +25,5 @@ root.render(
 );
 
 reportWebVitals();
+
+// Provider обязательно для redux

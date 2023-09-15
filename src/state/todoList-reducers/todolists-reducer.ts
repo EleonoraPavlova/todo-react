@@ -18,11 +18,16 @@ type ActionsType =  //общий тип!
   | ChangeFilterTodoList
 
 
+export let todoListId1 = v1()
+export let todoListId2 = v1()
 
+export const initialState: TodoListsType[] = [ //этот стейт для управления  map отрисовки TodoList
+  { id: todoListId1, title: "What to learn", filter: "all" },
+  { id: todoListId2, title: "What to buy", filter: "all" }
+]
 
 //функция не имеет право менять state! сначала нужно создать копию
-export const todolistsReducer = (state: TodoListsType[], action: ActionsType): TodoListsType[] => { //должны всегда вернуть массив
-  debugger
+export const todolistsReducer = (state: TodoListsType[] = initialState, action: ActionsType): TodoListsType[] => { //должны всегда вернуть массив
   switch (action.type) {
     case "REMOVE-TODOLIST": {
       return state.filter(t => t.id !== action.id)

@@ -1,6 +1,6 @@
 import { v1 } from "uuid";
 import { TasksObjType } from "../../App";
-import { AddTodoList, RemoveTodoList } from "../todoList-reducers/todolists-reducer";
+import { AddTodoList, RemoveTodoList, todoListId1, todoListId2 } from "../todoList-reducers/todolists-reducer";
 
 
 export type RemoveTask = {
@@ -38,9 +38,23 @@ type ActionsType =  //общий тип!
   | RemoveTodoList
 
 
+export const initialStateTasks = {
+  [todoListId1]: [ //id этот передала пропсами id={l.id}  в  TodoList
+    { id: v1(), title: "HTML&CSS", isDone: true },
+    { id: v1(), title: "JS", isDone: true },
+    { id: v1(), title: "ReactJS", isDone: false },
+    { id: v1(), title: "Redax", isDone: false }
+  ],
+  [todoListId2]: [
+    { id: v1(), title: "Milk", isDone: true },
+    { id: v1(), title: "Juice", isDone: true },
+    { id: v1(), title: "Meat", isDone: false },
+    { id: v1(), title: "Bread", isDone: false }
+  ]
+}
 
 //функция не имеет право менять state! сначала нужно создать копию
-export const tasksReducer = (state: TasksObjType, action: ActionsType): TasksObjType => { //должны всегда вернуть массив
+export const tasksReducer = (state: TasksObjType = initialStateTasks, action: ActionsType): TasksObjType => { //должны всегда вернуть массив
   switch (action.type) {
     case "REMOVE-TASK": {
       let filteredTasks = state[action.togoListId].filter(t => t.id !== action.id)

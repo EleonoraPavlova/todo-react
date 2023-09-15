@@ -2,6 +2,9 @@ import { combineReducers, createStore } from "redux";
 import { tasksReducer } from "./tasks-reducers/tasks-reducer";
 import { todolistsReducer } from "./todoList-reducers/todolists-reducer";
 
+//обязательно Provider в App
+
+
 //одельный reducer отвечает за каждую ветку
 //tasksReducer - за мофицикац тасок
 //todolistsReducer - за todolist
@@ -10,7 +13,7 @@ import { todolistsReducer } from "./todoList-reducers/todolists-reducer";
 //   todolist: TodoListsType[],
 //   tasks: TasksObjType
 // } или так записать:
-type AppRootState = ReturnType<typeof rootReducer>
+export type AppRootState = ReturnType<typeof rootReducer>
 
 const rootReducer = combineReducers({ //все dispatch приходят в rootReducer, а он самостоятельно раскидывает их 
   //по нужным напрвлениям
