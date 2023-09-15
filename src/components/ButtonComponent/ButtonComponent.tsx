@@ -8,12 +8,12 @@ type ButtonProps = {
   additionalClass?: string;
 }
 
-export const ButtonComponent = (props: ButtonProps) => {
+export const ButtonComponent: React.FC<ButtonProps> = ({ active, name, callBack, additionalClass }: ButtonProps) => {
   const onClickHandler = () => {
-    return props.callBack();
+    return callBack();
   };
 
-  return (<Button type="button" onClick={onClickHandler} className={props.additionalClass} $active={props.active}>{props.name}</Button>)
+  return (<Button type="button" onClick={onClickHandler} className={additionalClass} $active={active}>{name}</Button>)
 }
 
 // const Button = styled.button<Pick<ButtonProps, 'active'>>`

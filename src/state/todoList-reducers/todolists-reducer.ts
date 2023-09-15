@@ -18,8 +18,11 @@ type ActionsType =  //общий тип!
   | ChangeFilterTodoList
 
 
+
+
 //функция не имеет право менять state! сначала нужно создать копию
 export const todolistsReducer = (state: TodoListsType[], action: ActionsType): TodoListsType[] => { //должны всегда вернуть массив
+  debugger
   switch (action.type) {
     case "REMOVE-TODOLIST": {
       return state.filter(t => t.id !== action.id)
@@ -39,7 +42,8 @@ export const todolistsReducer = (state: TodoListsType[], action: ActionsType): T
       return state.map(t => t.id === action.id ? { ...t, filter: action.filter } : t)
     }
     default:
-      throw new Error('I don\'t understand this type')
+      return state;
+    // throw new Error('I don\'t understand this type')
   }
 }
 
