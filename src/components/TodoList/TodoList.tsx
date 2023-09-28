@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useCallback } from 'react';
 import styled from "./TodoList.module.scss"
 import { FilterValues } from "../../App";
 import { AddItemForm } from "../AddItemForm/AddItemForm";
@@ -31,7 +31,19 @@ export type Task = {
 }
 
 
-function TodoList(props: TodoListProps) {
+
+export const TodoList = React.memo((props: TodoListProps) => {
+  console.log("TodoList has been called")
+  let tasksForTodolist = props.tasks
+  if (props.filter === 'completed') {
+    console.log("props.completed")
+    tasksForTodolist = props.tasks.filter(t => t.isDone);
+  }
+  if (props.filter === 'active') {
+    console.log("props.active")
+    tasksForTodolist = props.tasks.filter(t => !t.isDone);
+  }
+
   const mappedTasks = () => {
     return props.tasks.map(item => {
 
@@ -62,9 +74,9 @@ function TodoList(props: TodoListProps) {
     return props.removeTodolist(props.id)
   }
 
-  const addTasks = (input: string) => {
+  const addTasks = useCallback((input: string) => {
     props.addTask(input, props.id)
-  }
+  }, [props.id])
 
   const EditableSpanTitleHandler = (title: string) => {
     props.changeEditableSpanTitle(title, props.id);
@@ -97,9 +109,8 @@ function TodoList(props: TodoListProps) {
       </div>
     </div >
   );
-}
+})
 // active={props.filter === "all"} 
 // active={props.filter === "active"}
 //active={props.filter === "completed"}
 export default TodoList;
-//sx={{ mr: "4px" }}  писать стили в компроненте прям так

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import "./style/App.css";
 import TodoList, { Task } from './components/TodoList/TodoList';
@@ -24,75 +24,69 @@ export type FilterValues = "all" | "completed" | "active"
 
 
 function AppRedux() {
-
+  console.log("AppRedux has been called")
   const dispatch = useDispatch()
   const todolists = useSelector<AppRootState, TodoListsType[]>(state => state.todolist) //выбираем todolist из стора state
   //<AppRootState, TodoListsType[]> означает хотим достать массив todolists из этого типа
   const tasks = useSelector<AppRootState, TasksObjType>(state => state.tasks)
 
-
   //tasks action creators
-  function removeTask(id: string, togoListId: string) {
+  const removeTask = useCallback((id: string, togoListId: string) => {
     const action = removeTaskAC(id, togoListId)
     dispatch(action)
-  }
+  }, [])
 
-  function addTask(inputValue: string, togoListId: string) {
+  const addTask = useCallback((inputValue: string, togoListId: string) => {
     const action = addTaskAC(inputValue, togoListId)
     dispatch(action)
-  }
+  }, [])
 
-  function changeStatus(togoListId: string, id: string, isDone: boolean) {
+  const changeStatus = useCallback((togoListId: string, id: string, isDone: boolean) => {
     const action = changeTaskStatusAC(togoListId, id, isDone)
     dispatch(action)
-  }
+  }, [])
 
-  function changeEditableSpan(id: string, input: string, togoListId: string) {
+  const changeEditableSpan = useCallback((id: string, input: string, togoListId: string) => {
     const action = changeTaskTitleAC(id, input, togoListId)
     dispatch(action)
-  }
+  }, [])
 
 
   // todolists action creators
-  function changeFilterHandler(value: FilterValues, todoListId: string) {
+  const changeFilterHandler = useCallback((value: FilterValues, todoListId: string) => {
     const action = changeFilterTodolistAC(value, todoListId)
     dispatch(action)
-  }
+  }, [dispatch])
 
   function removeTodolist(todoListId: string) {
     const action = removeTodolistAC(todoListId)
     dispatch(action)
   }
 
-  function addTodoList(input: string) { //добавление новой колонки списка задач
+  const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
     const action = addTodolistAC(input)
     dispatch(action)
-  }
+  }, [])
 
 
-  function changeEditableSpanTitle(title: string, togoListId: string) {
+  const changeEditableSpanTitle = useCallback((title: string, togoListId: string) => {
     const action = changeTitleTodolistAC(title, togoListId)
     dispatch(action)
-  }
+  }, [])
 
   const mappedList = () => {
     return todolists.map((l) => {
-      let tasksForTodolist = tasks[l.id];
-      if (l.filter === 'completed') {
-        tasksForTodolist = tasks[l.id].filter(t => t.isDone);
-      }
-      if (l.filter === 'active') {
-        tasksForTodolist = tasks[l.id].filter(t => !t.isDone);
-      }
-
+      let tasksForTodolist = tasks[l.id]
       return (<Grid item key={l.id}>
         <Paper sx={{ padding: "20px" }} elevation={3}>
-          <TodoList tasks={tasksForTodolist}
+          <TodoList
+            tasks={tasksForTodolist} //передаю все tasks
             title={l.title}
+            id={l.id}
+            filter={l.filter}
             removeTask={removeTask}
             addTask={addTask}
             changeStatus={changeStatus}
-            id={l.id} filter={l.filter}
             changeFilterHandler={changeFilterHandler}
             removeTodolist={removeTodolist}
             changeEditableSpan={changeEditableSpan}

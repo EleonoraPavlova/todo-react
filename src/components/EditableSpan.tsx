@@ -1,5 +1,5 @@
 import { Box, TextField } from "@mui/material";
-import React, { ChangeEvent, useState, KeyboardEvent } from 'react';
+import React, { ChangeEvent, useState, KeyboardEvent, memo } from 'react';
 
 
 type EditableSpanType = {
@@ -7,7 +7,7 @@ type EditableSpanType = {
   onChange: (input: string) => void
 }
 
-export const EditableSpan: React.FC<EditableSpanType> = ({ title, onChange }: EditableSpanType) => {
+export const EditableSpan: React.FC<EditableSpanType> = memo(({ title, onChange }: EditableSpanType) => {
   let [editMode, setEditMode] = useState<boolean>(false)
   let [input, setInput] = useState<string>("")
 
@@ -42,4 +42,4 @@ export const EditableSpan: React.FC<EditableSpanType> = ({ title, onChange }: Ed
       autoFocus variant="standard" /> :
     <Box component="span" onDoubleClick={activateEditMode}>{title}</Box>
   )
-}
+})

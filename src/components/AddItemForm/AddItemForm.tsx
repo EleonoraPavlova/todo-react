@@ -7,10 +7,15 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 
 
 type AddItemFormType = {
-  addTask: (inputValue: string) => void
+  addTask: (inputValue: string) => void //надо обвернуть в useCallback каждый пропс-функц через всю цепочку!!!!!!!!!!
+  //в данном случае в 2 местах
 }
 
-export const AddItemForm: React.FC<AddItemFormType> = ({ addTask }: AddItemFormType) => {
+//вся мемоизация работает в паре с React.memo(давать просто каждой компрненте)
+
+export const AddItemForm: React.FC<AddItemFormType> = React.memo(({ addTask }: AddItemFormType) => {
+  console.log("AddItemForm has been called")
+
   let [error, setError] = useState<string | null>(null)
   let [inputValue, setInputValue] = useState("")
 
@@ -29,10 +34,8 @@ export const AddItemForm: React.FC<AddItemFormType> = ({ addTask }: AddItemFormT
   }
 
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null);
-    if (e.key === "Enter") {
-      addItemHandler(inputValue)
-    }
+    if (error !== null) setError(null);
+    if (e.key === "Enter") addItemHandler(inputValue)
   }
 
   return (
@@ -55,5 +58,5 @@ export const AddItemForm: React.FC<AddItemFormType> = ({ addTask }: AddItemFormT
       {/* {error && <div className={styled.errorMes}>{error}</div>} */}
     </div >
   )
-}
+})
 
