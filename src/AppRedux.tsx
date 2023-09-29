@@ -22,34 +22,41 @@ export type TasksObjType = {
 
 export type FilterValues = "all" | "completed" | "active"
 
+// const Fake = memo(() => {
+//   console.log("Fake has been called")
+//   const arr = useSelector<AppRootState, Task[]>(state => state.tasks.count)
+//   return <h1>{arr.length}</h1>
+// })
+
 
 function AppRedux() {
   console.log("AppRedux has been called")
+
   const dispatch = useDispatch()
   const todolists = useSelector<AppRootState, TodoListsType[]>(state => state.todolist) //выбираем todolist из стора state
-  //<AppRootState, TodoListsType[]> означает хотим достать массив todolists из этого типа
-  const tasks = useSelector<AppRootState, TasksObjType>(state => state.tasks)
+  //<AppRootState, TodoListsType[]> означает хотим достать массив todolists из этого типа 
+  const tasks = useSelector<AppRootState, TasksObjType>(tasks => tasks.tasks)
 
   //tasks action creators
-  const removeTask = useCallback((id: string, togoListId: string) => {
-    const action = removeTaskAC(id, togoListId)
+  const removeTask = useCallback((id: string, todoListId: string) => {
+    const action = removeTaskAC(id, todoListId)
     dispatch(action)
-  }, [])
+  }, [dispatch])
 
-  const addTask = useCallback((inputValue: string, togoListId: string) => {
-    const action = addTaskAC(inputValue, togoListId)
+  const addTask = useCallback((inputValue: string, todoListId: string) => {
+    const action = addTaskAC(inputValue, todoListId)
     dispatch(action)
-  }, [])
+  }, [dispatch])
 
-  const changeStatus = useCallback((togoListId: string, id: string, isDone: boolean) => {
-    const action = changeTaskStatusAC(togoListId, id, isDone)
+  const changeStatus = useCallback((todoListId: string, id: string, isDone: boolean) => {
+    const action = changeTaskStatusAC(todoListId, id, isDone)
     dispatch(action)
-  }, [])
+  }, [dispatch])
 
-  const changeEditableSpan = useCallback((id: string, input: string, togoListId: string) => {
-    const action = changeTaskTitleAC(id, input, togoListId)
+  const changeEditableSpan = useCallback((id: string, input: string, todoListId: string) => {
+    const action = changeTaskTitleAC(id, input, todoListId)
     dispatch(action)
-  }, [])
+  }, [dispatch])
 
 
   // todolists action creators
@@ -58,21 +65,21 @@ function AppRedux() {
     dispatch(action)
   }, [dispatch])
 
-  function removeTodolist(todoListId: string) {
+  const removeTodolist = useCallback((todoListId: string) => {
     const action = removeTodolistAC(todoListId)
     dispatch(action)
-  }
+  }, [])
 
   const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
     const action = addTodolistAC(input)
     dispatch(action)
-  }, [])
+  }, [dispatch])
 
 
-  const changeEditableSpanTitle = useCallback((title: string, togoListId: string) => {
-    const action = changeTitleTodolistAC(title, togoListId)
+  const changeEditableSpanTitle = useCallback((title: string, todoListId: string) => {
+    const action = changeTitleTodolistAC(title, todoListId)
     dispatch(action)
-  }, [])
+  }, [dispatch])
 
   const mappedList = () => {
     return todolists.map((l) => {
@@ -80,9 +87,9 @@ function AppRedux() {
       return (<Grid item key={l.id}>
         <Paper sx={{ padding: "20px" }} elevation={3}>
           <TodoList
-            tasks={tasksForTodolist} //передаю все tasks
+            tasks={tasksForTodolist} //передаю все tasks массив
             title={l.title}
-            id={l.id}
+            todoListId={l.id}
             filter={l.filter}
             removeTask={removeTask}
             addTask={addTask}

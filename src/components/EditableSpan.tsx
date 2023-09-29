@@ -8,6 +8,8 @@ type EditableSpanType = {
 }
 
 export const EditableSpan: React.FC<EditableSpanType> = memo(({ title, onChange }: EditableSpanType) => {
+  console.log("EditableSpan")
+
   let [editMode, setEditMode] = useState<boolean>(false)
   let [input, setInput] = useState<string>("")
 
@@ -15,12 +17,12 @@ export const EditableSpan: React.FC<EditableSpanType> = memo(({ title, onChange 
     setEditMode(true)
     setInput(title)    //установила новое значение таски 
   }
+
   const activateViewMode = () => {
     setEditMode(false)
     onChange(input) //теперь новое значение таски можно прочитать:
     // c помощью этого колбека сообщить родителю что произошло событие и передать актуальное значение input
   }
-
 
   const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.currentTarget.value)

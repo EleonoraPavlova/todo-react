@@ -42,23 +42,23 @@ function App() {
     { id: todoListId2, title: "What to buy", filter: "all" }
   ])
 
-  function removeTask(id: string, togoListId: string) {
-    let tasks = tasksObj[togoListId]//достала нужный массив сначала
+  function removeTask(id: string, todoListId: string) {
+    let tasks = tasksObj[todoListId]//достала нужный массив сначала
     let filteredTasks = tasks.filter(t => t.id !== id) // получила фильтрованные таски
-    tasksObj[togoListId] = filteredTasks //перезаписать массив: такски которые были по дефолту на новые фильтрованные
+    tasksObj[todoListId] = filteredTasks //перезаписать массив: такски которые были по дефолту на новые фильтрованные
     setTasks({ ...tasksObj }) //cделала копию ВСЕГО объекта тасок, чтобы перезапипись массива была отренденена
     //react не реагирует на присваивание, он реагирует создание копии массива объекта и тд
   }
 
-  function addTask(inputValue: string, togoListId: string) {
-    let tasks = tasksObj[togoListId]//достала нужный массив сначала
+  function addTask(inputValue: string, todoListId: string) {
+    let tasks = tasksObj[todoListId]//достала нужный массив сначала
     let newTask = { id: v1(), title: inputValue, isDone: false }
-    tasksObj[togoListId] = [newTask, ...tasks]
+    tasksObj[todoListId] = [newTask, ...tasks]
     setTasks({ ...tasksObj })
   }
 
-  function changeStatus(togoListId: string, id: string, isDone: boolean) {
-    setTasks({ ...tasksObj, [togoListId]: tasksObj[togoListId].map(t => t.id === id ? { ...t, isDone: isDone } : t) })
+  function changeStatus(todoListId: string, id: string, isDone: boolean) {
+    setTasks({ ...tasksObj, [todoListId]: tasksObj[todoListId].map(t => t.id === id ? { ...t, isDone: isDone } : t) })
     // [togoListId]: это зашли в объект по id!!!
     // let tasks = tasksObj[togoListId]//достала нужный массив сначала
     // let task = tasks.find(t => t.id === taskId)
@@ -77,10 +77,10 @@ function App() {
     }
   }
 
-  function removeTodolist(togoListId: string) {
-    let removeTodoList = todoLists.filter(l => l.id !== togoListId) //filter возвращает новый массив
+  function removeTodolist(todoListId: string) {
+    let removeTodoList = todoLists.filter(l => l.id !== todoListId) //filter возвращает новый массив
     setTodoLists(removeTodoList)
-    delete tasksObj[togoListId]
+    delete tasksObj[todoListId]
     setTasks({ ...tasksObj })
   }
 
@@ -94,8 +94,8 @@ function App() {
     setTasks({ ...tasksObj, [newTodolist.id]: [] })//cоздала совершенно новый список
   }
 
-  function changeEditableSpan(id: string, input: string, togoListId: string) {
-    let tasks = tasksObj[togoListId]//достала нужный массив сначала
+  function changeEditableSpan(id: string, input: string, todoListId: string) {
+    let tasks = tasksObj[todoListId]//достала нужный массив сначала
     let task = tasks.find(t => t.id === id)
     if (task) {
       task.title = input;
@@ -103,8 +103,8 @@ function App() {
     }
   }
 
-  function changeEditableSpanTitle(title: string, togoListId: string) {
-    let foundTodoLists = todoLists.find(t => t.id === togoListId)//достала нужный массив сначала
+  function changeEditableSpanTitle(title: string, todoListId: string) {
+    let foundTodoLists = todoLists.find(t => t.id === todoListId)//достала нужный массив сначала
     if (foundTodoLists) {
       foundTodoLists.title = title
       setTodoLists([...todoLists])
@@ -128,7 +128,7 @@ function App() {
             removeTask={removeTask}
             addTask={addTask}
             changeStatus={changeStatus}
-            id={l.id} filter={l.filter}
+            todoListId={l.id} filter={l.filter}
             changeFilterHandler={changeFilterHandler}
             removeTodolist={removeTodolist}
             changeEditableSpan={changeEditableSpan}

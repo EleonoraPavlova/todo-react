@@ -45,23 +45,23 @@ function AppReducer() {
   ])
 
   //tasks action creators
-  function removeTask(id: string, togoListId: string) {
-    const action = removeTaskAC(id, togoListId)
+  function removeTask(id: string, todoListId: string) {
+    const action = removeTaskAC(id, todoListId)
     dispatchTasks(action)
   }
 
-  function addTask(inputValue: string, togoListId: string) {
-    const action = addTaskAC(inputValue, togoListId)
+  function addTask(inputValue: string, todoListId: string) {
+    const action = addTaskAC(inputValue, todoListId)
     dispatchTasks(action)
   }
 
-  function changeStatus(togoListId: string, id: string, isDone: boolean) {
-    const action = changeTaskStatusAC(togoListId, id, isDone)
+  function changeStatus(todoListId: string, id: string, isDone: boolean) {
+    const action = changeTaskStatusAC(todoListId, id, isDone)
     dispatchTasks(action)
   }
 
-  function changeEditableSpan(id: string, input: string, togoListId: string) {
-    const action = changeTaskTitleAC(id, input, togoListId)
+  function changeEditableSpan(id: string, input: string, todoListId: string) {
+    const action = changeTaskTitleAC(id, input, todoListId)
     dispatchTasks(action)
   }
 
@@ -85,8 +85,8 @@ function AppReducer() {
   }
 
 
-  function changeEditableSpanTitle(title: string, togoListId: string) {
-    const action = changeTitleTodolistAC(title, togoListId)
+  function changeEditableSpanTitle(title: string, todoListId: string) {
+    const action = changeTitleTodolistAC(title, todoListId)
     dispatchTodoLists(action)
   }
 
@@ -107,7 +107,7 @@ function AppReducer() {
             removeTask={removeTask}
             addTask={addTask}
             changeStatus={changeStatus}
-            id={l.id} filter={l.filter}
+            todoListId={l.id} filter={l.filter}
             changeFilterHandler={changeFilterHandler}
             removeTodolist={removeTodolist}
             changeEditableSpan={changeEditableSpan}

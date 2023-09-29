@@ -1,5 +1,7 @@
 import { v1 } from "uuid";
 import { FilterValues, TodoListsType } from "../../App";
+import { createSelector } from "reselect";
+import { AppRootState } from "../store";
 
 
 export type RemoveTodoList = ReturnType<typeof removeTodolistAC>
@@ -83,3 +85,8 @@ export const changeFilterTodolistAC = (filter: FilterValues, id: string) => {
     filter: filter
   } as const
 }
+
+
+// const todolistSelector = (state: AppRootState) => state.todolist;
+
+// export const getTodolistsSelector = createSelector(todolistSelector, todolists => Object.assign(todolists))

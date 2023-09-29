@@ -1,6 +1,8 @@
 import { v1 } from "uuid";
 import { TasksObjType } from "../../App";
-import { AddTodoList, RemoveTodoList, todoListId1, todoListId2 } from "../todoList-reducers/todolists-reducer";
+import { AddTodoList, RemoveTodoList } from "../todoList-reducers/todolists-reducer";
+import { AppRootState } from "../store";
+import { createSelector } from "reselect";
 
 
 export type RemoveTask = {
@@ -38,7 +40,9 @@ type ActionsType =  //общий тип!
   | RemoveTodoList
 
 
-export const initialStateTasks: TasksObjType
+export const initialStateTasks: TasksObjType = {
+  count: []
+}
 // {
 //   [todoListId1]: [ //id этот передала пропсами id={l.id}  в  TodoList
 //     { id: v1(), title: "HTML&CSS", isDone: true },
@@ -69,11 +73,17 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
     }
 
     case "CHANGE-TASK-TITLE": {
-      return { ...state, [action.togoListId]: state[action.togoListId].map(t => t.id === action.id ? { ...t, title: action.input } : t) }
+      return {
+        ...state,
+        [action.togoListId]: state[action.togoListId].map(t => t.id === action.id ? { ...t, title: action.input } : t)
+      }
     }
 
     case "CHANGE-TASK-STATUS": {
-      return { ...state, [action.togoListId]: state[action.togoListId].map(t => t.id === action.id ? { ...t, isDone: action.isDone } : t) }
+      return {
+        ...state,
+        [action.togoListId]: state[action.togoListId].map(t => t.id === action.id ? { ...t, isDone: action.isDone } : t)
+      }
     }
     case "ADD-TODOLIST": {
       //добавление общего todolista
@@ -122,3 +132,8 @@ export const changeTaskStatusAC = (togoListId: string, id: string, isDone: boole
     isDone: isDone
   }
 }
+
+
+// const tasksSelector = (state: AppRootState) => state.tasks;
+
+// export const getTasksSelector = createSelector(tasksSelector, tasks => Object.assign(tasks))
