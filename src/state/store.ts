@@ -9,10 +9,8 @@ import { todolistsReducer } from "./todoList-reducers/todolists-reducer";
 //tasksReducer - за мофицикац тасок
 //todolistsReducer - за todolist
 
-// type AppRootState = {
-//   todolist: TodoListsType[],
-//   tasks: TasksObjType
-// } или так записать:
+
+
 export type AppRootState = ReturnType<typeof rootReducer>
 
 const rootReducer = combineReducers({ //все dispatch приходят в rootReducer, а он самостоятельно раскидывает их 
@@ -22,7 +20,6 @@ const rootReducer = combineReducers({ //все dispatch приходят в root
 })
 
 export const store = createStore(rootReducer)
-
 
 
 //@ts-ignore

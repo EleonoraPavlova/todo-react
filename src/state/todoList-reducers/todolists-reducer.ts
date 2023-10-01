@@ -1,7 +1,7 @@
 import { v1 } from "uuid";
 import { FilterValues, TodoListsType } from "../../App";
-import { createSelector } from "reselect";
-import { AppRootState } from "../store";
+// import { createSelector } from "reselect";
+// import { AppRootState } from "../store";
 
 
 export type RemoveTodoList = ReturnType<typeof removeTodolistAC>

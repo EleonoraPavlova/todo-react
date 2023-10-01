@@ -1,6 +1,5 @@
 import React, { memo, useCallback } from 'react';
 import { FilterValues } from "../../AppRedux";
-import styled from "./TodoList.module.scss"
 import { AddItemForm } from "../AddItemForm/AddItemForm";
 import { EditableSpan } from "../EditableSpan";
 import { Button, IconButton, List } from "@mui/material";

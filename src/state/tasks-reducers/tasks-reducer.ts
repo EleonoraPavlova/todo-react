@@ -1,8 +1,8 @@
 import { v1 } from "uuid";
 import { TasksObjType } from "../../App";
 import { AddTodoList, RemoveTodoList } from "../todoList-reducers/todolists-reducer";
-import { AppRootState } from "../store";
-import { createSelector } from "reselect";
+// import { AppRootState } from "../store";
+// import { createSelector } from "reselect";
 
 
 export type RemoveTask = {
