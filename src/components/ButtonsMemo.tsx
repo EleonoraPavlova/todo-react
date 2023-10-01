@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Button } from "@mui/material";
-import { FilterValues } from "../AppReducer";
+import { FilterValues } from "../apps/AppReducer";
 
 
 type ButtonsMemoType = {

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, memo, useCallback, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, memo, useState } from 'react';
 //import { ButtonComponent } from "../ButtonComponent/ButtonComponent";
 import { IconButton, TextField } from "@mui/material";
 import styled from "./AddItemForm.module.scss"
@@ -14,24 +14,24 @@ type AddItemFormType = {
 //вся мемоизация работает в паре с React.memo(давать просто каждой компрненте)
 
 export const AddItemForm: React.FC<AddItemFormType> = memo(({ addTask }: AddItemFormType) => {
-  console.log("AddItemForm has been called")
+  console.log("AddItemForm")
 
   let [error, setError] = useState<string | null>(null)
   let [inputValue, setInputValue] = useState<string>("")
 
 
-  const addItemHandler = useCallback((taskName: string) => {
+  const addItemHandler = (taskName: string) => {
     if (/[a-zа-яё]/i.test(taskName)) {
       addTask(taskName);
       setInputValue("");
     } else {
       setError('Required')
     }
-  }, [])
+  }
 
-  const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value); //тот элемент с которым произошло событие
-  }, [])
+  }
 
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (error !== null) setError(null);

@@ -1,6 +1,6 @@
 
 import { v1 } from 'uuid'
-import { TasksObjType } from '../../App'
+import { TasksObjType } from '../../apps/App'
 import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from "./tasks-reducer"
 import { addTodolistAC, removeTodolistAC } from "../todoList-reducers/todolists-reducer"
 

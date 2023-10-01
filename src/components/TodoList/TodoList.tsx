@@ -1,11 +1,11 @@
 import React, { memo, useCallback } from 'react';
-import { FilterValues } from "../../AppRedux";
+import { FilterValues } from "../../apps/AppRedux/AppRedux";
 import { AddItemForm } from "../AddItemForm/AddItemForm";
-import { EditableSpan } from "../EditableSpan";
+import { EditableSpan } from "../EditableSpan/EditableSpan";
 import { Button, IconButton, List } from "@mui/material";
 import { Box } from '@mui/system';
 import { Delete } from "@mui/icons-material";
-import { TaskForMap } from "../TaskForMap";
+import { TaskForMap } from "../TaskForMap/TaskForMap";
 
 
 type TodoListProps = {
@@ -51,9 +51,9 @@ export const TodoList = memo((props: TodoListProps) => {
       changeEditableSpan={props.changeEditableSpan} />))
   }
 
-  const removeTodolistHandler = () => {
+  const removeTodolistHandler = useCallback(() => {
     return props.removeTodolist(props.todoListId)
-  }
+  }, [props.removeTodolist, props.todoListId])
 
   const addTasks = useCallback((input: string) => {
     props.addTask(input, props.todoListId)
@@ -66,7 +66,7 @@ export const TodoList = memo((props: TodoListProps) => {
   return (
     <div>
       <Box component={"div"} sx={{ display: "flex", gap: "10px", alignItems: "center", justifyContent: "space-between" }}>
-        <EditableSpan title={props.title} onChange={EditableSpanTitleHandler} />
+        <EditableSpan value={props.title} onChange={EditableSpanTitleHandler} />
         <IconButton aria-label="delete" onClick={removeTodolistHandler} size="small" >
           <Delete />
         </IconButton>
