@@ -1,11 +1,12 @@
 import React from 'react';
 import AppRedux from "./AppRedux";
+import { ReduxStoreProviderDecorator } from "../../stories/ReduxStoreProviderDecorator";
 
 export default {
   title: "AppReduxBase",
-  component: AppRedux
+  component: AppRedux,
+  decorators: [ReduxStoreProviderDecorator]
 }
-
 
 // const onChange = action("onChanges")
 

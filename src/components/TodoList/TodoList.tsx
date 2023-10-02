@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { FilterValues } from "../../apps/AppRedux/AppRedux";
 import { AddItemForm } from "../AddItemForm/AddItemForm";
 import { EditableSpan } from "../EditableSpan/EditableSpan";
@@ -32,16 +32,19 @@ export type Task = {
 export const TodoList = memo((props: TodoListProps) => {
   console.log("TodoList has been called")
 
-  let tasksForTodolist = props.tasks
-  if (props.filter === 'completed') {
-    tasksForTodolist = props.tasks.filter(t => t.isDone);
-  }
-  if (props.filter === 'active') {
-    tasksForTodolist = props.tasks.filter(t => !t.isDone);
-  }
+  let tasksForTodolist = useMemo(() => {
+    if (props.filter === 'completed') {
+      return props.tasks.filter(t => t.isDone);
+    }
+    if (props.filter === 'active') {
+      return props.tasks.filter(t => !t.isDone);
+    }
+    return props.tasks
+  }, [props.filter, props.tasks])
+
 
   const mappedTasks = () => {
-    return props.tasks.map(task =>
+    return tasksForTodolist.map(task =>
     (<TaskForMap
       key={task.id}
       task={task}
