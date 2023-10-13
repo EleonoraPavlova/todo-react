@@ -1,6 +1,6 @@
 import React from 'react';
 import AppRedux from "./AppRedux";
-import { ReduxStoreProviderDecorator } from "../../stories/ReduxStoreProviderDecorator";
+import { ReduxStoreProviderDecorator } from "../../stories/decorators/ReduxStoreProviderDecorator";
 
 export default {
   title: "AppReduxBase",
