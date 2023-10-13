@@ -68,7 +68,7 @@ function AppRedux() {
   const removeTodolist = useCallback((todoListId: string) => {
     const action = removeTodolistAC(todoListId)
     dispatch(action)
-  }, [])
+  }, [dispatch])
 
   const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
     const action = addTodolistAC(input)

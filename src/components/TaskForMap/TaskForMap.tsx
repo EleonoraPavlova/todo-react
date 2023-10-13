@@ -25,7 +25,7 @@ export const TaskForMap: React.FC<TaskType> = memo((props: TaskType) => {
 
   const EditableSpanHandler = useCallback((input: string) => {
     props.changeEditableSpan(props.task.id, input, props.todoListId);
-  }, [props.task.id, props.todoListId]);
+  }, [props.changeEditableSpan, props.task.id, props.todoListId]);
 
   return (
     <ListItem sx={{ justifyContent: "space-between" }}

@@ -55,7 +55,7 @@ export const TodoList = memo((props: TodoListProps) => {
   }
 
   const removeTodolistHandler = useCallback(() => {
-    return props.removeTodolist(props.todoListId)
+    props.removeTodolist(props.todoListId)
   }, [props.removeTodolist, props.todoListId])
 
   const addTasks = useCallback((input: string) => {
