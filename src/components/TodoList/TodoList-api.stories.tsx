@@ -1,25 +1,17 @@
 import axios from "axios"
 import React, { useEffect, useState } from 'react'
+import { todolistsApi } from "../../api/todolists-api"
 
 export default {
   title: 'API'
-}
-
-const settings = {
-  withCredentials: true, //есть валидац токен
-  headers: {
-    "API-KEY": "6a891b51-a742-4c47-8da1-58a8df99feb7"
-  }
 }
 
 //GET
 export const GetTodolists = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
-    let promise = axios.get("https://social-network.samuraijs.com/api/1.1/todo-lists", settings)
-
-    promise.then((res) => {
-      setState(res.data)
+    todolistsApi.getTodoslists().then((res) => {
+      setState(res.data[1].id)
     })
   }, [])
   return <div>{JSON.stringify(state)}</div>
@@ -30,10 +22,9 @@ export const CreateTodolist = () => {
   const [state, setState] = useState<any>(null)
 
   useEffect(() => {
-    axios.post("https://social-network.samuraijs.com/api/1.1/todo-lists", {
-      title: "Added todolist"
-    }, settings).then((res) => {
-      setState(res.data)
+    todolistsApi.createTodoslists("something").then((res) => {
+      setState(res.data.messages)
+      debugger
     })
   }, [])
 
@@ -44,11 +35,10 @@ export const CreateTodolist = () => {
 export const DeleteTodolist = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
-    let todolistId = "9e546a4a-f569-4da9-8f88-9cca655fd4e8"
-    axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`,
-      settings).then((res) => {
-        setState(res.data)
-      })
+    let todolistId = "35587a64-7e7b-48f1-a193-67bb919dd002"
+    todolistsApi.deleteTodoslists(todolistId).then((res) => {
+      setState(res.data.data)
+    })
   }, [])
 
   return <div>{JSON.stringify(state)}</div>
@@ -59,10 +49,8 @@ export const UpdateTodolistTitle = () => {
   const [state, setState] = useState<any>(null)
   useEffect(() => {
     let todolistId = "0314cda3-e041-4094-b05d-c43ba5a52799"
-    axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, {
-      title: "ooops!!"
-    }, settings).then((res) => {
-      setState(res.data)
+    todolistsApi.updateTodoslists(todolistId, "update").then((res) => {
+      setState(res.data.messages)
     })
   }, [])
 
