@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { FilterValues, TodoListsType } from "../../apps/App";
+import { FilterValues, TodoListsType } from "../../apps/App/App";
 // import { createSelector } from "reselect";
 // import { AppRootState } from "../store";
 
@@ -52,7 +52,6 @@ export const todolistsReducer = (state: TodoListsType[] = initialState, action: 
     }
     default:
       return state;
-    // throw new Error('I don\'t understand this type')
   }
 }
 

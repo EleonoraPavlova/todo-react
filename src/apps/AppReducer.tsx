@@ -14,7 +14,7 @@ export type TodoListsType = {
   filter: FilterValues
 }
 
-export type TasksObjType = {
+export type TasksType = {
   [key: string]: Task[]
 }
 
@@ -85,7 +85,7 @@ function AppReducer() {
   }
 
 
-  function changeEditableSpanTitle(title: string, todoListId: string) {
+  function changeTodolistTitle(title: string, todoListId: string) {
     const action = changeTitleTodolistAC(title, todoListId)
     dispatchTodoLists(action)
   }
@@ -94,10 +94,10 @@ function AppReducer() {
     return todoLists.map((l) => {
       let tasksForTodolist = tasksObj[l.id];
       if (l.filter === 'completed') {
-        tasksForTodolist = tasksObj[l.id].filter(t => t.isDone);
+        tasksForTodolist = tasksObj[l.id].filter((t: Task) => t.isDone);
       }
       if (l.filter === 'active') {
-        tasksForTodolist = tasksObj[l.id].filter(t => !t.isDone);
+        tasksForTodolist = tasksObj[l.id].filter((t: Task) => !t.isDone);
       }
 
       return (<Grid item key={l.id}>
@@ -111,7 +111,7 @@ function AppReducer() {
             changeFilterHandler={changeFilterHandler}
             removeTodolist={removeTodolist}
             changeEditableSpan={changeEditableSpan}
-            changeEditableSpanTitle={changeEditableSpanTitle}
+            changeTodolistTitle={changeTodolistTitle}
           />
         </Paper>
       </Grid>

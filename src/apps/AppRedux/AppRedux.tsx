@@ -76,7 +76,7 @@ function AppRedux() {
   }, [dispatch])
 
 
-  const changeEditableSpanTitle = useCallback((title: string, todoListId: string) => {
+  const changeTodolistTitle = useCallback((title: string, todoListId: string) => {
     const action = changeTitleTodolistAC(title, todoListId)
     dispatch(action)
   }, [dispatch])
@@ -97,7 +97,7 @@ function AppRedux() {
             changeFilterHandler={changeFilterHandler}
             removeTodolist={removeTodolist}
             changeEditableSpan={changeEditableSpan}
-            changeEditableSpanTitle={changeEditableSpanTitle}
+            changeTodolistTitle={changeTodolistTitle}
           />
         </Paper>
       </Grid>

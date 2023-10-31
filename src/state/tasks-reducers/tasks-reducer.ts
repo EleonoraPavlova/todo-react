@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { TasksObjType } from "../../apps/App";
+import { TasksType } from "../../apps/App/App";
 import { AddTodoList, RemoveTodoList } from "../todoList-reducers/todolists-reducer";
 // import { AppRootState } from "../store";
 // import { createSelector } from "reselect";
@@ -40,7 +40,7 @@ type ActionsType =  //общий тип!
   | RemoveTodoList
 
 
-export const initialStateTasks: TasksObjType = {
+export const initialStateTasks: TasksType = {
   count: []
 }
 // {
@@ -59,7 +59,7 @@ export const initialStateTasks: TasksObjType = {
 // }
 
 //функция не имеет право менять state! сначала нужно создать копию
-export const tasksReducer = (state: TasksObjType = initialStateTasks, action: ActionsType): TasksObjType => { //должны всегда вернуть массив
+export const tasksReducer = (state: TasksType = initialStateTasks, action: ActionsType): TasksType => { //должны всегда вернуть массив
   switch (action.type) {
     case "REMOVE-TASK": {
       let filteredTasks = state[action.togoListId].filter(t => t.id !== action.id)
@@ -96,7 +96,6 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
     }
     default:
       return state;
-    // throw new Error('I don\'t understand this type')
   }
 }
 

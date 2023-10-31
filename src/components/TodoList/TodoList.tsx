@@ -19,7 +19,7 @@ type TodoListProps = {
   changeFilterHandler: (value: FilterValues, id: string) => void
   removeTodolist: (togoListId: string) => void
   changeEditableSpan: (id: string, input: string, togoListId: string) => void
-  changeEditableSpanTitle: (input: string, togoListId: string) => void
+  changeTodolistTitle: (input: string, togoListId: string) => void
 }
 
 export type Task = {
@@ -42,8 +42,10 @@ export const TodoList = memo((props: TodoListProps) => {
     return props.tasks
   }, [props.filter, props.tasks])
 
+  console.log("tasksForTodolist", tasksForTodolist)
 
   const mappedTasks = () => {
+
     return tasksForTodolist.map(task =>
     (<TaskForMap
       key={task.id}
@@ -63,8 +65,8 @@ export const TodoList = memo((props: TodoListProps) => {
   }, [props.addTask, props.todoListId]) //пропсы добавляем в зависомость!
 
   const EditableSpanTitleHandler = useCallback((title: string) => {
-    props.changeEditableSpanTitle(title, props.todoListId);
-  }, [props.changeEditableSpanTitle, props.todoListId])
+    props.changeTodolistTitle(title, props.todoListId);
+  }, [props.changeTodolistTitle, props.todoListId])
 
   return (
     <div>

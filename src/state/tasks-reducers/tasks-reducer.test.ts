@@ -1,12 +1,12 @@
 
 import { v1 } from 'uuid'
-import { TasksObjType } from '../../apps/App'
+import { TasksType } from '../../apps/App/App'
 import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from "./tasks-reducer"
 import { addTodolistAC, removeTodolistAC } from "../todoList-reducers/todolists-reducer"
 
 
 test('new array should be added when new todolist is added', () => {
-  const startState: TasksObjType = {
+  const startState: TasksType = {
     'todolistId1': [
       { id: '1', title: 'CSS', isDone: false },
       { id: '2', title: 'JS', isDone: true },
@@ -40,7 +40,7 @@ test('correct task should be removed', () => {
   let todolistId1 = v1()
   let todolistId2 = v1()
 
-  const startState: TasksObjType = {
+  const startState: TasksType = {
     [todolistId1]: [
       { id: v1(), title: "HTML&CSS", isDone: true },
       { id: v1(), title: "JS", isDone: true },
@@ -69,7 +69,7 @@ test('correct task should be added', () => {
 
   let newInputValue = 'New task'
 
-  const startState: TasksObjType = {
+  const startState: TasksType = {
     [todolistId1]: [
       { id: v1(), title: "HTML&CSS", isDone: true },
       { id: v1(), title: "JS", isDone: true },
@@ -98,7 +98,7 @@ test('correct task should change its name', () => {
 
   let newTaskName = 'Change title'
 
-  const startState: TasksObjType = {
+  const startState: TasksType = {
     [todolistId1]: [
       { id: v1(), title: "HTML&CSS", isDone: true },
       { id: v1(), title: "JS", isDone: true },
@@ -126,7 +126,7 @@ test('correct status of task should be changed', () => {
   let todolistId1 = v1()
   let todolistId2 = v1()
 
-  const startState: TasksObjType = {
+  const startState: TasksType = {
     [todolistId1]: [
       { id: v1(), title: "HTML&CSS", isDone: true },
       { id: v1(), title: "JS", isDone: true },
@@ -151,7 +151,7 @@ test('correct status of task should be changed', () => {
 
 
 test('property with todolistId should be deleted', () => {
-  const startState: TasksObjType = {
+  const startState: TasksType = {
     'todolistId1': [
       { id: '1', title: 'CSS', isDone: false },
       { id: '2', title: 'JS', isDone: true },
