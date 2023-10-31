@@ -3,6 +3,7 @@ import React, { ChangeEvent, KeyboardEvent, memo, useState } from 'react';
 import { IconButton, TextField } from "@mui/material";
 import styled from "./AddItemForm.module.scss"
 import AddTaskIcon from '@mui/icons-material/AddTask';
+import { useAddItemForm } from "./hooks/useAddItemForm";
 
 
 
@@ -12,31 +13,10 @@ type AddItemFormType = {
 }
 
 //вся мемоизация работает в паре с React.memo(давать просто каждой компрненте)
-
 export const AddItemForm: React.FC<AddItemFormType> = memo(({ addTask }: AddItemFormType) => {
   console.log("AddItemForm")
 
-  let [error, setError] = useState<string | null>(null)
-  let [inputValue, setInputValue] = useState<string>("")
-
-
-  const addItemHandler = (taskName: string) => {
-    if (/[a-zа-яё]/i.test(taskName)) {
-      addTask(taskName);
-      setInputValue("");
-    } else {
-      setError('Required')
-    }
-  }
-
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.currentTarget.value); //тот элемент с которым произошло событие
-  }
-
-  const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (error !== null) setError(null);
-    if (e.key === "Enter") addItemHandler(inputValue)
-  }
+  const { error, inputValue, onChangeHandler, onKeyDownHandler, addItemHandler } = useAddItemForm(addTask)
 
   return (
     <div className={styled.addItemForm}>
