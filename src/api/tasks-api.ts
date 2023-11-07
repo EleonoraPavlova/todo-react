@@ -63,14 +63,21 @@ export const tasksApi = {
   },
 
   deleteTasks(todolistId: string, taskId: string) {
-    let promise = instanse.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+    try {
+      let promise = instanse.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+      return promise
+    } catch (err) {
+      throw new Error("Something went wrong")
+    }
+  },
+
+  updateTaskTitle(todolistId: string, taskId: string, title: string) {
+    let promise = instanse.put<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`, { title: title })
     return promise
   },
 
-  updateTasks(todolistId: string, taskId: string, title: string) {
-    let promise = instanse.put<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`, {
-      title: title
-    })
+  updateTaskAtAll(todolistId: string, taskId: string, payload: UpdateTaskModel) {
+    let promise = instanse.put<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`, payload)
     return promise
   }
 }

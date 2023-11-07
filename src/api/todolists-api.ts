@@ -1,3 +1,4 @@
+//один файл должен отвечать за что то одно!!!!! принцип единой ответсвенности - single responsibility
 import axios from "axios"
 
 export const settings = {
@@ -61,7 +62,7 @@ export const todolistsApi = {
     return promise
   },
 
-  updateTodoslists(todolistId: string, title: string) {
+  updateTodoslistsTitle(todolistId: string, title: string) {
     let promise = instanse.put<ResponseType<{}>>(`todo-lists/${todolistId}`, {
       title: title
     })

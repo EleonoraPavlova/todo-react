@@ -8,9 +8,10 @@ export default {
 //GET
 export const GetTodolists = () => {
   const [state, setState] = useState<any>(null)
+
   useEffect(() => {
     todolistsApi.getTodoslists().then((res) => {
-      setState(res.data[1].id)
+      setState(res.data)
     })
   }, [])
   return <div>{JSON.stringify(state)}</div>
@@ -32,27 +33,65 @@ export const CreateTodolist = () => {
 
 export const DeleteTodolist = () => {
   const [state, setState] = useState<any>(null)
-  useEffect(() => {
-    let todolistId = "ccc33333-457e-40e4-b6e9-ad0a7ac59a84"
+  const [todolistId, setTodolistId] = useState<string>("")
+
+  const deleteTodolist = () => {
     todolistsApi.deleteTodoslists(todolistId).then((res) => {
       setState(res.data.data)
+      setTodolistId("")
+      setState("todolist deleted successfully")
     })
-  }, [])
+  }
 
-  return <div>{JSON.stringify(state)}</div>
+  return (<>
+    <div> {JSON.stringify(state)}</div>
+    <div style={{ display: "flex", gap: "15px", flexDirection: "column", width: "250px", margin: "20px" }}>
+      <input value={todolistId}
+        onChange={(e) => setTodolistId(e.currentTarget.value)}
+        placeholder="todolistId to be deleted" />
+      <button style={{ width: "70px", padding: "6px" }}
+        onClick={deleteTodolist}
+        disabled={!todolistId}
+      >delete todolist</button>
+    </div>
+  </>)
 }
 
 
 export const UpdateTodolistTitle = () => {
   const [state, setState] = useState<any>(null)
-  useEffect(() => {
-    let todolistId = "0314cda3-e041-4094-b05d-c43ba5a52799"
-    todolistsApi.updateTodoslists(todolistId, "update").then((res) => {
-      setState(res.data.messages)
+  const [title, setTitle] = useState<string>("")
+  const [todolistId, setTodolistId] = useState<string>("")
+
+  // useEffect(() => {
+  //   todolistsApi.updateTodoslistsTitle(todolistId, "update").then((res) => {
+  //     setState(res.data.messages)
+  //   })
+  // }, [])
+
+  const updateTodolist = () => {
+    todolistsApi.updateTodoslistsTitle(todolistId, title).then((res) => {
+      setState(res.data.data)
+      setTodolistId("")
+      setTitle("")
+      setState("todolist updated successfully")
     })
-  }, [])
+  }
 
-  return <div>{JSON.stringify(state)}</div>
+
+  return (<>
+    <div> {JSON.stringify(state)}</div>
+    <div style={{ display: "flex", gap: "15px", flexDirection: "column", width: "250px", margin: "20px" }}>
+      <input value={todolistId}
+        onChange={(e) => setTodolistId(e.currentTarget.value)}
+        placeholder="todolistId to be update" />
+      <input value={title}
+        onChange={(e) => setTitle(e.currentTarget.value)}
+        placeholder="new title" />
+      <button style={{ width: "70px", padding: "6px" }}
+        onClick={updateTodolist}
+        disabled={!todolistId}
+      >update todolist title</button>
+    </div>
+  </>)
 }
-
-
