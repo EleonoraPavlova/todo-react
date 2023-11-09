@@ -1,26 +1,21 @@
 import React from 'react';
 import "../../style/App.css";
-import TodoList, { Task } from '../../components/TodoList/TodoList';
+import TodoList from '../../components/TodoList/TodoList';
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { useAppRedux } from "./hooks/useAppRedux";
+import { TodolistDomainType } from "../../state/todoList-reducers/todolists-reducer";
 
 
-export type TodoListsType = {
-  id: string
-  title: string
-  filter: FilterValues
-}
-
-export type TasksObjType = {
-  [key: string]: Task[]
-}
-
-export type FilterValues = "all" | "completed" | "active"
+// export type TodoListsType = {
+//   id: string
+//   title: string
+//   filter: FilterValues
+// }
 
 
-function AppRedux() {
+function AppReduxHooks() {
   console.log("AppRedux has been called")
 
   const { todolists, tasks,
@@ -30,7 +25,7 @@ function AppRedux() {
   } = useAppRedux()
 
   const mappedList = () => {
-    return todolists.map((l: TodoListsType) => {
+    return todolists.map((l: TodolistDomainType) => {
       let tasksForTodolist = tasks[l.id]
       return (<Grid item key={l.id}>
         <Paper sx={{ padding: "20px" }} elevation={3}>
@@ -78,4 +73,4 @@ function AppRedux() {
     </div >
   );
 }
-export default AppRedux
+export default AppReduxHooks

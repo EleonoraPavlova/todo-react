@@ -8,12 +8,28 @@ const settings = {
   }
 }
 
-export type TasksTypeApi = {
+export enum TaskStatuses { //какое то одно из значений
+  New = 0,        //false
+  InProgress = 1,
+  Completed = 2,  //true
+  Draft = 3
+}
+
+export enum TaskPriorities { //какое то одно из значений
+  Low = 0,
+  Middle = 1,
+  Hi = 2,
+  Urgently = 3,
+  Later = 4
+}
+
+
+export type TaskTypeApi = {
   description: string
   title: string
   completed: boolean
-  status: number
-  priority: number
+  status: TaskStatuses
+  priority: TaskPriorities
   startDate: string
   deadline: string
   id: string
@@ -22,11 +38,14 @@ export type TasksTypeApi = {
   addedDate: string
 }
 
+export type TasksObjType = {
+  [key: string]: TaskTypeApi[]
+}
 
 export type GetTaskResponse = {
   error: string
   totalCount: number
-  items: TasksTypeApi[]
+  items: TaskTypeApi[]
 }
 
 export type ResponseType<Data = {}> = {

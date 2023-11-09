@@ -5,23 +5,26 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Delete from "@mui/icons-material/Delete";
 import { EditableSpan } from "../EditableSpan/EditableSpan";
 import styled from "../TodoList/TodoList.module.scss"
-import { Task } from "../TodoList/TodoList";
+import { TaskStatuses, TaskTypeApi } from "../../api/tasks-api";
 
-type TaskType = {
-  task: Task;
+
+type TaskForMap = {
+  task: TaskTypeApi;
   todoListId: string;
   removeTask: (taskId: string, todoListId: string) => void;
-  changeStatus: (todoListId: string, taskId: string, isDone: boolean) => void;
+  changeStatus: (todoListId: string, taskId: string, status: TaskStatuses) => void;
   changeEditableSpan: (taskId: string, title: string, todoListId: string) => void;
 };
 
-export const TaskForMap: React.FC<TaskType> = memo((props: TaskType) => {
+export const TaskForMap: React.FC<TaskForMap> = memo((props: TaskForMap) => {
   console.log("TaskForMap");
 
   const onRemoveHandler = () => props.removeTask(props.task.id, props.todoListId);
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
-    props.changeStatus(props.todoListId, props.task.id, e.currentTarget.checked);
+  const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => { //подебажить на useCallback
+    let newStatusValue = e.currentTarget.checked
+    props.changeStatus(props.todoListId, props.task.id, newStatusValue ? TaskStatuses.Completed : TaskStatuses.New);
+  }, [props.changeStatus])
 
   const EditableSpanHandler = useCallback((input: string) => {
     props.changeEditableSpan(props.task.id, input, props.todoListId);
@@ -29,8 +32,8 @@ export const TaskForMap: React.FC<TaskType> = memo((props: TaskType) => {
 
   return (
     <ListItem sx={{ justifyContent: "space-between" }}
-      className={`${styled.list} ${props.task.isDone ? styled.done : ""}`} >
-      <Checkbox checked={props.task.isDone} onChange={onChangeHandler}
+      className={`${styled.list} ${props.task.status === TaskStatuses.Completed ? styled.done : ""}`} >
+      <Checkbox checked={props.task.status === TaskStatuses.Completed} onChange={onChangeHandler}
         icon={<BookmarkBorderIcon />}
         checkedIcon={<BookmarkIcon />}
         color="success"

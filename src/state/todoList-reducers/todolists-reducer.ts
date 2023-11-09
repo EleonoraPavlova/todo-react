@@ -1,16 +1,13 @@
 import { v1 } from "uuid";
-import { FilterValues, TodoListsType } from "../../apps/App/App";
-// import { createSelector } from "reselect";
-// import { AppRootState } from "../store";
+import { TodolistTypeApi } from "../../api/todolists-api";
 
+export type RemoveTodoList = ReturnType<typeof RemoveTodolistAC>
 
-export type RemoveTodoList = ReturnType<typeof removeTodolistAC>
+export type AddTodoList = ReturnType<typeof AddTodolistAC>
 
-export type AddTodoList = ReturnType<typeof addTodolistAC>
+export type ChangeTitleTodoList = ReturnType<typeof ChangeTitleTodolistAC>
 
-export type ChangeTitleTodoList = ReturnType<typeof changeTitleTodolistAC>
-
-export type ChangeFilterTodoList = ReturnType<typeof changeFilterTodolistAC>
+export type ChangeFilterTodoList = ReturnType<typeof ChangeFilterTodolistAC>
 
 
 type ActionsType =  //общий тип!
@@ -19,19 +16,18 @@ type ActionsType =  //общий тип!
   | ChangeTitleTodoList
   | ChangeFilterTodoList
 
+export type FilterValuesType = "all" | "completed" | "active"
 
-export let todoListId1 = v1()
-export let todoListId2 = v1()
+export type TodolistDomainType = TodolistTypeApi & { // расширяем типов, которые приходят с аpi c нужными нам фильтрами
+  filter: FilterValuesType
+}
 
-export const initialState: TodoListsType[] = []
 
-//   [ //этот стейт для управления  map отрисовки TodoList
-//   { id: todoListId1, title: "What to learn", filter: "all" },
-//   { id: todoListId2, title: "What to buy", filter: "all" }
-// ]
+export const initialState: TodolistDomainType[] = []
+
 
 //функция не имеет право менять state! сначала нужно создать копию
-export const todolistsReducer = (state: TodoListsType[] = initialState, action: ActionsType): TodoListsType[] => { //должны всегда вернуть массив
+export const todolistsReducer = (state: TodolistDomainType[] = initialState, action: ActionsType): TodolistDomainType[] => { //должны всегда вернуть массив
   switch (action.type) {
     case "REMOVE-TODOLIST": {
       return state.filter(t => t.id !== action.id)
@@ -41,7 +37,9 @@ export const todolistsReducer = (state: TodoListsType[] = initialState, action: 
       return [{
         id: action.todolistId,
         title: action.title, //приходит из тестов с action
-        filter: "all"
+        filter: "all",
+        addedDate: "",
+        order: 0
       }, ...state]
     }
     case "CHANGE-TODOLIST-TITLE": {
@@ -57,11 +55,11 @@ export const todolistsReducer = (state: TodoListsType[] = initialState, action: 
 
 
 //action creator
-export const removeTodolistAC = (todolistId: string) => {
+export const RemoveTodolistAC = (todolistId: string) => {
   return { type: 'REMOVE-TODOLIST', id: todolistId } as const
 }
 
-export const addTodolistAC = (title: string) => {
+export const AddTodolistAC = (title: string) => {
   return {
     type: 'ADD-TODOLIST',
     title: title,
@@ -69,7 +67,7 @@ export const addTodolistAC = (title: string) => {
   } as const
 }
 
-export const changeTitleTodolistAC = (title: string, id: string) => {
+export const ChangeTitleTodolistAC = (title: string, id: string) => {
   return {
     type: 'CHANGE-TODOLIST-TITLE',
     id: id,
@@ -77,7 +75,7 @@ export const changeTitleTodolistAC = (title: string, id: string) => {
   } as const
 }
 
-export const changeFilterTodolistAC = (filter: FilterValues, id: string) => {
+export const ChangeFilterTodolistAC = (filter: FilterValuesType, id: string) => {
   return {
     type: 'CHANGE-TODOLIST-FILTER',
     id: id,

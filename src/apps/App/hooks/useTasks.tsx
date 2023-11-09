@@ -1,41 +1,33 @@
 import { useState } from "react"
-import { TasksType } from "../App"
-import { todoListId1, todoListId2 } from "../id-utils"
 import { v1 } from "uuid"
+import { TaskPriorities, TaskStatuses, TasksObjType } from "../../../api/tasks-api"
+import { startStateTasks } from "../tasksStartState"
 
 export function useTasks() {
-  let [tasks, setTasks] = useState<TasksType>({
-    [todoListId1]: [ //id этот передала пропсами id={l.id}  в  TodoList
-      { id: v1(), title: "HTML&CSS", isDone: true },
-      { id: v1(), title: "JS", isDone: true },
-      { id: v1(), title: "ReactJS", isDone: false },
-      { id: v1(), title: "Redax", isDone: false }
-    ],
-    [todoListId2]: [
-      { id: v1(), title: "Milk", isDone: true },
-      { id: v1(), title: "Juice", isDone: true },
-      { id: v1(), title: "Meat", isDone: false },
-      { id: v1(), title: "Bread", isDone: false }
-    ]
-  })
+  let [tasks, setTasks] = useState<TasksObjType>(startStateTasks)
 
   function removeTask(id: string, todoListId: string) {
-    let tasksArr = tasks[todoListId]//достала нужный массив сначала
+    let tasksArr = startStateTasks[todoListId]//достала нужный массив сначала
     let filteredTasks = tasksArr.filter(t => t.id !== id) // получила фильтрованные таски
-    tasks[todoListId] = filteredTasks //перезаписать массив: такски которые были по дефолту на новые фильтрованные
+    startStateTasks[todoListId] = filteredTasks //перезаписать массив: такски которые были по дефолту на новые фильтрованные
     setTasks({ ...tasks }) //cделала копию ВСЕГО объекта тасок, чтобы перезапипись массива была отренденена
     //react не реагирует на присваивание, он реагирует создание копии массива объекта и тд
   }
 
   function addTask(inputValue: string, todoListId: string) {
     let tasksArr = tasks[todoListId]//достала нужный массив сначала
-    let newTask = { id: v1(), title: inputValue, isDone: false }
+    let newTask = {
+      id: v1(), title: inputValue, status: TaskStatuses.Completed,
+      description: "Decs", completed: true,
+      priority: TaskPriorities.Low, startDate: "",
+      todoListId: todoListId, deadline: "", order: 1, addedDate: ""
+    }
     tasks[todoListId] = [newTask, ...tasksArr]
     setTasks({ ...tasks })
   }
 
-  function changeStatus(todoListId: string, id: string, isDone: boolean) {
-    setTasks({ ...tasks, [todoListId]: tasks[todoListId].map(t => t.id === id ? { ...t, isDone: isDone } : t) })
+  function changeStatus(todoListId: string, id: string, status: TaskStatuses) {
+    setTasks({ ...tasks, [todoListId]: tasks[todoListId].map(t => t.id === id ? { ...t, status: status } : t) })
     // [togoListId]: это зашли в объект по id!!!
     // let tasks = tasksObj[togoListId]//достала нужный массив сначала
     // let task = tasks.find(t => t.id === taskId)

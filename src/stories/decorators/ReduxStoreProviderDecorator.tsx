@@ -4,34 +4,18 @@ import { AppRootState } from "../../state/store";
 import { combineReducers, createStore } from "redux";
 import { todolistsReducer } from "../../state/todoList-reducers/todolists-reducer";
 import { tasksReducer } from "../../state/tasks-reducers/tasks-reducer";
-import { v1 } from "uuid";
+import { startStateTodolists } from "../../apps/App/todolistsStartState";
+import { startStateTasks } from "../../apps/App/tasksStartState";
 
 const rootReducer = combineReducers({
   todolist: todolistsReducer,
   tasks: tasksReducer
 })
 
-
 export const initialGlobalState: AppRootState =
 {
-  todolist: [
-    { id: "todoListId1", title: "What to learn", filter: "all" },
-    { id: "todoListId2", title: "What to buy", filter: "all" }
-  ],
-  tasks: {
-    ["todoListId1"]: [
-      { id: v1(), title: "HTML&CSS", isDone: true },
-      { id: v1(), title: "JS", isDone: true },
-      { id: v1(), title: "ReactJS", isDone: false },
-      { id: v1(), title: "Redax", isDone: false }
-    ],
-    ["todoListId2"]: [
-      { id: v1(), title: "Milk", isDone: true },
-      { id: v1(), title: "Juice", isDone: true },
-      { id: v1(), title: "Meat", isDone: false },
-      { id: v1(), title: "Bread", isDone: false }
-    ]
-  }
+  todolist: startStateTodolists,
+  tasks: startStateTasks
 }
 
 export const storyBookStore = createStore(rootReducer, initialGlobalState as AppRootState)

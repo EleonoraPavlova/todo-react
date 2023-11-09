@@ -1,12 +1,12 @@
 import React, { memo } from 'react';
 import { Button } from "@mui/material";
-import { FilterValues } from "../apps/AppReducer";
+import { FilterValuesType } from "../state/todoList-reducers/todolists-reducer";
 
 
 type ButtonsMemoType = {
-  filter: FilterValues
+  filter: FilterValuesType
   id: string
-  changeFilterHandler: (filter: FilterValues, togoListId: string) => void
+  changeFilterHandler: (filter: FilterValuesType, togoListId: string) => void
 }
 
 

@@ -1,23 +1,25 @@
 import React from 'react';
 import "../../style/App.css";
-import TodoList, { Task } from '../../components/TodoList/TodoList';
+import TodoList from '../../components/TodoList/TodoList';
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { useTasks } from "./hooks/useTasks";
 import { useTodolists } from "./hooks/useTodolists";
+import { TaskStatuses } from "../../api/tasks-api";
 
-export type TodoListsType = {
-  id: string
-  title: string
-  filter: FilterValues
-}
+// export type TodoListsType = {
+//   id: string
+//   title: string
+//   filter: FilterValues
+// }
 
-export type TasksType = {
-  [key: string]: Task[]
-}
+// export type TasksType = {
+//   [key: string]: TaskTypeApi[]
+// }
 
-export type FilterValues = "all" | "completed" | "active"
+
+// export type FilterValues = "all" | "completed" | "active"
 
 
 function App() {
@@ -32,10 +34,10 @@ function App() {
     return todoLists.map((l) => {
       let tasksForTodolist = tasks[l.id];
       if (l.filter === 'completed') {
-        tasksForTodolist = tasks[l.id].filter(t => t.isDone);
+        tasksForTodolist = tasks[l.id].filter(t => t.status === TaskStatuses.Completed);
       }
       if (l.filter === 'active') {
-        tasksForTodolist = tasks[l.id].filter(t => !t.isDone);
+        tasksForTodolist = tasks[l.id].filter(t => t.status === TaskStatuses.New);
       }
 
       return (<Grid item key={l.id}>
