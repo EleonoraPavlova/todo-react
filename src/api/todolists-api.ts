@@ -1,5 +1,8 @@
-//один файл должен отвечать за что то одно!!!!! принцип единой ответсвенности - single responsibility
 import axios from "axios"
+//axios под капотом ts!
+//один файл должен отвечать за что то одно!!!!! принцип единой ответсвенности - single responsibility
+
+
 
 export const settings = {
   withCredentials: true, //есть валидац токен
