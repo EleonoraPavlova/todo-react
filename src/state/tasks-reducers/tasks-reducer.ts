@@ -108,7 +108,7 @@ export const ChangeTaskTitleAC = (id: string, input: string, togoListId: string)
 }
 
 
-export const ChangeTaskStatusAC = (togoListId: string, id: string, status: TaskStatuses) => {
+export const ChangeTaskStatusAC = (togoListId: string, id: string, status: TaskStatuses | number) => {
   return {
     type: 'CHANGE-TASK-STATUS',
     id: id,

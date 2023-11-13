@@ -1,9 +1,9 @@
 import { AddTodolistAC, RemoveTodolistAC, SetTodolistAC } from "../todoList-reducers/todolists-reducer"
-import { TaskStatuses } from "../../api/tasks-api"
 import { startStateTasks } from "../../apps/App/tasksStartState"
 import { todoListId1, todoListId2 } from "../../apps/App/id-utils"
 import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, tasksReducer } from "./tasks-reducer"
 import { startStateTodolists } from "../../apps/App/todolistsStartState"
+import { TaskStatuses } from "../../api/tasks-api"
 
 
 test('new array should be added when new todolist is added', () => {
@@ -59,11 +59,11 @@ test('correct task should change its name', () => {
 
 
 test('correct status of task should be changed', () => {
-  const action = ChangeTaskStatusAC(todoListId2, startStateTasks[todoListId2][0].id, TaskStatuses.New)
+  const action = ChangeTaskStatusAC(todoListId2, startStateTasks[todoListId2][0].id, 0)
   const endState = tasksReducer(startStateTasks, action)
 
   expect(endState[todoListId2].length).toBe(4)
-  expect(endState[todoListId2][0].status).toBe(TaskStatuses.New)  // New = 0,  //false
+  expect(endState[todoListId2][0].status).toBe(0)  // New = 0,  //false
   expect(endState[todoListId2][0].title).toBe("Milk")
 })
 

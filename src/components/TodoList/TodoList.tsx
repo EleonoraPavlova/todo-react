@@ -84,11 +84,11 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
       <List>
         {mappedTasks()}
       </List>
-      <div>
+      <div style={{ display: "flex", gap: "15px" }}>
         <Button size="small" variant={props.filter === "all" ? "contained" : "text"}
           children={"All"}
           onClick={() => { props.changeFilterHandler("all", props.todoListId) }} className="button" />
-        <Button size="small" color={"primary"}
+        <Button size="small" color={"success"}
           variant={props.filter === "active" ? "contained" : "text"} children={"Active"}
           onClick={() => { props.changeFilterHandler("active", props.todoListId) }} className="button" />
         <Button size="small" color={"secondary"}

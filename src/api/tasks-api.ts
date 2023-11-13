@@ -1,4 +1,3 @@
-
 import { instanse } from "./todolists-api"
 
 const settings = {
@@ -28,7 +27,7 @@ export type TaskTypeApi = {
   description: string
   title: string
   completed: boolean
-  status: TaskStatuses
+  status: TaskStatuses | number
   priority: TaskPriorities
   startDate: string
   deadline: string
