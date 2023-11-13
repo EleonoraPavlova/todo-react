@@ -8,7 +8,7 @@ import styled from "../TodoList/TodoList.module.scss"
 import { TaskStatuses, TaskTypeApi } from "../../api/tasks-api";
 
 
-type TaskForMap = {
+type TaskForMapType = {
   task: TaskTypeApi;
   todoListId: string;
   removeTask: (taskId: string, todoListId: string) => void;
@@ -16,19 +16,21 @@ type TaskForMap = {
   changeEditableSpan: (taskId: string, title: string, todoListId: string) => void;
 };
 
-export const TaskForMap: React.FC<TaskForMap> = memo((props: TaskForMap) => {
+export const TaskForMap: React.FC<TaskForMapType> = memo((props: TaskForMapType) => {
   console.log("TaskForMap");
 
   const onRemoveHandler = () => props.removeTask(props.task.id, props.todoListId);
 
-  const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => { //подебажить на useCallback
+  const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { changeStatus, todoListId, task } = props
     let newStatusValue = e.currentTarget.checked
-    props.changeStatus(props.todoListId, props.task.id, newStatusValue ? TaskStatuses.Completed : TaskStatuses.New);
-  }, [props.changeStatus])
+    changeStatus(todoListId, task.id, newStatusValue ? TaskStatuses.Completed : TaskStatuses.New);
+  }, [props])
 
   const EditableSpanHandler = useCallback((input: string) => {
-    props.changeEditableSpan(props.task.id, input, props.todoListId);
-  }, [props.changeEditableSpan, props.task.id, props.todoListId]);
+    const { changeEditableSpan, todoListId, task } = props
+    changeEditableSpan(task.id, input, todoListId);
+  }, [props]);
 
   return (
     <ListItem sx={{ justifyContent: "space-between" }}

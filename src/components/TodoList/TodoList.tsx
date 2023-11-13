@@ -58,16 +58,19 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
   }
 
   const removeTodolistHandler = useCallback(() => {
-    props.removeTodolist(props.todoListId)
-  }, [props.removeTodolist, props.todoListId])
+    const { removeTodolist, todoListId } = props
+    removeTodolist(todoListId)
+  }, [props])
 
   const addTasks = useCallback((input: string) => {
-    props.addTask(input, props.todoListId)
-  }, [props.addTask, props.todoListId]) //пропсы добавляем в зависомость!
+    const { addTask, todoListId } = props
+    addTask(input, todoListId)
+  }, [props]) //пропсы добавляем в зависомость!
 
   const EditableSpanTitleHandler = useCallback((title: string) => {
-    props.changeTodolistTitle(title, props.todoListId);
-  }, [props.changeTodolistTitle, props.todoListId])
+    const { changeTodolistTitle, todoListId } = props
+    changeTodolistTitle(title, todoListId)
+  }, [props])
 
   return (
     <div>
