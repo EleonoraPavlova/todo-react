@@ -2,7 +2,7 @@
 import { instanse } from "./todolists-api"
 
 const settings = {
-  withCredentials: true, //есть валидац токен
+  withCredentials: true,  //есть валидац токен
   headers: {
     "API-KEY": "6a891b51-a742-4c47-8da1-58a8df99feb7"
   }

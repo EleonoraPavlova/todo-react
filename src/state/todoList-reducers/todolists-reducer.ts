@@ -2,12 +2,10 @@ import { v1 } from "uuid";
 import { TodolistTypeApi } from "../../api/todolists-api";
 
 export type RemoveTodoList = ReturnType<typeof RemoveTodolistAC>
-
 export type AddTodoList = ReturnType<typeof AddTodolistAC>
-
 export type ChangeTitleTodoList = ReturnType<typeof ChangeTitleTodolistAC>
-
 export type ChangeFilterTodoList = ReturnType<typeof ChangeFilterTodolistAC>
+export type SetTodoList = ReturnType<typeof SetTodolistAC>
 
 
 type ActionsType =  //общий тип!
@@ -15,13 +13,13 @@ type ActionsType =  //общий тип!
   | AddTodoList
   | ChangeTitleTodoList
   | ChangeFilterTodoList
+  | SetTodoList
 
 export type FilterValuesType = "all" | "completed" | "active"
 
 export type TodolistDomainType = TodolistTypeApi & { // расширяем типов, которые приходят с аpi c нужными нам фильтрами
   filter: FilterValuesType
 }
-
 
 export const initialState: TodolistDomainType[] = []
 
@@ -47,6 +45,14 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
     }
     case "CHANGE-TODOLIST-FILTER": {
       return state.map(t => t.id === action.id ? { ...t, filter: action.filter } : t)
+    }
+    case "SET-TODOLIST": { //установка прилетеших из сервера тудулитсов с нужным нам дополнительным расширением filter
+      return action.todolists.map(tl => {
+        return {
+          ...tl,
+          filter: "all"
+        }
+      })
     }
     default:
       return state;
@@ -84,6 +90,9 @@ export const ChangeFilterTodolistAC = (filter: FilterValuesType, id: string) => 
 }
 
 
-// const todolistSelector = (state: AppRootState) => state.todolist;
-
-// export const getTodolistsSelector = createSelector(todolistSelector, todolists => Object.assign(todolists))
+export const SetTodolistAC = (todolists: TodolistTypeApi[]) => { //фиксирую прилетевшие с сервера todolists
+  return {
+    type: 'SET-TODOLIST',
+    todolists: todolists
+  } as const
+}
