@@ -1,9 +1,10 @@
 import { AddTodolistAC, RemoveTodolistAC, SetTodolistAC } from "../todoList-reducers/todolists-reducer"
 import { startStateTasks } from "../../apps/App/tasksStartState"
 import { todoListId1, todoListId2 } from "../../apps/App/id-utils"
-import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, tasksReducer } from "./tasks-reducer"
+import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, SetTasksAC, tasksReducer } from "./tasks-reducer"
 import { startStateTodolists } from "../../apps/App/todolistsStartState"
 import { TaskStatuses } from "../../api/tasks-api"
+import { v1 } from "uuid"
 
 
 test('new array should be added when new todolist is added', () => {
@@ -91,4 +92,17 @@ test('empty array should be added when we set todolists', () => {
   expect(keys.length).toBe(2)
   expect(endState["1"]).toStrictEqual([]) //моковые значения массивов ключей endState["1"]
   expect(endState["2"]).toStrictEqual([])
+})
+
+
+test('tasks should be added for todolists', () => {
+  const action = SetTasksAC(startStateTasks["todolistId1"], "todolistId1")
+
+  const endState = tasksReducer({
+    "todolistId2": [],
+    "todolistId1": []
+  }, action) //потому что начальный state пустой объект in reducer
+
+  expect(endState["todolistId1"].length).toBe(6) //моковые значения массивов ключей endState["1"]
+  expect(endState["todolistId1"].length).toBe(4)
 })

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import "../../style/App.css";
 import TodoList from '../../components/TodoList/TodoList';
@@ -6,7 +6,11 @@ import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC } from "../../state/tasks-reducers/tasks-reducer";
-import { FilterValuesType, TodolistDomainType, AddTodolistAC, ChangeFilterTodolistAC, ChangeTitleTodolistAC, RemoveTodolistAC } from "../../state/todoList-reducers/todolists-reducer";
+import {
+  FilterValuesType, TodolistDomainType,
+  AddTodolistAC, ChangeFilterTodolistAC,
+  ChangeTitleTodolistAC, RemoveTodolistAC, fetchTodolistTC
+} from "../../state/todoList-reducers/todolists-reducer";
 import { AppRootState } from "../../state/store";
 import { TaskStatuses, TaskTypeApi } from "../../api/tasks-api";
 
@@ -35,6 +39,12 @@ function AppRedux() {
   const todolists = useSelector<AppRootState, TodolistDomainType[]>(state => state.todolist) //выбираем todolist из стора state
   //<AppRootState, TodoListsType[]> означает хотим достать массив todolists из этого типа 
   const tasks = useSelector<AppRootState, TasksObjType>(tasks => tasks.tasks)
+
+  //в useEffect выполняются запросы на api
+  useEffect(() => { //download all todolists from api when loading the component
+    dispatch(fetchTodolistTC as any)
+  }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
+
 
   //tasks action creators
   const removeTask = useCallback((id: string, todoListId: string) => {

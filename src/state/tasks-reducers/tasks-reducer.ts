@@ -1,11 +1,14 @@
+import { todoListId1 } from './../../apps/App/id-utils';
 import { v1 } from "uuid";
 import { AddTodoList, RemoveTodoList, SetTodoList } from "../todoList-reducers/todolists-reducer";
-import { TaskPriorities, TaskStatuses, TasksObjType } from "../../api/tasks-api";
+import { TaskPriorities, TaskStatuses, TaskTypeApi, TasksObjType, tasksApi } from "../../api/tasks-api";
+import { Dispatch } from "redux";
 
 export type RemoveTask = ReturnType<typeof RemoveTaskAC>
 export type AddTask = ReturnType<typeof AddTaskAC>
 export type ChangeTitleTask = ReturnType<typeof ChangeTaskTitleAC>
 export type ChangeStatusTask = ReturnType<typeof ChangeTaskStatusAC>
+export type SetTasks = ReturnType<typeof SetTasksAC>
 
 
 type ActionsType =  //общий тип!
@@ -16,6 +19,7 @@ type ActionsType =  //общий тип!
   | AddTodoList
   | RemoveTodoList
   | SetTodoList
+  | SetTasks
 
 
 export const initialStateTasks: TasksObjType = {}
@@ -79,6 +83,11 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
       action.todolists.map(tl => copyState[tl.id] = [])
       return copyState
     }
+    case "SET-TASKS": {
+      const copyState = { ...state }
+      copyState[action.togoListId] = action.tasks // = action.tasks  переопределила массив тасок по конкр action.todolistId
+      return copyState
+    }
     default:
       return state;
   }
@@ -108,7 +117,7 @@ export const ChangeTaskTitleAC = (id: string, input: string, togoListId: string)
 }
 
 
-export const ChangeTaskStatusAC = (togoListId: string, id: string, status: TaskStatuses | number) => {
+export const ChangeTaskStatusAC = (togoListId: string, id: string, status: TaskStatuses) => {
   return {
     type: 'CHANGE-TASK-STATUS',
     id: id,
@@ -117,6 +126,22 @@ export const ChangeTaskStatusAC = (togoListId: string, id: string, status: TaskS
   } as const
 }
 
+export const SetTasksAC = (tasks: TaskTypeApi[], togoListId: string) => {
+  return {
+    type: 'SET-TASKS',
+    tasks: tasks,
+    togoListId: togoListId
+  } as const
+}
 
+
+export const fetchTasksTC = (todolistId: string) => { //функц прослойка для dispatch api
+  return (dispatch: Dispatch) => {
+    tasksApi.getTasks(todolistId)
+      .then((res) => {
+        dispatch(SetTasksAC(res.data.items, todolistId))
+      })
+  }
+}
 // const tasksSelector = (state: AppRootState) => state.tasks;
 // export const getTasksSelector = createSelector(tasksSelector, tasks => Object.assign(tasks))

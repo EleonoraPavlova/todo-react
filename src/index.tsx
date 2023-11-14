@@ -6,7 +6,8 @@ import { HashRouter } from 'react-router-dom'
 // import AppRedux from "../src/apps/AppRedux/AppRedux";
 import { Provider } from "react-redux";
 import { store } from "./state/store";
-import AppReduxHooks from "./apps/AppRedux/AppReduxHooks";
+// import AppReduxHooks from "./apps/AppRedux/AppReduxHooks";
+import AppRedux from "./apps/AppRedux/AppRedux";
 // import App from "./apps/App/App";
 
 
@@ -16,7 +17,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <HashRouter>
     <Provider store={store}>
-      <AppReduxHooks />
+      <AppRedux />
+      {/* <AppReduxHooks /> */}
       {/* <App2 /> */}
     </Provider>
   </HashRouter>

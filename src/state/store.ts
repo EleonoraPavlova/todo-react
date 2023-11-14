@@ -1,6 +1,7 @@
-import { combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
 import { tasksReducer } from "./tasks-reducers/tasks-reducer";
 import { todolistsReducer } from "./todoList-reducers/todolists-reducer";
+import thunk from "redux-thunk"
 
 //обязательно Provider в App
 
@@ -19,7 +20,7 @@ const rootReducer = combineReducers({ //все dispatch приходят в root
   tasks: tasksReducer
 })
 
-export const store = createStore(rootReducer)
+export const store = createStore(rootReducer, applyMiddleware(thunk)) //подкл thunk
 
 
 //@ts-ignore

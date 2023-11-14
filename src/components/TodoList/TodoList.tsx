@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { AddItemForm } from "../AddItemForm/AddItemForm";
 import { EditableSpan } from "../EditableSpan/EditableSpan";
 import { Button, IconButton, List } from "@mui/material";
@@ -7,6 +7,8 @@ import { Delete } from "@mui/icons-material";
 import { TaskForMap } from "../TaskForMap/TaskForMap";
 import { TaskStatuses, TaskTypeApi } from "../../api/tasks-api";
 import { FilterValuesType } from "../../state/todoList-reducers/todolists-reducer";
+import { useDispatch } from "react-redux";
+import { fetchTasksTC } from "../../state/tasks-reducers/tasks-reducer";
 
 
 type TodoListProps = {
@@ -32,6 +34,13 @@ type TodoListProps = {
 
 export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => {
   console.log("TodoList has been called")
+
+  const dispatch = useDispatch()
+  //в useEffect выполняются запросы на api
+  useEffect(() => { //download all todolists from api when loading the component
+    dispatch(fetchTasksTC(props.todoListId) as any)
+  }, [props.todoListId]) //пустой [] - отрабатывает один раз при загрузке страницы!
+
 
   let tasksForTodolist = useMemo(() => {
     if (props.filter === 'completed') {

@@ -1,5 +1,6 @@
 import { v1 } from "uuid";
-import { TodolistTypeApi } from "../../api/todolists-api";
+import { TodolistTypeApi, todolistsApi } from "../../api/todolists-api";
+import { Dispatch } from "redux";
 
 export type RemoveTodoList = ReturnType<typeof RemoveTodolistAC>
 export type AddTodoList = ReturnType<typeof AddTodolistAC>
@@ -95,4 +96,12 @@ export const SetTodolistAC = (todolists: TodolistTypeApi[]) => { //фиксир�
     type: 'SET-TODOLIST',
     todolists: todolists
   } as const
+}
+
+
+export const fetchTodolistTC = (dispatch: Dispatch) => { //функц прослойка для dispatch api
+  todolistsApi.getTodoslists()
+    .then((res) => {
+      dispatch(SetTodolistAC(res.data))
+    })
 }
