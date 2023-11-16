@@ -39,7 +39,7 @@ export type TodolistTypeApi = {
 //   data: {}
 // }
 
-export type ResponseType<Data> = {
+export type ResponseType<Data = {}> = {
   resultCode: number
   messages: string[]
   fieldsErrors: string[]
@@ -53,20 +53,20 @@ export const todolistsApi = {
     return promise
   },
 
-  createTodoslists(title: string) {
+  createTodoslist(title: string) {
     let promise = instanse.post<ResponseType<{ item: TodolistTypeApi }>>("/todo-lists", {
       title: title
     })
     return promise
   },
 
-  deleteTodoslists(todolistId: string) {
-    let promise = instanse.delete<ResponseType<{}>>(`todo-lists/${todolistId}`)
+  deleteTodoslist(todolistId: string) {
+    let promise = instanse.delete<ResponseType>(`todo-lists/${todolistId}`)
     return promise
   },
 
   updateTodoslistsTitle(todolistId: string, title: string) {
-    let promise = instanse.put<ResponseType<{}>>(`todo-lists/${todolistId}`, {
+    let promise = instanse.put<ResponseType>(`todo-lists/${todolistId}`, {
       title: title
     })
     return promise

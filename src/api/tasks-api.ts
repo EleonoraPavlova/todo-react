@@ -71,7 +71,7 @@ export const tasksApi = {
 
   createTasks(title: string, todolistId: string) {
     try {
-      let promise = instanse.post<ResponseType<{ item: GetTaskResponse }>>(`todo-lists/${todolistId}/tasks`, {
+      let promise = instanse.post<ResponseType<{ item: TaskTypeApi }>>(`todo-lists/${todolistId}/tasks`, {
         title: title
       }, settings)
       return promise

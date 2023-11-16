@@ -32,14 +32,9 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
       return state.filter(t => t.id !== action.id)
     }
     case "ADD-TODOLIST": {
+      const newTodolist: TodolistDomainType = { ...action.todolist, filter: "all" } //todolist который приходит с сервера и добавила нужное мне расширение
       //положили старые листы в массив и добавили новый(объект)!
-      return [{
-        id: action.todolistId,
-        title: action.title, //приходит из тестов с action
-        filter: "all",
-        addedDate: "",
-        order: 0
-      }, ...state]
+      return [newTodolist, ...state]
     }
     case "CHANGE-TODOLIST-TITLE": {
       return state.map(t => t.id === action.id ? { ...t, title: action.title } : t)
@@ -66,11 +61,10 @@ export const RemoveTodolistAC = (todolistId: string) => {
   return { type: 'REMOVE-TODOLIST', id: todolistId } as const
 }
 
-export const AddTodolistAC = (title: string) => {
+export const AddTodolistAC = (todolist: TodolistTypeApi) => {
   return {
     type: 'ADD-TODOLIST',
-    title: title,
-    todolistId: v1()
+    todolist: todolist
   } as const
 }
 
@@ -104,4 +98,24 @@ export const fetchTodolistTC = (dispatch: Dispatch) => { //функц просл
     .then((res) => {
       dispatch(SetTodolistAC(res.data))
     })
+}
+
+
+export const removeTodolistTC = (todolistId: string) => { //функц прослойка для dispatch api
+  return (dispatch: Dispatch) => {
+    todolistsApi.deleteTodoslist(todolistId)
+      .then((res) => {
+        dispatch(RemoveTodolistAC(todolistId))
+      })
+  }
+}
+
+
+export const addTodolistTC = (title: string) => { //функц прослойка для dispatch api
+  return (dispatch: Dispatch) => {
+    todolistsApi.createTodoslist(title)
+      .then((res) => {
+        dispatch(AddTodolistAC(res.data.data.item))
+      })
+  }
 }

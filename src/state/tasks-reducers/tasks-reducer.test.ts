@@ -1,14 +1,17 @@
-import { AddTodolistAC, RemoveTodolistAC, SetTodolistAC } from "../todoList-reducers/todolists-reducer"
+import { AddTodolistAC, RemoveTodolistAC, SetTodolistAC, TodolistDomainType } from "../todoList-reducers/todolists-reducer"
 import { startStateTasks } from "../../apps/App/tasksStartState"
 import { todoListId1, todoListId2 } from "../../apps/App/id-utils"
 import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, SetTasksAC, tasksReducer } from "./tasks-reducer"
 import { startStateTodolists } from "../../apps/App/todolistsStartState"
 import { TaskStatuses } from "../../api/tasks-api"
-import { v1 } from "uuid"
+
 
 
 test('new array should be added when new todolist is added', () => {
-  const endState = tasksReducer(startStateTasks, AddTodolistAC('new separate todolist'))
+  const endState = tasksReducer(startStateTasks, AddTodolistAC({
+    id: todoListId1, title: 'What to learn', addedDate: "",
+    order: 0
+  }))
 
   const keys = Object.keys(endState)
   const newKey = keys.find(k => k != 'todolistId1' && k != 'todolistId2')
@@ -37,13 +40,17 @@ test('correct task should be removed', () => {
 
 
 test('correct task should be added', () => {
-  let newInputValue = 'New task'
-
-  const endState = tasksReducer(startStateTasks, AddTaskAC(newInputValue, todoListId2))
+  const newTask = {
+    id: todoListId1, title: "Juice", status: TaskStatuses.Completed,
+    description: "", completed: true,
+    priority: 0, startDate: "1",
+    todoListId: todoListId1, deadline: "", order: 1, addedDate: ""
+  }
+  const endState = tasksReducer(startStateTasks, AddTaskAC(newTask))
 
   expect(endState[todoListId2].length).toBe(5)
   expect(startStateTasks[todoListId2].length).toBe(4)
-  expect(endState[todoListId2][0].title).toBe(newInputValue)
+  expect(endState[todoListId2][0]).toBe(newTask)
   expect(endState[todoListId2][0].status).toBe(TaskStatuses.New) //false
 })
 

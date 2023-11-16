@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppRootState } from "../../../state/store"
 import { useCallback } from "react"
-import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC } from "../../../state/tasks-reducers/tasks-reducer"
-import { FilterValuesType, AddTodolistAC, ChangeFilterTodolistAC, ChangeTitleTodolistAC, RemoveTodolistAC, TodolistDomainType } from "../../../state/todoList-reducers/todolists-reducer"
+import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, addTaskTC } from "../../../state/tasks-reducers/tasks-reducer"
+import { FilterValuesType, AddTodolistAC, ChangeFilterTodolistAC, ChangeTitleTodolistAC, RemoveTodolistAC, TodolistDomainType, addTodolistTC } from "../../../state/todoList-reducers/todolists-reducer"
 import { TaskStatuses, TasksObjType } from "../../../api/tasks-api"
 
 export function useAppRedux() {
@@ -17,9 +17,9 @@ export function useAppRedux() {
     dispatch(action)
   }, [dispatch])
 
-  const addTask = useCallback((inputValue: string, todoListId: string) => {
-    const action = AddTaskAC(inputValue, todoListId)
-    dispatch(action)
+  const addTask = useCallback((title: string, todoListId: string) => {
+    const thunk = addTaskTC(title, todoListId) as any
+    dispatch(thunk)
   }, [dispatch])
 
   const changeStatus = useCallback((todoListId: string, id: string, status: TaskStatuses) => {
@@ -45,8 +45,8 @@ export function useAppRedux() {
   }, [dispatch])
 
   const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
-    const action = AddTodolistAC(input)
-    dispatch(action)
+    const thunk = addTodolistTC(input) as any
+    dispatch(thunk)
   }, [dispatch])
 
 

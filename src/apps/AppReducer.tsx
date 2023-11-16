@@ -19,6 +19,7 @@ import { TaskPriorities, TaskStatuses, TaskTypeApi } from "../api/tasks-api";
 //   [key: string]: Task[]
 // }
 
+//переделать на санки
 
 let todoListId1 = v1()
 let todoListId2 = v1()
@@ -85,8 +86,8 @@ function AppReducer() {
   }
 
   function addTask(inputValue: string, todoListId: string) {
-    const action = AddTaskAC(inputValue, todoListId)
-    dispatchTasks(action)
+    // const action = AddTaskAC(inputValue, todoListId)
+    // dispatchTasks(action)
   }
 
   function changeStatus(todoListId: string, id: string, status: TaskStatuses) {
@@ -113,9 +114,9 @@ function AppReducer() {
   }
 
   function addTodoList(input: string) { //добавление новой колонки списка задач
-    const action = AddTodolistAC(input)
-    dispatchTodoLists(action)
-    dispatchTasks(action)
+    // const action = AddTodolistAC(input)
+    // dispatchTodoLists(action)
+    // dispatchTasks(action)
   }
 
 

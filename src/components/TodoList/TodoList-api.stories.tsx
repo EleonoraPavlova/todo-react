@@ -22,7 +22,7 @@ export const CreateTodolist = () => {
   const [state, setState] = useState<any>(null)
 
   useEffect(() => {
-    todolistsApi.createTodoslists("something").then((res) => {
+    todolistsApi.createTodoslist("something").then((res) => {
       setState(res.data)
     })
   }, [])
@@ -36,7 +36,7 @@ export const DeleteTodolist = () => {
   const [todolistId, setTodolistId] = useState<string>("")
 
   const deleteTodolist = () => {
-    todolistsApi.deleteTodoslists(todolistId).then((res) => {
+    todolistsApi.deleteTodoslist(todolistId).then((res) => {
       setState(res.data.data)
       setTodolistId("")
       setState("todolist deleted successfully")

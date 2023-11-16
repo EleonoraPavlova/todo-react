@@ -5,11 +5,11 @@ import TodoList from '../../components/TodoList/TodoList';
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC } from "../../state/tasks-reducers/tasks-reducer";
+import { ChangeTaskStatusAC, ChangeTaskTitleAC, addTaskTC, removeTaskTC } from "../../state/tasks-reducers/tasks-reducer";
 import {
   FilterValuesType, TodolistDomainType,
   AddTodolistAC, ChangeFilterTodolistAC,
-  ChangeTitleTodolistAC, RemoveTodolistAC, fetchTodolistTC
+  ChangeTitleTodolistAC, RemoveTodolistAC, fetchTodolistTC, removeTodolistTC, addTodolistTC
 } from "../../state/todoList-reducers/todolists-reducer";
 import { AppRootState } from "../../state/store";
 import { TaskStatuses, TaskTypeApi } from "../../api/tasks-api";
@@ -48,13 +48,13 @@ function AppRedux() {
 
   //tasks action creators
   const removeTask = useCallback((id: string, todoListId: string) => {
-    const action = RemoveTaskAC(id, todoListId)
-    dispatch(action)
+    const thunk = removeTaskTC(todoListId, id) as any
+    dispatch(thunk)
   }, [dispatch])
 
-  const addTask = useCallback((inputValue: string, todoListId: string) => {
-    const action = AddTaskAC(inputValue, todoListId)
-    dispatch(action)
+  const addTask = useCallback((title: string, todoListId: string) => {
+    const thunk = addTaskTC(title, todoListId) as any
+    dispatch(thunk)
   }, [dispatch])
 
   const changeStatus = useCallback((todoListId: string, id: string, status: TaskStatuses) => {
@@ -75,13 +75,13 @@ function AppRedux() {
   }, [dispatch])
 
   const removeTodolist = useCallback((todoListId: string) => {
-    const action = RemoveTodolistAC(todoListId)
-    dispatch(action)
+    const thunk = removeTodolistTC(todoListId) as any
+    dispatch(thunk)
   }, [dispatch])
 
   const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
-    const action = AddTodolistAC(input)
-    dispatch(action)
+    const thunk = addTodolistTC(input) as any
+    dispatch(thunk)
   }, [dispatch])
 
 
