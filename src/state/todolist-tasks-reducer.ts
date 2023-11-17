@@ -1,4 +1,4 @@
-import { TaskPriorities, TaskStatuses, TaskTypeApi, TasksObjType } from "../api_DAL/tasks-api"
+import { TasksObjType } from "../api_DAL/tasks-api"
 import { todoListId1 } from "../apps/App/id-utils"
 import { tasksReducer } from "./tasks-reducers/tasks-reducer"
 import { AddTodolistAC, TodolistDomainType, todolistsReducer } from "./todoList-reducers/todolists-reducer"
@@ -24,6 +24,6 @@ test('ids should be equals', () => {
   const idFromTasks = keys[0]
   const idFromTodolists = endTodolistsState[0].id
 
-  expect(idFromTasks).toBe(action.todolist)
+  expect(idFromTasks).toBe(action.todolist.id)
   expect(idFromTodolists).toBe(action.todolist.id)
 })

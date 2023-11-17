@@ -4,7 +4,7 @@ import { TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } fr
 import { Dispatch } from "redux";
 import { AppRootState } from "../storeBLL";
 
-
+//type ActionsType = ReturnType<typeof getTodosAC> | ReturnType<typeof changeTodoStatusAC>
 export type RemoveTask = ReturnType<typeof RemoveTaskAC>
 export type AddTask = ReturnType<typeof AddTaskAC>
 export type ChangeTitleTask = ReturnType<typeof ChangeTaskTitleAC>
