@@ -7,7 +7,7 @@ import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from 
 import { Menu } from "@mui/icons-material";
 import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, tasksReducer } from "../state/tasks-reducers/tasks-reducer";
 import { AddTodolistAC, ChangeFilterTodolistAC, ChangeTitleTodolistAC, FilterValuesType, RemoveTodolistAC, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
-import { TaskPriorities, TaskStatuses, TaskTypeApi } from "../api/tasks-api";
+import { TaskPriorities, TaskStatuses, TaskTypeApi } from "../api_DAL/tasks-api";
 
 // export type TodoListsType = {
 //   id: string
@@ -95,7 +95,7 @@ function AppReducer() {
     dispatchTasks(action)
   }
 
-  function changeEditableSpan(id: string, input: string, todoListId: string) {
+  function changeTaskTitle(id: string, input: string, todoListId: string) {
     const action = ChangeTaskTitleAC(id, input, todoListId)
     dispatchTasks(action)
   }
@@ -145,7 +145,7 @@ function AppReducer() {
             todoListId={l.id} filter={l.filter}
             changeFilterHandler={changeFilterHandler}
             removeTodolist={removeTodolist}
-            changeEditableSpan={changeEditableSpan}
+            changeTaskTitle={changeTaskTitle}
             changeTodolistTitle={changeTodolistTitle}
           />
         </Paper>

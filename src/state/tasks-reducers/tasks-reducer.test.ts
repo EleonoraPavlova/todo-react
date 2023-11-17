@@ -1,9 +1,9 @@
-import { AddTodolistAC, RemoveTodolistAC, SetTodolistAC, TodolistDomainType } from "../todoList-reducers/todolists-reducer"
+import { AddTodolistAC, RemoveTodolistAC, SetTodolistAC } from "../todoList-reducers/todolists-reducer"
 import { startStateTasks } from "../../apps/App/tasksStartState"
 import { todoListId1, todoListId2 } from "../../apps/App/id-utils"
 import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, SetTasksAC, tasksReducer } from "./tasks-reducer"
 import { startStateTodolists } from "../../apps/App/todolistsStartState"
-import { TaskStatuses } from "../../api/tasks-api"
+import { TaskStatuses } from "../../api_DAL/tasks-api"
 
 
 

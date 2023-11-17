@@ -1,5 +1,5 @@
-import { v1 } from "uuid";
-import { TodolistTypeApi, todolistsApi } from "../../api/todolists-api";
+//BLL
+import { TodolistTypeApi, todolistsApi } from "../../api_DAL/todolists-api";
 import { Dispatch } from "redux";
 
 export type RemoveTodoList = ReturnType<typeof RemoveTodolistAC>
@@ -37,12 +37,13 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
       return [newTodolist, ...state]
     }
     case "CHANGE-TODOLIST-TITLE": {
-      return state.map(t => t.id === action.id ? { ...t, title: action.title } : t)
+      return state.map(t => t.id === action.todolistId ? { ...t, title: action.title } : t)
     }
     case "CHANGE-TODOLIST-FILTER": {
       return state.map(t => t.id === action.id ? { ...t, filter: action.filter } : t)
     }
-    case "SET-TODOLIST": { //установка прилетеших из сервера тудулитсов с нужным нам дополнительным расширением filter
+    case "SET-TODOLIST": {
+      //установка прилетеших из сервера тудулитсов с нужным нам дополнительным расширением filter
       return action.todolists.map(tl => {
         return {
           ...tl,
@@ -68,10 +69,10 @@ export const AddTodolistAC = (todolist: TodolistTypeApi) => {
   } as const
 }
 
-export const ChangeTitleTodolistAC = (title: string, id: string) => {
+export const ChangeTitleTodolistAC = (title: string, todolistId: string) => {
   return {
     type: 'CHANGE-TODOLIST-TITLE',
-    id: id,
+    todolistId: todolistId,
     title: title
   } as const
 }
@@ -93,7 +94,7 @@ export const SetTodolistAC = (todolists: TodolistTypeApi[]) => { //фиксир�
 }
 
 
-export const fetchTodolistTC = (dispatch: Dispatch) => { //функц прослойка для dispatch api
+export const getTodolistTC = (dispatch: Dispatch) => { //функц прослойка для dispatch api
   todolistsApi.getTodoslists()
     .then((res) => {
       dispatch(SetTodolistAC(res.data))
@@ -119,3 +120,22 @@ export const addTodolistTC = (title: string) => { //функц прослойк�
       })
   }
 }
+
+
+export const changeTitleTodolistTC = (todolistId: string, title: string) => { //функц прослойка для dispatch api
+  return (dispatch: Dispatch) => {
+    todolistsApi.updateTodoslistsTitle(todolistId, title)
+      .then((res) => {
+        dispatch(ChangeTitleTodolistAC(title, todolistId))
+      })
+  }
+}
+
+// export const changeFilterTodolistTC = (filter: FilterValuesType, todolistId: string) => { //функц прослойка для dispatch api
+//   return (dispatch: Dispatch) => {
+//     todolistsApi.(title)
+//       .then((res) => {
+//         dispatch(AddTodolistAC(res.data.data.item))
+//       })
+//   }
+// }

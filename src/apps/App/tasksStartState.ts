@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { TaskPriorities, TaskStatuses, TasksObjType } from "../../api/tasks-api";
+import { TaskPriorities, TaskStatuses, TasksObjType } from "../../api_DAL/tasks-api";
 import { todoListId1, todoListId2 } from "./id-utils";
 
 export const startStateTasks: TasksObjType = {

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { v1 } from "uuid"
-import { TaskPriorities, TaskStatuses, TasksObjType } from "../../../api/tasks-api"
+import { TaskPriorities, TaskStatuses, TasksObjType } from "../../../api_DAL/tasks-api"
 import { startStateTasks } from "../tasksStartState"
 
 export function useTasks() {
@@ -37,7 +37,7 @@ export function useTasks() {
     // }
   }
 
-  function changeEditableSpan(id: string, input: string, todoListId: string) {
+  function changeTaskTitle(id: string, input: string, todoListId: string) {
     let tasksArr = tasks[todoListId]//достала нужный массив сначала
     let task = tasksArr.find(t => t.id === id)
     if (task) {
@@ -55,5 +55,5 @@ export function useTasks() {
     setTasks({ ...tasks, [newTodolist]: [] })//cоздала совершенно новый список
   }
 
-  return { tasks, setTasks, removeTask, addTask, changeStatus, changeEditableSpan, removeTodolistsSetTasks, addTodoListSetTasks }
+  return { tasks, setTasks, removeTask, addTask, changeStatus, changeTaskTitle, removeTodolistsSetTasks, addTodoListSetTasks }
 }

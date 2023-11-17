@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { tasksApi } from "../../api/tasks-api"
+import { tasksApi } from "../../api_DAL/tasks-api"
 import { TaskForMap } from "./TaskForMap"
 
 export default {

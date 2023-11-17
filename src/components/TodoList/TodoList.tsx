@@ -5,10 +5,10 @@ import { Button, IconButton, List } from "@mui/material";
 import { Box } from '@mui/system';
 import { Delete } from "@mui/icons-material";
 import { TaskForMap } from "../TaskForMap/TaskForMap";
-import { TaskStatuses, TaskTypeApi } from "../../api/tasks-api";
+import { TaskStatuses, TaskTypeApi } from "../../api_DAL/tasks-api";
 import { FilterValuesType } from "../../state/todoList-reducers/todolists-reducer";
-import { useDispatch } from "react-redux";
-import { fetchTasksTC } from "../../state/tasks-reducers/tasks-reducer";
+import { getTasksTC } from "../../state/tasks-reducers/tasks-reducer";
+import { useAppDispatch } from "../../state/storeBLL";
 
 
 type TodoListProps = {
@@ -21,7 +21,7 @@ type TodoListProps = {
   changeStatus: (togoListId: string, taskId: string, status: TaskStatuses) => void
   changeFilterHandler: (value: FilterValuesType, id: string) => void
   removeTodolist: (togoListId: string) => void
-  changeEditableSpan: (id: string, input: string, togoListId: string) => void
+  changeTaskTitle: (id: string, input: string, togoListId: string) => void
   changeTodolistTitle: (input: string, togoListId: string) => void
 }
 
@@ -35,10 +35,10 @@ type TodoListProps = {
 export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => {
   console.log("TodoList has been called")
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   //в useEffect выполняются запросы на api
   useEffect(() => { //download all todolists from api when loading the component
-    dispatch(fetchTasksTC(props.todoListId) as any)
+    dispatch(getTasksTC(props.todoListId))
   }, [props.todoListId]) //пустой [] - отрабатывает один раз при загрузке страницы!
 
 
@@ -63,7 +63,7 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
       todoListId={props.todoListId}
       removeTask={props.removeTask}
       changeStatus={props.changeStatus}
-      changeEditableSpan={props.changeEditableSpan} />))
+      changeTaskTitle={props.changeTaskTitle} />))
   }
 
   const removeTodolistHandler = useCallback(() => {

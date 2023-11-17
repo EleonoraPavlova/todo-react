@@ -1,6 +1,8 @@
+//BLL
 import { AddTodoList, RemoveTodoList, SetTodoList } from "../todoList-reducers/todolists-reducer";
-import { TaskStatuses, TaskTypeApi, TasksObjType, tasksApi } from "../../api/tasks-api";
+import { TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } from "../../api_DAL/tasks-api";
 import { Dispatch } from "redux";
+import { AppRootState } from "../storeBLL";
 
 
 export type RemoveTask = ReturnType<typeof RemoveTaskAC>
@@ -8,6 +10,7 @@ export type AddTask = ReturnType<typeof AddTaskAC>
 export type ChangeTitleTask = ReturnType<typeof ChangeTaskTitleAC>
 export type ChangeStatusTask = ReturnType<typeof ChangeTaskStatusAC>
 export type SetTasks = ReturnType<typeof SetTasksAC>
+export type UpdateTask = ReturnType<typeof UpdateTaskAC>
 
 
 type ActionsType =  //общий тип!
@@ -19,6 +22,7 @@ type ActionsType =  //общий тип!
   | RemoveTodoList
   | SetTodoList
   | SetTasks
+  | UpdateTask
 
 
 export const initialStateTasks: TasksObjType = {}
@@ -53,7 +57,7 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
     case "CHANGE-TASK-TITLE": {
       return {
         ...state,
-        [action.togoListId]: state[action.togoListId].map(t => t.id === action.id ? { ...t, title: action.input } : t)
+        [action.togoListId]: state[action.togoListId].map(t => t.id === action.id ? { ...t, title: action.title } : t)
       }
     }
 
@@ -61,6 +65,13 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
       return {
         ...state,
         [action.todoListId]: state[action.todoListId].map(t => t.id === action.id ? { ...t, status: action.status } : t)
+      }
+    }
+
+    case "UPDATE-TASK": {
+      return {
+        ...state,
+        [action.todoListId]: state[action.todoListId].map(t => t.id === action.id ? { ...t, ...action.payload } : t)
       }
     }
 
@@ -82,9 +93,8 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
     }
 
     case "SET-TASKS": {
-      const copyState = { ...state }
-      copyState[action.todoListId] = action.tasks // = action.tasks  переопределила массив тасок по конкр action.todolistId
-      return copyState
+      //: action.tasks  переопределила массив тасок по конкр action.todolistId
+      return { ...state, [action.todoListId]: action.tasks }
     }
 
     default:
@@ -105,11 +115,12 @@ export const AddTaskAC = (task: TaskTypeApi) => {
   } as const
 }
 
-export const ChangeTaskTitleAC = (id: string, input: string, todoListId: string) => {
+export const ChangeTaskTitleAC = (id: string, title: string, todoListId: string) => { //можно удалить, есть UpdateTaskAC
+  //который меняет любое поле
   return {
     type: 'CHANGE-TASK-TITLE',
     id: id,
-    input: input,
+    title: title,
     togoListId: todoListId
   } as const
 }
@@ -133,8 +144,18 @@ export const SetTasksAC = (tasks: TaskTypeApi[], todoListId: string) => {
 }
 
 
+export const UpdateTaskAC = (todoListId: string, id: string, payload: UpdateTaskModelForReducerFn) => {
+  return {
+    type: 'UPDATE-TASK',
+    todoListId: todoListId,
+    id: id,
+    payload: payload
+  } as const
+}
+
+
 //функции санки  ВСЕ ЗАПРОСЫ НА СЕРВЕР ДЕЛАТЬ В САНКАХ ТОЛЬКО!
-export const fetchTasksTC = (todolistId: string) => { //функц прослойка для dispatch api
+export const getTasksTC = (todolistId: string) => { //функц прослойка для dispatch api
   return (dispatch: Dispatch) => {
     tasksApi.getTasks(todolistId)
       .then((res) => {
@@ -163,5 +184,72 @@ export const addTaskTC = (title: string, todoListId: string) => {
       })
   }
 }
-// const tasksSelector = (state: AppRootState) => state.tasks;
-// export const getTasksSelector = createSelector(tasksSelector, tasks => Object.assign(tasks))
+
+
+export const changeTaskTitleTC = (todoListId: string, id: string, title: string) => {
+  return (dispatch: Dispatch) => {
+    tasksApi.updateTaskTitle(todoListId, id, title)
+      .then((res) => {
+        const action = ChangeTaskTitleAC(id, title, todoListId)
+        dispatch(action)
+      })
+  }
+}
+
+export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskStatuses) => {
+  return (dispatch: Dispatch, getState: () => AppRootState) => {
+    const task = getState().tasks[todoListId].find(t => t.id === id)   //вытянула rootReducer с тасками и нашла нужную
+    if (task) {
+      const payload: UpdateTaskModel = { //модель самой таски, которую мы пишем вручную чтобы знать конкретные поля для изменения
+        //сервер присылает отсылает больше полей
+        title: task.title,
+        description: task.description,
+        priority: task.priority,
+        startDate: task.startDate,
+        deadline: task.deadline,
+        status: status
+      }
+      tasksApi.updateTaskAtAll(todoListId, id, payload)
+        .then((res) => {
+          const action = ChangeTaskStatusAC(todoListId, id, status)
+          dispatch(action)
+        })
+    }
+    //додeлать чтобы функ обновляла любое поле и сделать такое же с todolist
+  }
+}
+
+export type UpdateTaskModelForReducerFn = { //какие поля можно обновить в tasks
+  title?: string
+  description?: string
+  status?: number
+  priority?: number
+  startDate?: string
+  deadline?: string
+}
+
+
+//вариант как объединить 2 функции
+export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTaskModelForReducerFn) => {
+  return (dispatch: Dispatch, getState: () => AppRootState) => {
+    const task = getState().tasks[todoListId].find(t => t.id === id)   //вытянула rootReducer с тасками и нашла нужную
+    if (task) {
+      const payload: UpdateTaskModel = { //модель самой таски, которую мы пишем вручную чтобы знать конкретные поля для изменения
+        //сервер присылает отсылает больше полей
+        title: task.title,
+        description: task.description,
+        priority: task.priority,
+        startDate: task.startDate,
+        deadline: task.deadline,
+        status: task.status,
+        ...apiModal
+      }
+      tasksApi.updateTaskAtAll(todoListId, id, payload)
+        .then((res) => {
+          const action = UpdateTaskAC(todoListId, id, payload)
+          dispatch(action)
+        })
+    }
+    //додeлать чтобы функ обновляла любое поле и сделать такое же с todolist
+  }
+}

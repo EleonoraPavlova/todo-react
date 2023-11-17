@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosResponse } from 'axios'
 //axios под капотом ts!
 //один файл должен отвечать за что то одно!!!!! принцип единой ответсвенности - single responsibility
 

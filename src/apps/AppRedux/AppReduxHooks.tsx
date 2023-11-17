@@ -20,7 +20,7 @@ function AppReduxHooks() {
 
   const { todolists, tasks,
     removeTask, addTask, changeStatus,
-    changeEditableSpan, changeFilterHandler, removeTodolist,
+    changeTaskTitle, changeFilterHandler, removeTodolist,
     addTodoList, changeTodolistTitle
   } = useAppRedux()
 
@@ -39,7 +39,7 @@ function AppReduxHooks() {
             changeStatus={changeStatus}
             changeFilterHandler={changeFilterHandler}
             removeTodolist={removeTodolist}
-            changeEditableSpan={changeEditableSpan}
+            changeTaskTitle={changeTaskTitle}
             changeTodolistTitle={changeTodolistTitle}
           />
         </Paper>

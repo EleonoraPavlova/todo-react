@@ -17,7 +17,7 @@ const removeTask = action("removeTask") // обязательно для тес�
 const changeStatus = action("changeStatus") // обязательно для тестирования приходящих колбеков
 //покажет содержимое строки
 
-const changeEditableSpan = action("changeEditableSpan") // обязательно для тестирования приходящих колбеков
+const changeTaskTitle = action("changeEditableSpan") // обязательно для тестирования приходящих колбеков
 //покажет содержимое строки
 
 
@@ -30,6 +30,6 @@ export const TaskForMapBase = () => {
       todoListId={"todoListId"}
       removeTask={removeTask}
       changeStatus={changeStatus}
-      changeEditableSpan={changeEditableSpan} />
+      changeTaskTitle={changeTaskTitle} />
   </Box>
 }

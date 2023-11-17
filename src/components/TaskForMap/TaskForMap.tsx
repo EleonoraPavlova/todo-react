@@ -5,7 +5,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Delete from "@mui/icons-material/Delete";
 import { EditableSpan } from "../EditableSpan/EditableSpan";
 import styled from "../TodoList/TodoList.module.scss"
-import { TaskStatuses, TaskTypeApi } from "../../api/tasks-api";
+import { TaskStatuses, TaskTypeApi } from "../../api_DAL/tasks-api";
 
 
 type TaskForMapType = {
@@ -13,7 +13,7 @@ type TaskForMapType = {
   todoListId: string;
   removeTask: (taskId: string, todoListId: string) => void;
   changeStatus: (todoListId: string, taskId: string, status: TaskStatuses) => void;
-  changeEditableSpan: (taskId: string, title: string, todoListId: string) => void;
+  changeTaskTitle: (taskId: string, title: string, todoListId: string) => void;
 };
 
 export const TaskForMap: React.FC<TaskForMapType> = memo((props: TaskForMapType) => {
@@ -28,8 +28,8 @@ export const TaskForMap: React.FC<TaskForMapType> = memo((props: TaskForMapType)
   }, [props])
 
   const EditableSpanHandler = useCallback((input: string) => {
-    const { changeEditableSpan, todoListId, task } = props
-    changeEditableSpan(task.id, input, todoListId);
+    const { changeTaskTitle, todoListId, task } = props
+    changeTaskTitle(task.id, input, todoListId);
   }, [props]);
 
   return (

@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "../../style/App.css";
 import TodoList from '../../components/TodoList/TodoList';
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { ChangeTaskStatusAC, ChangeTaskTitleAC, addTaskTC, removeTaskTC } from "../../state/tasks-reducers/tasks-reducer";
+import { addTaskTC, removeTaskTC, updateTaskTC } from "../../state/tasks-reducers/tasks-reducer";
 import {
   FilterValuesType, TodolistDomainType,
-  AddTodolistAC, ChangeFilterTodolistAC,
-  ChangeTitleTodolistAC, RemoveTodolistAC, fetchTodolistTC, removeTodolistTC, addTodolistTC
+  ChangeFilterTodolistAC,
+  removeTodolistTC, addTodolistTC, getTodolistTC, changeTitleTodolistTC
 } from "../../state/todoList-reducers/todolists-reducer";
-import { AppRootState } from "../../state/store";
-import { TaskStatuses, TaskTypeApi } from "../../api/tasks-api";
+import { AppRootState, useAppDispatch } from "../../state/storeBLL";
+import { TaskStatuses, TaskTypeApi } from "../../api_DAL/tasks-api";
 
 
 // export type TodoListsType = {
@@ -35,36 +35,36 @@ export type TasksObjType = {
 function AppRedux() {
   console.log("AppRedux has been called")
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const todolists = useSelector<AppRootState, TodolistDomainType[]>(state => state.todolist) //выбираем todolist из стора state
   //<AppRootState, TodoListsType[]> означает хотим достать массив todolists из этого типа 
   const tasks = useSelector<AppRootState, TasksObjType>(tasks => tasks.tasks)
 
   //в useEffect выполняются запросы на api
   useEffect(() => { //download all todolists from api when loading the component
-    dispatch(fetchTodolistTC as any)
+    dispatch(getTodolistTC)
   }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
 
   //tasks action creators
   const removeTask = useCallback((id: string, todoListId: string) => {
-    const thunk = removeTaskTC(todoListId, id) as any
+    const thunk = removeTaskTC(todoListId, id)
     dispatch(thunk)
   }, [dispatch])
 
   const addTask = useCallback((title: string, todoListId: string) => {
-    const thunk = addTaskTC(title, todoListId) as any
+    const thunk = addTaskTC(title, todoListId)
     dispatch(thunk)
   }, [dispatch])
 
   const changeStatus = useCallback((todoListId: string, id: string, status: TaskStatuses) => {
-    const action = ChangeTaskStatusAC(todoListId, id, status)
-    dispatch(action)
+    const thunk = updateTaskTC(todoListId, id, { status: status })
+    dispatch(thunk)
   }, [dispatch])
 
-  const changeEditableSpan = useCallback((id: string, input: string, todoListId: string) => {
-    const action = ChangeTaskTitleAC(id, input, todoListId)
-    dispatch(action)
+  const changeTaskTitle = useCallback((id: string, title: string, todoListId: string) => {
+    const thunk = updateTaskTC(todoListId, id, { title: title })
+    dispatch(thunk)
   }, [dispatch])
 
 
@@ -86,8 +86,8 @@ function AppRedux() {
 
 
   const changeTodolistTitle = useCallback((title: string, todoListId: string) => {
-    const action = ChangeTitleTodolistAC(title, todoListId)
-    dispatch(action)
+    const thunk = changeTitleTodolistTC(todoListId, title)
+    dispatch(thunk)
   }, [dispatch])
 
   const mappedList = () => {
@@ -105,7 +105,7 @@ function AppRedux() {
             changeStatus={changeStatus}
             changeFilterHandler={changeFilterHandler}
             removeTodolist={removeTodolist}
-            changeEditableSpan={changeEditableSpan}
+            changeTaskTitle={changeTaskTitle}
             changeTodolistTitle={changeTodolistTitle}
           />
         </Paper>

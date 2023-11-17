@@ -6,7 +6,7 @@ import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from 
 import { Menu } from "@mui/icons-material";
 import { useTasks } from "./hooks/useTasks";
 import { useTodolists } from "./hooks/useTodolists";
-import { TaskStatuses } from "../../api/tasks-api";
+import { TaskStatuses } from "../../api_DAL/tasks-api";
 
 // export type TodoListsType = {
 //   id: string
@@ -24,7 +24,7 @@ import { TaskStatuses } from "../../api/tasks-api";
 
 function App() {
   //using hooks
-  const { tasks, removeTask, addTask, changeStatus, changeEditableSpan, removeTodolistsSetTasks, addTodoListSetTasks } =
+  const { tasks, removeTask, addTask, changeStatus, changeTaskTitle, removeTodolistsSetTasks, addTodoListSetTasks } =
     useTasks()
   //connected 2 hooks together
   const { todoLists, changeFilter, removeTodolist, changeTodolistTitle, addTodoList } =
@@ -50,7 +50,7 @@ function App() {
             todoListId={l.id} filter={l.filter}
             changeFilterHandler={changeFilter}
             removeTodolist={removeTodolist}
-            changeEditableSpan={changeEditableSpan}
+            changeTaskTitle={changeTaskTitle}
             changeTodolistTitle={changeTodolistTitle}
           />
         </Paper>

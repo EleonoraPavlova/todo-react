@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
-import { AppRootState } from "../../../state/store"
+import { AppRootState } from "../../../state/storeBLL"
 import { useCallback } from "react"
 import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, addTaskTC } from "../../../state/tasks-reducers/tasks-reducer"
 import { FilterValuesType, AddTodolistAC, ChangeFilterTodolistAC, ChangeTitleTodolistAC, RemoveTodolistAC, TodolistDomainType, addTodolistTC } from "../../../state/todoList-reducers/todolists-reducer"
-import { TaskStatuses, TasksObjType } from "../../../api/tasks-api"
+import { TaskStatuses, TasksObjType } from "../../../api_DAL/tasks-api"
 
 export function useAppRedux() {
   const dispatch = useDispatch()
@@ -27,7 +27,7 @@ export function useAppRedux() {
     dispatch(action)
   }, [dispatch])
 
-  const changeEditableSpan = useCallback((id: string, input: string, todoListId: string) => {
+  const changeTaskTitle = useCallback((id: string, input: string, todoListId: string) => {
     const action = ChangeTaskTitleAC(id, input, todoListId)
     dispatch(action)
   }, [dispatch])
@@ -58,7 +58,7 @@ export function useAppRedux() {
   return {
     todolists, tasks,
     removeTask, addTask, changeStatus,
-    changeEditableSpan, changeFilterHandler, removeTodolist,
+    changeTaskTitle, changeFilterHandler, removeTodolist,
     addTodoList, changeTodolistTitle
   }
 }

@@ -1,4 +1,4 @@
-import { TaskPriorities, TaskStatuses, TaskTypeApi, TasksObjType } from "../api/tasks-api"
+import { TaskPriorities, TaskStatuses, TaskTypeApi, TasksObjType } from "../api_DAL/tasks-api"
 import { todoListId1 } from "../apps/App/id-utils"
 import { tasksReducer } from "./tasks-reducers/tasks-reducer"
 import { AddTodolistAC, TodolistDomainType, todolistsReducer } from "./todoList-reducers/todolists-reducer"
