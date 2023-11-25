@@ -1,8 +1,6 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 //axios под капотом ts!
 //один файл должен отвечать за что то одно!!!!! принцип единой ответсвенности - single responsibility
-
-
 
 export const settings = {
   withCredentials: true, //есть валидац токен
@@ -13,7 +11,7 @@ export const settings = {
 
 export const instanse = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.1/",
-  ...settings //добавила const settings
+  ...settings
 })
 
 export type TodolistTypeApi = {
@@ -22,22 +20,6 @@ export type TodolistTypeApi = {
   addedDate: string
   order: number
 }
-
-// type CreateTodolistResponseType = {
-//   resultCode: number
-//   messages: string[]
-//   fieldsErrors: string[]
-//   data: {
-//     item: TodolistTypeApi
-//   }
-// }
-
-// type DeleteUpdateTodolistResponseType = {
-//   resultCode: number
-//   messages: string[]
-//   fieldsErrors: string[]
-//   data: {}
-// }
 
 export type ResponseType<Data = {}> = {
   resultCode: number
@@ -49,26 +31,22 @@ export type ResponseType<Data = {}> = {
 
 export const todolistsApi = {
   getTodoslists() {
-    let promise = instanse.get<TodolistTypeApi[]>("todo-lists")
-    return promise
+    return instanse.get<TodolistTypeApi[]>("todo-lists")
   },
 
   createTodoslist(title: string) {
-    let promise = instanse.post<ResponseType<{ item: TodolistTypeApi }>>("/todo-lists", {
+    return instanse.post<ResponseType<{ item: TodolistTypeApi }>>("/todo-lists", {
       title: title
     })
-    return promise
   },
 
   deleteTodoslist(todolistId: string) {
-    let promise = instanse.delete<ResponseType>(`todo-lists/${todolistId}`)
-    return promise
+    return instanse.delete<ResponseType>(`todo-lists/${todolistId}`)
   },
 
-  updateTodoslistsTitle(todolistId: string, title: string) {
-    let promise = instanse.put<ResponseType>(`todo-lists/${todolistId}`, {
+  updateTodoslist(todolistId: string, title: string) {
+    return instanse.put<ResponseType>(`todo-lists/${todolistId}`, {
       title: title
     })
-    return promise
   }
 }

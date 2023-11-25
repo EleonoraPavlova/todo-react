@@ -1,5 +1,5 @@
-import { todoListId2, todoListId1 } from "../../apps/App/id-utils"
-import { startStateTodolists } from "../../apps/App/todolistsStartState"
+import { todoListId2, todoListId1 } from "../initialState/id-utils"
+import { startStateTodolists } from "../initialState/todolistsStartState"
 import {
   AddTodolistAC,
   ChangeFilterTodolistAC,

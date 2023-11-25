@@ -11,7 +11,6 @@ export function useAppRedux() {
   //<AppRootState, TodolistDomainType[]> означает хотим достать массив todolists из этого типа
   const tasks = useSelector<AppRootState, TasksObjType>(tasks => tasks.tasks)
 
-  //tasks action creators
   const removeTask = useCallback((id: string, todoListId: string) => {
     const action = RemoveTaskAC(id, todoListId)
     dispatch(action)

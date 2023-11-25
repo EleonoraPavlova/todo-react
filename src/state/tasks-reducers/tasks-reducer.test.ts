@@ -1,10 +1,9 @@
 import { AddTodolistAC, RemoveTodolistAC, SetTodolistAC } from "../todoList-reducers/todolists-reducer"
-import { startStateTasks } from "../../apps/App/tasksStartState"
-import { todoListId1, todoListId2 } from "../../apps/App/id-utils"
+import { todoListId1, todoListId2 } from "../initialState/id-utils"
 import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, SetTasksAC, tasksReducer } from "./tasks-reducer"
-import { startStateTodolists } from "../../apps/App/todolistsStartState"
+import { startStateTodolists } from "../initialState/todolistsStartState"
 import { TaskStatuses } from "../../api_DAL/tasks-api"
-
+import { startStateTasks } from "../initialState/tasksStartState"
 
 
 test('new array should be added when new todolist is added', () => {
@@ -26,7 +25,6 @@ test('new array should be added when new todolist is added', () => {
   expect(endState[newKey]).toStrictEqual([])
   //если нужно сравнить массивы! 2 массивы не равны друг другу! toBe не подходит!
 })
-
 
 
 test('correct task should be removed', () => {
@@ -71,7 +69,7 @@ test('correct status of task should be changed', () => {
   const endState = tasksReducer(startStateTasks, action)
 
   expect(endState[todoListId2].length).toBe(4)
-  expect(endState[todoListId2][0].status).toBe(0)  // New = 0,  //false
+  expect(endState[todoListId2][0].status).toBe(0)
   expect(endState[todoListId2][0].title).toBe("Milk")
 })
 

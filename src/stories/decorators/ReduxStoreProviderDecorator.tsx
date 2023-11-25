@@ -4,8 +4,9 @@ import { AppRootState } from "../../state/storeBLL";
 import { combineReducers, createStore } from "redux";
 import { todolistsReducer } from "../../state/todoList-reducers/todolists-reducer";
 import { tasksReducer } from "../../state/tasks-reducers/tasks-reducer";
-import { startStateTodolists } from "../../apps/App/todolistsStartState";
-import { startStateTasks } from "../../apps/App/tasksStartState";
+import { startStateTodolists } from "../../state/initialState/todolistsStartState";
+import { startStateTasks } from "../../state/initialState/tasksStartState";
+
 
 const rootReducer = combineReducers({
   todolist: todolistsReducer,

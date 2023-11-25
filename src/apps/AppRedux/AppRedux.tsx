@@ -1,118 +1,32 @@
 import React, { useCallback, useEffect } from 'react';
-import { useSelector } from "react-redux";
 import "../../style/App.css";
-import TodoList from '../../components/TodoList/TodoList';
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
-import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
+import { AppBar, Container, Grid, IconButton, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { addTaskTC, removeTaskTC, updateTaskTC } from "../../state/tasks-reducers/tasks-reducer";
 import {
-  FilterValuesType, TodolistDomainType,
-  ChangeFilterTodolistAC,
-  removeTodolistTC, addTodolistTC, getTodolistTC, changeTitleTodolistTC
+  addTodolistTC, getTodolistTC
 } from "../../state/todoList-reducers/todolists-reducer";
-import { AppRootState, useAppDispatch } from "../../state/storeBLL";
-import { TaskStatuses, TaskTypeApi } from "../../api_DAL/tasks-api";
+import { TaskTypeApi } from "../../api_DAL/tasks-api";
+import { useAppDispatch } from "../../state/hooks/hooks-selectors";
+import { TodolistRender } from "../../components/TodolistRender/TodolistRender";
 
-
-// export type TodoListsType = {
-//   id: string
-//   title: string
-//   filter: FilterValues
-// }
 
 export type TasksObjType = {
   [key: string]: TaskTypeApi[]
 }
 
-// const Fake = memo(() => {
-//   console.log("Fake has been called")
-//   const arr = useSelector<AppRootState, Task[]>(state => state.tasks.count)
-//   return <h1>{arr.length}</h1>
-// })
-
-
 function AppRedux() {
-  console.log("AppRedux has been called")
-
   const dispatch = useAppDispatch()
-  const todolists = useSelector<AppRootState, TodolistDomainType[]>(state => state.todolist) //выбираем todolist из стора state
-  //<AppRootState, TodoListsType[]> означает хотим достать массив todolists из этого типа 
-  const tasks = useSelector<AppRootState, TasksObjType>(tasks => tasks.tasks)
-
   //в useEffect выполняются запросы на api
   useEffect(() => { //download all todolists from api when loading the component
     dispatch(getTodolistTC)
   }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
 
-  //tasks action creators
-  const removeTask = useCallback((id: string, todoListId: string) => {
-    const thunk = removeTaskTC(todoListId, id)
-    dispatch(thunk)
-  }, [dispatch])
-
-  const addTask = useCallback((title: string, todoListId: string) => {
-    const thunk = addTaskTC(title, todoListId)
-    dispatch(thunk)
-  }, [dispatch])
-
-  const changeStatus = useCallback((todoListId: string, id: string, status: TaskStatuses) => {
-    const thunk = updateTaskTC(todoListId, id, { status: status })
-    dispatch(thunk)
-  }, [dispatch])
-
-  const changeTaskTitle = useCallback((id: string, title: string, todoListId: string) => {
-    const thunk = updateTaskTC(todoListId, id, { title: title })
-    dispatch(thunk)
-  }, [dispatch])
-
-
-  // todolists action creators
-  const changeFilterHandler = useCallback((value: FilterValuesType, todoListId: string) => {
-    const action = ChangeFilterTodolistAC(value, todoListId)
-    dispatch(action)
-  }, [dispatch])
-
-  const removeTodolist = useCallback((todoListId: string) => {
-    const thunk = removeTodolistTC(todoListId) as any
-    dispatch(thunk)
-  }, [dispatch])
-
   const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
-    const thunk = addTodolistTC(input) as any
+    const thunk = addTodolistTC(input)
     dispatch(thunk)
   }, [dispatch])
-
-
-  const changeTodolistTitle = useCallback((title: string, todoListId: string) => {
-    const thunk = changeTitleTodolistTC(todoListId, title)
-    dispatch(thunk)
-  }, [dispatch])
-
-  const mappedList = () => {
-    return todolists.map((l) => {
-      let tasksForTodolist = tasks[l.id]
-      return (<Grid item key={l.id}>
-        <Paper sx={{ padding: "20px" }} elevation={3}>
-          <TodoList
-            tasks={tasksForTodolist} //передаю все tasks массив
-            title={l.title}
-            todoListId={l.id}
-            filter={l.filter}
-            removeTask={removeTask}
-            addTask={addTask}
-            changeStatus={changeStatus}
-            changeFilterHandler={changeFilterHandler}
-            removeTodolist={removeTodolist}
-            changeTaskTitle={changeTaskTitle}
-            changeTodolistTitle={changeTodolistTitle}
-          />
-        </Paper>
-      </Grid>
-      )
-    })
-  }
 
   return (
     <div className="App">
@@ -133,7 +47,7 @@ function AppRedux() {
           </div>
         </Container>
         <Grid container spacing={7} className="grid">
-          {mappedList()}
+          <TodolistRender />
         </Grid>
       </Container >
     </div >

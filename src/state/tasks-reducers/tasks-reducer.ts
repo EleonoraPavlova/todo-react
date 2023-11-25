@@ -5,44 +5,22 @@ import { Dispatch } from "redux";
 import { AppRootState } from "../storeBLL";
 
 //type ActionsType = ReturnType<typeof getTodosAC> | ReturnType<typeof changeTodoStatusAC>
-export type RemoveTask = ReturnType<typeof RemoveTaskAC>
-export type AddTask = ReturnType<typeof AddTaskAC>
-export type ChangeTitleTask = ReturnType<typeof ChangeTaskTitleAC>
-export type ChangeStatusTask = ReturnType<typeof ChangeTaskStatusAC>
-export type SetTasks = ReturnType<typeof SetTasksAC>
-export type UpdateTask = ReturnType<typeof UpdateTaskAC>
 
-
-type ActionsType =  //общий тип!
-  RemoveTask
-  | AddTask
-  | ChangeTitleTask
-  | ChangeStatusTask
+type ActionsType =
+  ReturnType<typeof RemoveTaskAC>
+  | ReturnType<typeof AddTaskAC>
+  | ReturnType<typeof ChangeTaskTitleAC>
+  | ReturnType<typeof ChangeTaskStatusAC>
+  | ReturnType<typeof SetTasksAC>
+  | ReturnType<typeof UpdateTaskAC>
+  | SetTodoList
   | AddTodoList
   | RemoveTodoList
-  | SetTodoList
-  | SetTasks
-  | UpdateTask
 
 
 export const initialStateTasks: TasksObjType = {}
-// {
-//   [todoListId1]: [ //id этот передала пропсами id={l.id}  в  TodoList
-//     { id: v1(), title: "HTML&CSS", isDone: true },
-//     { id: v1(), title: "JS", isDone: true },
-//     { id: v1(), title: "ReactJS", isDone: false },
-//     { id: v1(), title: "Redax", isDone: false }
-//   ],
-//   [todoListId2]: [
-//     { id: v1(), title: "Milk", isDone: true },
-//     { id: v1(), title: "Juice", isDone: true },
-//     { id: v1(), title: "Meat", isDone: false },
-//     { id: v1(), title: "Bread", isDone: false }
-//   ]
-// }
 
-//функция не имеет право менять state! сначала нужно создать копию
-export const tasksReducer = (state: TasksObjType = initialStateTasks, action: ActionsType): TasksObjType => { //должны всегда вернуть массив
+export const tasksReducer = (state: TasksObjType = initialStateTasks, action: ActionsType): TasksObjType => {
   switch (action.type) {
     case "REMOVE-TASK": {
       let filteredTasks = state[action.todoListId].filter(t => t.id !== action.taskId)
@@ -57,7 +35,7 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
     case "CHANGE-TASK-TITLE": {
       return {
         ...state,
-        [action.togoListId]: state[action.togoListId].map(t => t.id === action.id ? { ...t, title: action.title } : t)
+        [action.todoListId]: state[action.todoListId].map(t => t.id === action.id ? { ...t, title: action.title } : t)
       }
     }
 
@@ -82,7 +60,7 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
 
     case "REMOVE-TODOLIST": {
       const copyState = { ...state }
-      delete copyState[action.id]
+      delete copyState[action.todolistId]
       return copyState
     }
 
@@ -105,41 +83,29 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
 
 //action creator
 export const RemoveTaskAC = (todoListId: string, taskId: string) => {
-  return { type: 'REMOVE-TASK', todoListId: todoListId, taskId: taskId } as const
+  return { type: 'REMOVE-TASK', todoListId, taskId } as const
 }
 
 export const AddTaskAC = (task: TaskTypeApi) => {
-  return {
-    type: 'ADD-TASK',
-    task: task
-  } as const
+  return { type: 'ADD-TASK', task } as const
 }
 
 export const ChangeTaskTitleAC = (id: string, title: string, todoListId: string) => { //можно удалить, есть UpdateTaskAC
   //который меняет любое поле
   return {
-    type: 'CHANGE-TASK-TITLE',
-    id: id,
-    title: title,
-    togoListId: todoListId
+    type: 'CHANGE-TASK-TITLE', id, title, todoListId
   } as const
 }
 
-
 export const ChangeTaskStatusAC = (todoListId: string, id: string, status: TaskStatuses) => {
   return {
-    type: 'CHANGE-TASK-STATUS',
-    id: id,
-    todoListId: todoListId,
-    status: status
+    type: 'CHANGE-TASK-STATUS', id, todoListId, status
   } as const
 }
 
 export const SetTasksAC = (tasks: TaskTypeApi[], todoListId: string) => {
   return {
-    type: 'SET-TASKS',
-    tasks: tasks,
-    todoListId: todoListId
+    type: 'SET-TASKS', tasks, todoListId
   } as const
 }
 
@@ -147,9 +113,7 @@ export const SetTasksAC = (tasks: TaskTypeApi[], todoListId: string) => {
 export const UpdateTaskAC = (todoListId: string, id: string, payload: UpdateTaskModelForReducerFn) => {
   return {
     type: 'UPDATE-TASK',
-    todoListId: todoListId,
-    id: id,
-    payload: payload
+    todoListId, id, payload
   } as const
 }
 
@@ -228,7 +192,6 @@ export type UpdateTaskModelForReducerFn = { //какие поля можно о�
   deadline?: string
 }
 
-
 //вариант как объединить 2 функции
 export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTaskModelForReducerFn) => {
   return (dispatch: Dispatch, getState: () => AppRootState) => {
@@ -250,6 +213,5 @@ export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTas
           dispatch(action)
         })
     }
-    //додeлать чтобы функ обновляла любое поле и сделать такое же с todolist
   }
 }

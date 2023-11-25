@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { FilterValuesType, TodolistDomainType } from "../../../state/todoList-reducers/todolists-reducer"
-import { startStateTodolists } from "../todolistsStartState"
+import { startStateTodolists } from "../../../state/initialState/todolistsStartState"
 import { v1 } from "uuid"
 
 export function useTodolists(removeTodolistsSetTasks: (todoListId: string) => void, addTodoListSetTasks: (newTodolist: string) => void) {

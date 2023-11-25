@@ -3,7 +3,7 @@ import { TaskPriorities, TaskStatuses, TasksObjType } from "../../api_DAL/tasks-
 import { todoListId1, todoListId2 } from "./id-utils";
 
 export const startStateTasks: TasksObjType = {
-  ["todolistId1"]: [
+  [todoListId1]: [
     {
       id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed,
       description: "", completed: true,
@@ -29,7 +29,7 @@ export const startStateTasks: TasksObjType = {
       todoListId: todoListId1, deadline: "", order: 1, addedDate: ""
     }
   ],
-  ["todolistId2"]: [
+  [todoListId2]: [
     {
       id: v1(), title: "Milk", status: TaskStatuses.Completed,
       description: "", completed: true,

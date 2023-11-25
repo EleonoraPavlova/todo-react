@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import "./style/App.css";
-import TodoList from '../components/TodoList/TodoList';
+import TodoList from '../page/TodoList/TodoList';
 import { v1 } from "uuid";
 import { AddItemForm } from "../components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
@@ -8,21 +8,9 @@ import { Menu } from "@mui/icons-material";
 import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, tasksReducer } from "../state/tasks-reducers/tasks-reducer";
 import { AddTodolistAC, ChangeFilterTodolistAC, ChangeTitleTodolistAC, FilterValuesType, RemoveTodolistAC, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
 import { TaskPriorities, TaskStatuses, TaskTypeApi } from "../api_DAL/tasks-api";
-
-// export type TodoListsType = {
-//   id: string
-//   title: string
-//   filter: FilterValues
-// }
-
-// export type TasksType = {
-//   [key: string]: Task[]
-// }
+import { todoListId1, todoListId2 } from "../state/initialState/id-utils";
 
 //переделать на санки
-
-let todoListId1 = v1()
-let todoListId2 = v1()
 
 function AppReducer() {
   let [tasks, dispatchTasks] = useReducer(tasksReducer, {
@@ -110,7 +98,7 @@ function AppReducer() {
   function removeTodolist(todoListId: string) {
     const action = RemoveTodolistAC(todoListId)
     dispatchTodoLists(action)
-    dispatchTasks(action)
+    // dispatchTasks(action)
   }
 
   function addTodoList(input: string) { //добавление новой колонки списка задач

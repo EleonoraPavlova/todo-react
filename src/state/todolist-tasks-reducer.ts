@@ -1,5 +1,5 @@
 import { TasksObjType } from "../api_DAL/tasks-api"
-import { todoListId1 } from "../apps/App/id-utils"
+import { todoListId1 } from "./initialState/id-utils"
 import { tasksReducer } from "./tasks-reducers/tasks-reducer"
 import { AddTodolistAC, TodolistDomainType, todolistsReducer } from "./todoList-reducers/todolists-reducer"
 

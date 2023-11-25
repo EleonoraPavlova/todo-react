@@ -1,14 +1,14 @@
 import React, { memo, useCallback, useEffect, useMemo } from 'react';
-import { AddItemForm } from "../AddItemForm/AddItemForm";
-import { EditableSpan } from "../EditableSpan/EditableSpan";
+import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
+import { EditableSpan } from "../../components/EditableSpan/EditableSpan";
 import { Button, IconButton, List } from "@mui/material";
 import { Box } from '@mui/system';
 import { Delete } from "@mui/icons-material";
-import { TaskForMap } from "../TaskForMap/TaskForMap";
+import { TaskForMap } from "../../components/TaskForMap/TaskForMap";
 import { TaskStatuses, TaskTypeApi } from "../../api_DAL/tasks-api";
 import { FilterValuesType } from "../../state/todoList-reducers/todolists-reducer";
 import { getTasksTC } from "../../state/tasks-reducers/tasks-reducer";
-import { useAppDispatch } from "../../state/storeBLL";
+import { useAppDispatch } from "../../state/hooks/hooks-selectors";
 
 
 type TodoListProps = {
@@ -24,12 +24,6 @@ type TodoListProps = {
   changeTaskTitle: (id: string, input: string, togoListId: string) => void
   changeTodolistTitle: (input: string, togoListId: string) => void
 }
-
-// export type Task = {
-//   id: string
-//   title: string
-//   isDone: boolean
-// }
 
 
 export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => {
@@ -52,18 +46,12 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
     return props.tasks
   }, [props.filter, props.tasks])
 
-  console.log("tasksForTodolist", tasksForTodolist)
-
   const mappedTasks = () => {
-
-    return tasksForTodolist.map(task =>
-    (<TaskForMap
-      key={task.id}
-      task={task}
-      todoListId={props.todoListId}
-      removeTask={props.removeTask}
-      changeStatus={props.changeStatus}
-      changeTaskTitle={props.changeTaskTitle} />))
+    return tasksForTodolist.map(task => (
+      <TaskForMap
+        key={task.id}
+        task={task}
+      />))
   }
 
   const removeTodolistHandler = useCallback(() => {

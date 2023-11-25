@@ -1,4 +1,4 @@
-import { TodolistDomainType } from "../../state/todoList-reducers/todolists-reducer";
+import { TodolistDomainType } from "../todoList-reducers/todolists-reducer";
 import { todoListId1, todoListId2 } from "./id-utils";
 
 export const startStateTodolists: TodolistDomainType[] = [

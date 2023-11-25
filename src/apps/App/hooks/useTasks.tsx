@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { v1 } from "uuid"
 import { TaskPriorities, TaskStatuses, TasksObjType } from "../../../api_DAL/tasks-api"
-import { startStateTasks } from "../tasksStartState"
+import { startStateTasks } from "../../../state/initialState/tasksStartState"
 
 export function useTasks() {
   let [tasks, setTasks] = useState<TasksObjType>(startStateTasks)
@@ -57,3 +57,11 @@ export function useTasks() {
 
   return { tasks, setTasks, removeTask, addTask, changeStatus, changeTaskTitle, removeTodolistsSetTasks, addTodoListSetTasks }
 }
+
+
+//how to use hooks in the ui
+// const { tasks, removeTask, addTask, changeStatus, changeTaskTitle, removeTodolistsSetTasks, addTodoListSetTasks } =
+//   useTasks()
+// //connected 2 hooks together
+// const { todoLists, changeFilter, removeTodolist, changeTodolistTitle } =
+//   useTodolists(removeTodolistsSetTasks, addTodoListSetTasks)
