@@ -23,7 +23,7 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ todolist, tas
 
   useEffect(() => { //download all todolists from api when loading the component
     dispatch(getTasksTC(id))
-  }, [id]) //пустой [] - отрабатывает один раз при загрузке страницы!
+  }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
   const mappedTasks = () => {
     return tasksForTodolist.map((task) => (
@@ -36,7 +36,7 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ todolist, tas
 
   const removeTodolist = useCallback(() => {
     dispatch(removeTodolistTC(id))
-  }, [dispatch])
+  }, [dispatch, id])
 
   const addTasks = useCallback((title: string) => {
     dispatch(addTaskTC(title, id))

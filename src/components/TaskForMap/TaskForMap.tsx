@@ -19,7 +19,7 @@ export const TaskForMap: React.FC<TaskForMapType> = memo(({ task }) => {
 
   const onRemoveHandler = useCallback(() => {
     dispatch(removeTaskTC(task.todoListId, task.id))
-  }, [task.todoListId, task.id])
+  }, [dispatch, task.todoListId, task.id])
 
   const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     let currentStatus = e.currentTarget.checked
