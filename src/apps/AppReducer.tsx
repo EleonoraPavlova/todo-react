@@ -5,8 +5,8 @@ import { v1 } from "uuid";
 import { AddItemForm } from "../components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, tasksReducer } from "../state/tasks-reducers/tasks-reducer";
-import { AddTodolistAC, ChangeFilterTodolistAC, ChangeTitleTodolistAC, FilterValuesType, RemoveTodolistAC, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
+import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, tasksReducer } from "../state/tasks-reducers/tasks-reducer";
+import { ChangeFilterTodolistAC, ChangeTitleTodolistAC, FilterValuesType, RemoveTodolistAC, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
 import { TaskPriorities, TaskStatuses, TaskTypeApi } from "../api_DAL/tasks-api";
 import { todoListId1, todoListId2 } from "../state/initialState/id-utils";
 
@@ -59,11 +59,11 @@ function AppReducer() {
   let [todoLists, dispatchTodoLists] = useReducer(todolistsReducer, [ //этот стейт для управления  map отрисовки TodoList
     {
       id: todoListId1, title: 'What to learn', filter: 'all', addedDate: "",
-      order: 0
+      order: 0, entityStatus: "idle"
     },
     {
       id: todoListId2, title: 'What to buy', filter: 'all', addedDate: "",
-      order: 0
+      order: 0, entityStatus: "idle"
     }
   ])
 

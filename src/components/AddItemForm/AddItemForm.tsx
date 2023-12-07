@@ -5,14 +5,12 @@ import styled from "./AddItemForm.module.scss"
 import AddTaskIcon from '@mui/icons-material/AddTask';
 
 
-
 type AddItemFormType = {
   addTask: (inputValue: string) => void //надо обвернуть в useCallback каждый пропс-функц через всю цепочку!!!!!!!!!!
   //в данном случае в 2 местах
 }
 
 //вся мемоизация работает в паре с React.memo(давать просто каждой компрненте)
-
 export const AddItemForm: React.FC<AddItemFormType> = memo(({ addTask }: AddItemFormType) => {
   console.log("AddItemForm")
 
@@ -49,13 +47,11 @@ export const AddItemForm: React.FC<AddItemFormType> = memo(({ addTask }: AddItem
         helperText={error}
         size="small"
       />
-      {/* <ButtonComponent name="Add" callBack={() => addItemHandler(inputValue)} /> */}
 
       <IconButton
         onClick={() => addItemHandler(inputValue)}>
         <AddTaskIcon fontSize="small" color="success" />
       </IconButton>
-      {/* {error && <div className={styled.errorMes}>{error}</div>} */}
     </div >
   )
 })

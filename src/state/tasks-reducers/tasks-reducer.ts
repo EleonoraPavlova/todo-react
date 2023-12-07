@@ -3,6 +3,7 @@ import { AddTodoList, RemoveTodoList, SetTodoList } from "../todoList-reducers/t
 import { TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } from "../../api_DAL/tasks-api";
 import { Dispatch } from "redux";
 import { AppRootState } from "../storeBLL";
+import { SetErrorType, SetStatusType, setErrorAC, setStatusAC } from "../app-reducer/app-reducer";
 
 //type ActionsType = ReturnType<typeof getTodosAC> | ReturnType<typeof changeTodoStatusAC>
 
@@ -121,30 +122,42 @@ export const UpdateTaskAC = (todoListId: string, id: string, payload: UpdateTask
 //функции санки  ВСЕ ЗАПРОСЫ НА СЕРВЕР ДЕЛАТЬ В САНКАХ ТОЛЬКО!
 export const getTasksTC = (todolistId: string) => { //функц прослойка для dispatch api
   return (dispatch: Dispatch) => {
+    dispatch(setStatusAC('loading'))
     tasksApi.getTasks(todolistId)
       .then((res) => {
         dispatch(SetTasksAC(res.data.items, todolistId))
+        dispatch(setStatusAC('succeeded'))
       })
   }
 }
 
 export const removeTaskTC = (todoListId: string, taskId: string) => {
   return (dispatch: Dispatch) => {
+    dispatch(setStatusAC('loading'))
     tasksApi.deleteTasks(todoListId, taskId)
       .then((res) => {
-        const action = RemoveTaskAC(todoListId, taskId)
-        dispatch(action)
+        dispatch(RemoveTaskAC(todoListId, taskId))
+        dispatch(setStatusAC('succeeded'))
       })
   }
 }
 
 export const addTaskTC = (title: string, todoListId: string) => {
   return (dispatch: Dispatch) => {
+    dispatch(setStatusAC('loading'))
     tasksApi.createTasks(title, todoListId)
       .then((res) => {
-        const task = res.data.data.item
-        const action = AddTaskAC(task)
-        dispatch(action)
+        if (res.data.resultCode === 0) {
+          const task = res.data.data.item
+          dispatch(AddTaskAC(task))
+        } else {
+          if (res.data.messages.length) {
+            dispatch(setErrorAC(res.data.messages[0])) //приходит текст ошибки из сервера
+          } else {
+            dispatch(setErrorAC("Some error occurred"))//если не пришла из сервера, пишу вручную
+          }
+        }
+        dispatch(setStatusAC('failed'))
       })
   }
 }
@@ -152,16 +165,18 @@ export const addTaskTC = (title: string, todoListId: string) => {
 
 export const changeTaskTitleTC = (todoListId: string, id: string, title: string) => {
   return (dispatch: Dispatch) => {
+    dispatch(setStatusAC('loading'))
     tasksApi.updateTaskTitle(todoListId, id, title)
       .then((res) => {
-        const action = ChangeTaskTitleAC(id, title, todoListId)
-        dispatch(action)
+        dispatch(ChangeTaskTitleAC(id, title, todoListId))
+        dispatch(setStatusAC('succeeded'))
       })
   }
 }
 
 export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskStatuses) => {
   return (dispatch: Dispatch, getState: () => AppRootState) => {
+    dispatch(setStatusAC('loading'))
     const task = getState().tasks[todoListId].find(t => t.id === id)   //вытянула rootReducer с тасками и нашла нужную
     if (task) {
       const payload: UpdateTaskModel = { //модель самой таски, которую мы пишем вручную чтобы знать конкретные поля для изменения
@@ -175,11 +190,10 @@ export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskS
       }
       tasksApi.updateTaskAtAll(todoListId, id, payload)
         .then((res) => {
-          const action = ChangeTaskStatusAC(todoListId, id, status)
-          dispatch(action)
+          dispatch(ChangeTaskStatusAC(todoListId, id, status))
+          dispatch(setStatusAC('succeeded'))
         })
     }
-    //додeлать чтобы функ обновляла любое поле и сделать такое же с todolist
   }
 }
 
@@ -207,10 +221,11 @@ export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTas
         status: task.status,
         ...apiModal
       }
+      dispatch(setStatusAC('loading'))
       tasksApi.updateTaskAtAll(todoListId, id, payload)
         .then((res) => {
-          const action = UpdateTaskAC(todoListId, id, payload)
-          dispatch(action)
+          dispatch(UpdateTaskAC(todoListId, id, payload))
+          dispatch(setStatusAC('succeeded'))
         })
     }
   }

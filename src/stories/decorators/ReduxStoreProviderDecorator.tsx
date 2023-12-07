@@ -6,17 +6,21 @@ import { todolistsReducer } from "../../state/todoList-reducers/todolists-reduce
 import { tasksReducer } from "../../state/tasks-reducers/tasks-reducer";
 import { startStateTodolists } from "../../state/initialState/todolistsStartState";
 import { startStateTasks } from "../../state/initialState/tasksStartState";
+import { appReducer } from "../../state/app-reducer/app-reducer";
+import { appStartState } from "../../state/initialState/appStartState";
 
 
 const rootReducer = combineReducers({
   todolist: todolistsReducer,
-  tasks: tasksReducer
+  tasks: tasksReducer,
+  app: appReducer
 })
 
 export const initialGlobalState: AppRootState =
 {
   todolist: startStateTodolists,
-  tasks: startStateTasks
+  tasks: startStateTasks,
+  app: appStartState
 }
 
 export const storyBookStore = createStore(rootReducer, initialGlobalState as AppRootState)

@@ -4,18 +4,21 @@ import React, { ChangeEvent, useState, KeyboardEvent, memo } from 'react';
 
 type EditableSpanType = {
   value: string
+  isDone?: boolean | undefined // can we edit the span
   onChange: (input: string) => void
 }
 
-export const EditableSpan: React.FC<EditableSpanType> = memo(({ value, onChange }: EditableSpanType) => {
+export const EditableSpan: React.FC<EditableSpanType> = memo(({ value, isDone, onChange }) => {
   console.log("EditableSpan")
 
   let [editMode, setEditMode] = useState<boolean>(false)
   let [input, setInput] = useState<string>("")
 
   const activateEditMode = () => {
-    setEditMode(true)
-    setInput(value)    //установила новое значение таски 
+    if (!isDone) {
+      setEditMode(true)
+      setInput(value)  //установила новое значение таски 
+    }
   }
 
   const activateViewMode = () => {

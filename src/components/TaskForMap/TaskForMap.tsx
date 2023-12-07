@@ -39,7 +39,7 @@ export const TaskForMap: React.FC<TaskForMapType> = memo(({ task }) => {
         checkedIcon={<BookmarkIcon />}
         color="success"
       />
-      <EditableSpan value={task.title} onChange={changeTaskTitle} />
+      <EditableSpan value={task.title} onChange={changeTaskTitle} isDone={task.status === TaskStatuses.Completed} />
       <IconButton aria-label="delete" onClick={onRemoveHandler} size="small" >
         <Delete fontSize="inherit" />
       </IconButton>

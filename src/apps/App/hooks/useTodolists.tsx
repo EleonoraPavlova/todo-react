@@ -38,7 +38,8 @@ export function useTodolists(removeTodolistsSetTasks: (todoListId: string) => vo
       title: input, //приходит из тестов с action
       filter: "all",
       addedDate: "",
-      order: 0
+      order: 0,
+      entityStatus: "idle"
     }
     setTodoLists([newTodolist, ...todoLists])
     addTodoListSetTasks(newTodolist.id)//cоздала совершенно новый список

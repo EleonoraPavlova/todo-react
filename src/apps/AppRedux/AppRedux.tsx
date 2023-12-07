@@ -1,14 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
 import "../../style/App.css";
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
-import { AppBar, Container, Grid, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Container, Grid, IconButton, LinearProgress, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import {
   addTodolistTC, getTodolistTC
 } from "../../state/todoList-reducers/todolists-reducer";
 import { TaskTypeApi } from "../../api_DAL/tasks-api";
-import { useAppDispatch } from "../../state/hooks/hooks-selectors";
+import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
 import { TodolistRender } from "../../components/TodolistRender/TodolistRender";
+import { ErrorSnackbar } from "../../components/ErrorSnackBar/ErrorSnackBar";
+import { RequestStatusType } from "../../state/app-reducer/app-reducer";
 
 
 export type TasksObjType = {
@@ -16,6 +18,7 @@ export type TasksObjType = {
 }
 
 function AppRedux() {
+  let status = useAppSelector<RequestStatusType>(state => state.app.status)
   const dispatch = useAppDispatch()
   //в useEffect выполняются запросы на api
   useEffect(() => { //download all todolists from api when loading the component
@@ -30,7 +33,7 @@ function AppRedux() {
 
   return (
     <div className="App">
-      <AppBar position="static">
+      <AppBar position="static" sx={{ borderRadius: "5px" }} >
         <Toolbar variant="dense">
           <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
             <Menu />
@@ -39,6 +42,7 @@ function AppRedux() {
             Menu
           </Typography>
         </Toolbar>
+        {status === 'loading' && < LinearProgress />}
       </AppBar>
       <Container>
         <Container maxWidth="sm" >
@@ -50,6 +54,7 @@ function AppRedux() {
           <TodolistRender />
         </Grid>
       </Container >
+      <ErrorSnackbar />
     </div >
   );
 }
