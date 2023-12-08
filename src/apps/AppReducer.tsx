@@ -5,8 +5,8 @@ import { v1 } from "uuid";
 import { AddItemForm } from "../components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, tasksReducer } from "../state/tasks-reducers/tasks-reducer";
-import { ChangeFilterTodolistAC, ChangeTitleTodolistAC, FilterValuesType, RemoveTodolistAC, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
+import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from "../state/tasks-reducers/tasks-reducer";
+import { changeFilterTodolistAC, changeTitleTodolistAC, FilterValuesType, removeTodolistAC, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
 import { TaskPriorities, TaskStatuses, TaskTypeApi } from "../api_DAL/tasks-api";
 import { todoListId1, todoListId2 } from "../state/initialState/id-utils";
 
@@ -69,47 +69,47 @@ function AppReducer() {
 
   //tasks action creators
   function removeTask(id: string, todoListId: string) {
-    const action = RemoveTaskAC(id, todoListId)
+    const action = removeTaskAC(id, todoListId)
     dispatchTasks(action)
   }
 
   function addTask(inputValue: string, todoListId: string) {
-    // const action = AddTaskAC(inputValue, todoListId)
+    // const action = addTaskAC(inputValue, todoListId)
     // dispatchTasks(action)
   }
 
   function changeStatus(todoListId: string, id: string, status: TaskStatuses) {
-    const action = ChangeTaskStatusAC(todoListId, id, status)
+    const action = changeTaskStatusAC(todoListId, id, status)
     dispatchTasks(action)
   }
 
   function changeTaskTitle(id: string, input: string, todoListId: string) {
-    const action = ChangeTaskTitleAC(id, input, todoListId)
+    const action = changeTaskTitleAC(id, input, todoListId)
     dispatchTasks(action)
   }
 
 
   // todolists action creators
   function changeFilterHandler(value: FilterValuesType, todoListId: string) {
-    const action = ChangeFilterTodolistAC(value, todoListId)
+    const action = changeFilterTodolistAC(value, todoListId)
     dispatchTodoLists(action)
   }
 
   function removeTodolist(todoListId: string) {
-    const action = RemoveTodolistAC(todoListId)
+    const action = removeTodolistAC(todoListId)
     dispatchTodoLists(action)
     // dispatchTasks(action)
   }
 
   function addTodoList(input: string) { //добавление новой колонки списка задач
-    // const action = AddTodolistAC(input)
+    // const action = addTodolistAC(input)
     // dispatchTodoLists(action)
     // dispatchTasks(action)
   }
 
 
   function changeTodolistTitle(title: string, todoListId: string) {
-    const action = ChangeTitleTodolistAC(title, todoListId)
+    const action = changeTitleTodolistAC(title, todoListId)
     dispatchTodoLists(action)
   }
 

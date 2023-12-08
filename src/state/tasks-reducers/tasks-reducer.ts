@@ -3,17 +3,17 @@ import { AddTodoList, RemoveTodoList, SetTodoList } from "../todoList-reducers/t
 import { TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } from "../../api_DAL/tasks-api";
 import { Dispatch } from "redux";
 import { AppRootState } from "../storeBLL";
-import { SetErrorType, SetStatusType, setErrorAC, setStatusAC } from "../app-reducer/app-reducer";
+import { setAppErrorAC, setAppStatusAC } from "../app-reducer/app-reducer";
 
 //type ActionsType = ReturnType<typeof getTodosAC> | ReturnType<typeof changeTodoStatusAC>
 
 type ActionsType =
-  ReturnType<typeof RemoveTaskAC>
-  | ReturnType<typeof AddTaskAC>
-  | ReturnType<typeof ChangeTaskTitleAC>
-  | ReturnType<typeof ChangeTaskStatusAC>
-  | ReturnType<typeof SetTasksAC>
-  | ReturnType<typeof UpdateTaskAC>
+  ReturnType<typeof removeTaskAC>
+  | ReturnType<typeof addTaskAC>
+  | ReturnType<typeof changeTaskTitleAC>
+  | ReturnType<typeof changeTaskStatusAC>
+  | ReturnType<typeof setTasksAC>
+  | ReturnType<typeof updateTaskAC>
   | SetTodoList
   | AddTodoList
   | RemoveTodoList
@@ -83,35 +83,35 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
 
 
 //action creator
-export const RemoveTaskAC = (todoListId: string, taskId: string) => {
+export const removeTaskAC = (todoListId: string, taskId: string) => {
   return { type: 'REMOVE-TASK', todoListId, taskId } as const
 }
 
-export const AddTaskAC = (task: TaskTypeApi) => {
+export const addTaskAC = (task: TaskTypeApi) => {
   return { type: 'ADD-TASK', task } as const
 }
 
-export const ChangeTaskTitleAC = (id: string, title: string, todoListId: string) => { //можно удалить, есть UpdateTaskAC
+export const changeTaskTitleAC = (id: string, title: string, todoListId: string) => { //можно удалить, есть updateTaskAC
   //который меняет любое поле
   return {
     type: 'CHANGE-TASK-TITLE', id, title, todoListId
   } as const
 }
 
-export const ChangeTaskStatusAC = (todoListId: string, id: string, status: TaskStatuses) => {
+export const changeTaskStatusAC = (todoListId: string, id: string, status: TaskStatuses) => {
   return {
     type: 'CHANGE-TASK-STATUS', id, todoListId, status
   } as const
 }
 
-export const SetTasksAC = (tasks: TaskTypeApi[], todoListId: string) => {
+export const setTasksAC = (tasks: TaskTypeApi[], todoListId: string) => {
   return {
     type: 'SET-TASKS', tasks, todoListId
   } as const
 }
 
 
-export const UpdateTaskAC = (todoListId: string, id: string, payload: UpdateTaskModelForReducerFn) => {
+export const updateTaskAC = (todoListId: string, id: string, payload: UpdateTaskModelForReducerFn) => {
   return {
     type: 'UPDATE-TASK',
     todoListId, id, payload
@@ -122,42 +122,42 @@ export const UpdateTaskAC = (todoListId: string, id: string, payload: UpdateTask
 //функции санки  ВСЕ ЗАПРОСЫ НА СЕРВЕР ДЕЛАТЬ В САНКАХ ТОЛЬКО!
 export const getTasksTC = (todolistId: string) => { //функц прослойка для dispatch api
   return (dispatch: Dispatch) => {
-    dispatch(setStatusAC('loading'))
+    dispatch(setAppStatusAC('loading'))
     tasksApi.getTasks(todolistId)
       .then((res) => {
-        dispatch(SetTasksAC(res.data.items, todolistId))
-        dispatch(setStatusAC('succeeded'))
+        dispatch(setTasksAC(res.data.items, todolistId))
+        dispatch(setAppStatusAC('succeeded'))
       })
   }
 }
 
 export const removeTaskTC = (todoListId: string, taskId: string) => {
   return (dispatch: Dispatch) => {
-    dispatch(setStatusAC('loading'))
+    dispatch(setAppStatusAC('loading'))
     tasksApi.deleteTasks(todoListId, taskId)
       .then((res) => {
-        dispatch(RemoveTaskAC(todoListId, taskId))
-        dispatch(setStatusAC('succeeded'))
+        dispatch(removeTaskAC(todoListId, taskId))
+        dispatch(setAppStatusAC('succeeded'))
       })
   }
 }
 
 export const addTaskTC = (title: string, todoListId: string) => {
   return (dispatch: Dispatch) => {
-    dispatch(setStatusAC('loading'))
+    dispatch(setAppStatusAC('loading'))
     tasksApi.createTasks(title, todoListId)
       .then((res) => {
         if (res.data.resultCode === 0) {
           const task = res.data.data.item
-          dispatch(AddTaskAC(task))
+          dispatch(addTaskAC(task))
         } else {
           if (res.data.messages.length) {
-            dispatch(setErrorAC(res.data.messages[0])) //приходит текст ошибки из сервера
+            dispatch(setAppErrorAC(res.data.messages[0])) //приходит текст ошибки из сервера
           } else {
-            dispatch(setErrorAC("Some error occurred"))//если не пришла из сервера, пишу вручную
+            dispatch(setAppErrorAC("Some error occurred"))//если не пришла из сервера, пишу вручную
           }
         }
-        dispatch(setStatusAC('failed'))
+        dispatch(setAppStatusAC('failed'))
       })
   }
 }
@@ -165,18 +165,18 @@ export const addTaskTC = (title: string, todoListId: string) => {
 
 export const changeTaskTitleTC = (todoListId: string, id: string, title: string) => {
   return (dispatch: Dispatch) => {
-    dispatch(setStatusAC('loading'))
+    dispatch(setAppStatusAC('loading'))
     tasksApi.updateTaskTitle(todoListId, id, title)
       .then((res) => {
-        dispatch(ChangeTaskTitleAC(id, title, todoListId))
-        dispatch(setStatusAC('succeeded'))
+        dispatch(changeTaskTitleAC(id, title, todoListId))
+        dispatch(setAppStatusAC('succeeded'))
       })
   }
 }
 
 export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskStatuses) => {
   return (dispatch: Dispatch, getState: () => AppRootState) => {
-    dispatch(setStatusAC('loading'))
+    dispatch(setAppStatusAC('loading'))
     const task = getState().tasks[todoListId].find(t => t.id === id)   //вытянула rootReducer с тасками и нашла нужную
     if (task) {
       const payload: UpdateTaskModel = { //модель самой таски, которую мы пишем вручную чтобы знать конкретные поля для изменения
@@ -190,8 +190,8 @@ export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskS
       }
       tasksApi.updateTaskAtAll(todoListId, id, payload)
         .then((res) => {
-          dispatch(ChangeTaskStatusAC(todoListId, id, status))
-          dispatch(setStatusAC('succeeded'))
+          dispatch(changeTaskStatusAC(todoListId, id, status))
+          dispatch(setAppStatusAC('succeeded'))
         })
     }
   }
@@ -221,11 +221,11 @@ export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTas
         status: task.status,
         ...apiModal
       }
-      dispatch(setStatusAC('loading'))
+      dispatch(setAppStatusAC('loading'))
       tasksApi.updateTaskAtAll(todoListId, id, payload)
         .then((res) => {
-          dispatch(UpdateTaskAC(todoListId, id, payload))
-          dispatch(setStatusAC('succeeded'))
+          dispatch(updateTaskAC(todoListId, id, payload))
+          dispatch(setAppStatusAC('succeeded'))
         })
     }
   }

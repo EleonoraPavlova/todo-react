@@ -13,17 +13,22 @@ import { TaskTypeApi } from "../../api_DAL/tasks-api";
 type TodoListReduxProps = {
   todolist: TodolistDomainType
   tasksForTodolist: TaskTypeApi[]
+  demo: boolean //загрузка мокового state
 }
 
-export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ todolist, tasksForTodolist }) => {
-  let { id, filter, title } = todolist // что входит todoLists пропсы,
+export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false, todolist, tasksForTodolist }) => {
+  let { id, filter, title, entityStatus } = todolist // что входит todoLists пропсы,
   // ПИСАТЬ НУЖНО ТО, ЧТО НУЖНО ВЫТЯНУТЬ ИЗ state - разворачивание объекта todoLists
   //const tasks = useAppSelector<TasksObjType>(state => state.tasks)
   const dispatch = useAppDispatch()
 
   useEffect(() => { //download all todolists from api when loading the component
-    dispatch(getTasksTC(id))
+    if (demo) {
+      return
+    }
+    dispatch(getTasksTC(id));
   }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
+
 
   const mappedTasks = () => {
     return tasksForTodolist.map((task) => (
@@ -60,11 +65,14 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ todolist, tas
     <div>
       <Box component={"div"} sx={{ display: "flex", gap: "10px", alignItems: "center", justifyContent: "space-between" }}>
         <EditableSpan value={title} onChange={changeTodolistTitle} />
-        <IconButton aria-label="delete" onClick={removeTodolist} size="small" >
+        <IconButton aria-label="delete"
+          size="small"
+          disabled={entityStatus === "loading"}
+          onClick={removeTodolist} >
           <Delete />
         </IconButton>
       </Box>
-      <AddItemForm addTask={addTasks} />
+      <AddItemForm addTask={addTasks} disabled={entityStatus === "loading"} />
       <List>
         {mappedTasks()}
       </List>

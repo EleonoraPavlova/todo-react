@@ -6,12 +6,13 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 
 
 type AddItemFormType = {
+  disabled?: boolean
   addTask: (inputValue: string) => void //надо обвернуть в useCallback каждый пропс-функц через всю цепочку!!!!!!!!!!
   //в данном случае в 2 местах
 }
 
 //вся мемоизация работает в паре с React.memo(давать просто каждой компрненте)
-export const AddItemForm: React.FC<AddItemFormType> = memo(({ addTask }: AddItemFormType) => {
+export const AddItemForm: React.FC<AddItemFormType> = memo(({ disabled = false, addTask }: AddItemFormType) => {
   console.log("AddItemForm")
 
   let [error, setError] = useState<string | null>(null)
@@ -46,11 +47,12 @@ export const AddItemForm: React.FC<AddItemFormType> = memo(({ addTask }: AddItem
         error={!!error}
         helperText={error}
         size="small"
+        disabled={disabled}
       />
 
       <IconButton
-        onClick={() => addItemHandler(inputValue)}>
-        <AddTaskIcon fontSize="small" color="success" />
+        onClick={() => addItemHandler(inputValue)} disabled={disabled}>
+        <AddTaskIcon fontSize="small" color={disabled ? "disabled" : "success"} />
       </IconButton>
     </div >
   )

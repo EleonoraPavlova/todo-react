@@ -15,4 +15,6 @@ export const AddItemFormBase = () => {
   return <AddItemForm addTask={callBack} />
 }
 
-
+export const AddItemDisable = () => {
+  return <AddItemForm addTask={callBack} disabled={true} />
+}

@@ -12,16 +12,22 @@ import { TodolistRender } from "../../components/TodolistRender/TodolistRender";
 import { ErrorSnackbar } from "../../components/ErrorSnackBar/ErrorSnackBar";
 import { RequestStatusType } from "../../state/app-reducer/app-reducer";
 
+type AppReduxProps = {
+  demo: boolean //загрузка мокового state
+}
 
 export type TasksObjType = {
   [key: string]: TaskTypeApi[]
 }
 
-function AppRedux() {
+export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
   let status = useAppSelector<RequestStatusType>(state => state.app.status)
   const dispatch = useAppDispatch()
   //в useEffect выполняются запросы на api
   useEffect(() => { //download all todolists from api when loading the component
+    if (demo) {
+      return;
+    }
     dispatch(getTodolistTC)
   }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
@@ -51,7 +57,7 @@ function AppRedux() {
           </div>
         </Container>
         <Grid container spacing={7} className="grid">
-          <TodolistRender />
+          <TodolistRender demo={demo} />
         </Grid>
       </Container >
       <ErrorSnackbar />

@@ -11,5 +11,5 @@ export default {
 // const onChange = action("onChanges")
 
 export const AppReduxBase = () => {
-  return (<AppRedux />)
+  return (<AppRedux demo={true} />)
 }

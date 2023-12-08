@@ -17,7 +17,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <HashRouter>
     <Provider store={store}>
-      <AppRedux />
+      <AppRedux demo={false} />
       {/* <AppReduxHooks /> */}
       {/* <App2 /> */}
     </Provider>

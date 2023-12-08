@@ -5,7 +5,11 @@ import { useAppSelector } from "../../state/hooks/hooks-selectors";
 import { TodolistDomainType } from "../../state/todoList-reducers/todolists-reducer";
 import { TodoListRedux } from "../../page/TodoList/TodoListRedux";
 
-export const TodolistRender: React.FC = memo(() => {
+type TodolistRenderProps = {
+  demo: boolean //загрузка мокового state
+}
+
+export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = false }) => {
   const todolists = useAppSelector<TodolistDomainType[]>(state => state.todolist) //выбираем todolist из стора state
   //TodoListsType[]> означает хотим достать массив todolists из этого типа
   const tasks = useAppSelector<TasksObjType>(tasks => tasks.tasks)
@@ -24,7 +28,7 @@ export const TodolistRender: React.FC = memo(() => {
         return (
           <Grid item key={l.id}>
             <Paper sx={{ padding: "20px" }} elevation={3} >
-              <TodoListRedux todolist={l}
+              <TodoListRedux todolist={l} demo={demo}
                 tasksForTodolist={tasksForTodolist}
               />
             </Paper>

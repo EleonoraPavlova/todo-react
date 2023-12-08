@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppRootState } from "../../../state/storeBLL"
 import { useCallback } from "react"
-import { ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, addTaskTC } from "../../../state/tasks-reducers/tasks-reducer"
-import { FilterValuesType, ChangeFilterTodolistAC, ChangeTitleTodolistAC, RemoveTodolistAC, TodolistDomainType, addTodolistTC } from "../../../state/todoList-reducers/todolists-reducer"
+import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, addTaskTC } from "../../../state/tasks-reducers/tasks-reducer"
+import { FilterValuesType, changeFilterTodolistAC, changeTitleTodolistAC, removeTodolistAC, TodolistDomainType, addTodolistTC } from "../../../state/todoList-reducers/todolists-reducer"
 import { TaskStatuses, TasksObjType } from "../../../api_DAL/tasks-api"
 
 export function useAppRedux() {
@@ -12,7 +12,7 @@ export function useAppRedux() {
   const tasks = useSelector<AppRootState, TasksObjType>(tasks => tasks.tasks)
 
   const removeTask = useCallback((id: string, todoListId: string) => {
-    const action = RemoveTaskAC(id, todoListId)
+    const action = removeTaskAC(id, todoListId)
     dispatch(action)
   }, [dispatch])
 
@@ -22,24 +22,24 @@ export function useAppRedux() {
   }, [dispatch])
 
   const changeStatus = useCallback((todoListId: string, id: string, status: TaskStatuses) => {
-    const action = ChangeTaskStatusAC(todoListId, id, status)
+    const action = changeTaskStatusAC(todoListId, id, status)
     dispatch(action)
   }, [dispatch])
 
   const changeTaskTitle = useCallback((id: string, input: string, todoListId: string) => {
-    const action = ChangeTaskTitleAC(id, input, todoListId)
+    const action = changeTaskTitleAC(id, input, todoListId)
     dispatch(action)
   }, [dispatch])
 
 
   // todolists action creators
   const changeFilterHandler = useCallback((value: FilterValuesType, todoListId: string) => {
-    const action = ChangeFilterTodolistAC(value, todoListId)
+    const action = changeFilterTodolistAC(value, todoListId)
     dispatch(action)
   }, [dispatch])
 
   const removeTodolist = useCallback((todoListId: string) => {
-    const action = RemoveTodolistAC(todoListId)
+    const action = removeTodolistAC(todoListId)
     dispatch(action)
   }, [dispatch])
 
@@ -50,7 +50,7 @@ export function useAppRedux() {
 
 
   const changeTodolistTitle = useCallback((title: string, todoListId: string) => {
-    const action = ChangeTitleTodolistAC(title, todoListId)
+    const action = changeTitleTodolistAC(title, todoListId)
     dispatch(action)
   }, [dispatch])
 
