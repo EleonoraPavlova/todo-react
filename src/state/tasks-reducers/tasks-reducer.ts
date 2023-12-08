@@ -4,6 +4,7 @@ import { TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } fr
 import { Dispatch } from "redux";
 import { AppRootState } from "../storeBLL";
 import { setAppErrorAC, setAppStatusAC } from "../app-reducer/app-reducer";
+import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
 
 //type ActionsType = ReturnType<typeof getTodosAC> | ReturnType<typeof changeTodoStatusAC>
 
@@ -150,14 +151,13 @@ export const addTaskTC = (title: string, todoListId: string) => {
         if (res.data.resultCode === 0) {
           const task = res.data.data.item
           dispatch(addTaskAC(task))
+          dispatch(setAppStatusAC('succeeded'))
         } else {
-          if (res.data.messages.length) {
-            dispatch(setAppErrorAC(res.data.messages[0])) //приходит текст ошибки из сервера
-          } else {
-            dispatch(setAppErrorAC("Some error occurred"))//если не пришла из сервера, пишу вручную
-          }
+          handleServerAppError(res.data.messages, dispatch)
         }
-        dispatch(setAppStatusAC('failed'))
+      })
+      .catch((error) => {
+        handleServerNetworkError(error, dispatch)
       })
   }
 }
@@ -224,8 +224,15 @@ export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTas
       dispatch(setAppStatusAC('loading'))
       tasksApi.updateTaskAtAll(todoListId, id, payload)
         .then((res) => {
-          dispatch(updateTaskAC(todoListId, id, payload))
-          dispatch(setAppStatusAC('succeeded'))
+          if (res.data.resultCode === 0) {
+            dispatch(updateTaskAC(todoListId, id, payload))
+            dispatch(setAppStatusAC('succeeded'))
+          } else {
+            handleServerAppError(res.data.messages, dispatch)
+          }
+        })
+        .catch((error) => {
+          handleServerNetworkError(error, dispatch)
         })
     }
   }
