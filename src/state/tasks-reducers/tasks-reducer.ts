@@ -1,14 +1,14 @@
 //BLL
 import { AddTodoList, RemoveTodoList, SetTodoList } from "../todoList-reducers/todolists-reducer";
 import { TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } from "../../api_DAL/tasks-api";
-import { Dispatch } from "redux";
-import { AppRootState } from "../storeBLL";
-import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
+import { Dispatch } from "redux"; //only fron redux
+import { AppAllActionsType, AppRootState, AppThunkType } from "../storeBLL";
+import { SetAppStatusType, setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
 
 //type ActionsType = ReturnType<typeof getTodosAC> | ReturnType<typeof changeTodoStatusAC>
 
-type ActionsType =
+export type ActionsTasksType =
   ReturnType<typeof removeTaskAC>
   | ReturnType<typeof addTaskAC>
   | ReturnType<typeof changeTaskTitleAC>
@@ -22,7 +22,7 @@ type ActionsType =
 
 export const initialStateTasks: TasksObjType = {}
 
-export const tasksReducer = (state: TasksObjType = initialStateTasks, action: ActionsType): TasksObjType => {
+export const tasksReducer = (state: TasksObjType = initialStateTasks, action: ActionsTasksType): TasksObjType => {
   switch (action.type) {
     case "REMOVE-TASK": {
       let filteredTasks = state[action.todoListId].filter(t => t.id !== action.taskId)
@@ -121,8 +121,8 @@ export const updateTaskAC = (todoListId: string, id: string, payload: UpdateTask
 
 
 //функции санки  ВСЕ ЗАПРОСЫ НА СЕРВЕР ДЕЛАТЬ В САНКАХ ТОЛЬКО!
-export const getTasksTC = (todolistId: string) => { //функц прослойка для dispatch api
-  return (dispatch: Dispatch) => {
+export const getTasksTC = (todolistId: string): AppThunkType => { //функц прослойка для dispatch api
+  return (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     tasksApi.getTasks(todolistId)
       .then((res) => {
@@ -135,8 +135,8 @@ export const getTasksTC = (todolistId: string) => { //функц прослой�
   }
 }
 
-export const removeTaskTC = (todoListId: string, taskId: string) => {
-  return (dispatch: Dispatch) => {
+export const removeTaskTC = (todoListId: string, taskId: string): AppThunkType => {
+  return (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     tasksApi.deleteTasks(todoListId, taskId)
       .then((res) => {
@@ -150,8 +150,8 @@ export const removeTaskTC = (todoListId: string, taskId: string) => {
   }
 }
 
-export const addTaskTC = (title: string, todoListId: string) => {
-  return (dispatch: Dispatch) => {
+export const addTaskTC = (title: string, todoListId: string): AppThunkType => {
+  return (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     tasksApi.createTasks(title, todoListId)
       .then((res) => {
@@ -171,8 +171,8 @@ export const addTaskTC = (title: string, todoListId: string) => {
 }
 
 
-export const changeTaskTitleTC = (todoListId: string, id: string, title: string) => {
-  return (dispatch: Dispatch) => {
+export const changeTaskTitleTC = (todoListId: string, id: string, title: string): AppThunkType => {
+  return (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     tasksApi.updateTaskTitle(todoListId, id, title)
       .then((res) => {
@@ -189,8 +189,8 @@ export const changeTaskTitleTC = (todoListId: string, id: string, title: string)
   }
 }
 
-export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskStatuses) => {
-  return (dispatch: Dispatch, getState: () => AppRootState) => {
+export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskStatuses): AppThunkType => {
+  return (dispatch, getState: () => AppRootState) => {
     dispatch(setAppStatusAC('loading'))
     const task = getState().tasks[todoListId].find(t => t.id === id)   //вытянула rootReducer с тасками и нашла нужную
     if (task) {
@@ -230,8 +230,8 @@ export type UpdateTaskModelForReducerFn = { //какие поля можно о�
 }
 
 //вариант как объединить 2 функции
-export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTaskModelForReducerFn) => {
-  return (dispatch: Dispatch, getState: () => AppRootState) => {
+export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTaskModelForReducerFn): AppThunkType => {
+  return (dispatch, getState: () => AppRootState) => {
     const task = getState().tasks[todoListId].find(t => t.id === id)   //вытянула rootReducer с тасками и нашла нужную
     if (task) {
       const payload: UpdateTaskModel = { //модель самой таски, которую мы пишем вручную чтобы знать конкретные поля для изменения

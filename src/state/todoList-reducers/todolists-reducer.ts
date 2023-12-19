@@ -3,6 +3,7 @@ import { TodolistTypeApi, todolistsApi } from "../../api_DAL/todolists-api";
 import { Dispatch } from "redux";
 import { RequestStatusType, setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
+import { AppAllActionsType, AppThunkType } from "../storeBLL";
 
 export type RemoveTodoList = ReturnType<typeof removeTodolistAC>
 export type AddTodoList = ReturnType<typeof addTodolistAC>
@@ -10,7 +11,7 @@ export type SetTodoList = ReturnType<typeof setTodolistAC>
 export type ChangeStatusTodolist = ReturnType<typeof changeStatusTodolistAC>
 
 
-type ActionsType =  //общий тип!
+export type ActionsTodolistsType =  //общий тип!
   ReturnType<typeof changeTitleTodolistAC>
   | ReturnType<typeof changeFilterTodolistAC>
   | RemoveTodoList
@@ -29,7 +30,7 @@ export const initialState: TodolistDomainType[] = []
 
 
 //функция не имеет право менять state! сначала нужно создать копию
-export const todolistsReducer = (state: TodolistDomainType[] = initialState, action: ActionsType): TodolistDomainType[] => { //должны всегда вернуть массив
+export const todolistsReducer = (state: TodolistDomainType[] = initialState, action: ActionsTodolistsType): TodolistDomainType[] => { //должны всегда вернуть массив
   switch (action.type) {
     case "REMOVE-TODOLIST": {
       return state.filter(t => t.id !== action.todolistId)
@@ -100,20 +101,23 @@ export const setTodolistAC = (todolists: TodolistTypeApi[]) => { //фиксир�
 }
 
 //thunk
-export const getTodolistTC = (dispatch: Dispatch) => { //функц прослойка для dispatch api
-  dispatch(setAppStatusAC('loading'))
-  todolistsApi.getTodoslists()
-    .then((res) => {
-      dispatch(setTodolistAC(res.data))
-      dispatch(setAppStatusAC('succeeded'))
-    })
-    .catch((error) => {
-      handleServerNetworkError(error, dispatch)
-    })
+export const getTodolistTC = (): AppThunkType => { //функц прослойка для dispatch api
+  return (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    todolistsApi.getTodoslists()
+      .then((res) => {
+        dispatch(setTodolistAC(res.data))
+        dispatch(setAppStatusAC('succeeded'))
+      })
+      .catch((error) => {
+        handleServerNetworkError(error, dispatch)
+      })
+  }
+
 }
 
-export const removeTodolistTC = (todolistId: string) => { //функц прослойка для dispatch api
-  return (dispatch: Dispatch) => {
+export const removeTodolistTC = (todolistId: string): AppThunkType => { //функц прослойка для dispatch api
+  return (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     dispatch(changeStatusTodolistAC('loading', todolistId))
     todolistsApi.deleteTodoslist(todolistId)
@@ -129,8 +133,8 @@ export const removeTodolistTC = (todolistId: string) => { //функц прос�
   }
 }
 
-export const addTodolistTC = (title: string) => { //функц прослойка для dispatch api
-  return (dispatch: Dispatch) => {
+export const addTodolistTC = (title: string): AppThunkType => { //функц прослойка для dispatch api
+  return (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistsApi.createTodoslist(title)
       .then((res) => {
@@ -148,8 +152,8 @@ export const addTodolistTC = (title: string) => { //функц прослойк�
   }
 }
 
-export const changeTitleTodolistTC = (todolistId: string, title: string) => { //функц прослойка для dispatch api
-  return (dispatch: Dispatch) => {
+export const changeTitleTodolistTC = (todolistId: string, title: string): AppThunkType => { //функц прослойка для dispatch api
+  return (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistsApi.updateTodoslist(todolistId, title)
       .then((res) => {
@@ -167,8 +171,8 @@ export const changeTitleTodolistTC = (todolistId: string, title: string) => { //
   }
 }
 
-export const changeFilterTodolistTC = (todolistId: string, title: string, filter: FilterValuesType) => { //функц прослойка для dispatch api
-  return (dispatch: Dispatch) => {
+export const changeFilterTodolistTC = (todolistId: string, title: string, filter: FilterValuesType): AppThunkType => { //функц прослойка для dispatch api
+  return (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistsApi.updateTodoslist(todolistId, title)
       .then((res) => {
