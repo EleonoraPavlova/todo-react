@@ -4,13 +4,13 @@ import React, { ChangeEvent, useState, KeyboardEvent, memo } from 'react';
 
 type EditableSpanType = {
   value: string
+  additionalClass: string
+  disabled?: boolean
   isDone?: boolean | undefined // can we edit the span
   onChange: (input: string) => void
 }
 
-export const EditableSpan: React.FC<EditableSpanType> = memo(({ value, isDone, onChange }) => {
-  console.log("EditableSpan")
-
+export const EditableSpan: React.FC<EditableSpanType> = memo(({ value, isDone, disabled, additionalClass, onChange }) => {
   let [editMode, setEditMode] = useState<boolean>(false)
   let [input, setInput] = useState<string>("")
 
@@ -44,7 +44,10 @@ export const EditableSpan: React.FC<EditableSpanType> = memo(({ value, isDone, o
       onChange={onChangeTitleHandler}
       onBlur={activateViewMode}
       onKeyDown={onKeyDownHandler}
-      autoFocus variant="standard" /> :
-    <Box component="span" onDoubleClick={activateEditMode}>{value}</Box>
+      autoFocus variant="standard"
+      disabled={disabled} /> :
+    <Box component="span" onDoubleClick={activateEditMode}
+      sx={{ textTransform: "capitalize" }}
+      className={additionalClass}>{value}</Box>
   )
 })

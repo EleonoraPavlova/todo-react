@@ -6,9 +6,10 @@ import { Box } from '@mui/system';
 import { Delete } from "@mui/icons-material";
 import { TaskForMap } from "../../components/TaskForMap/TaskForMap";
 import { TaskStatuses, TaskTypeApi } from "../../api_DAL/tasks-api";
-import { FilterValuesType } from "../../state/todoList-reducers/todolists-reducer";
+import { FilterValuesType, TodolistDomainType } from "../../state/todoList-reducers/todolists-reducer";
 import { getTasksTC } from "../../state/tasks-reducers/tasks-reducer";
-import { useAppDispatch } from "../../state/hooks/hooks-selectors";
+import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
+import { RequestStatusType } from "../../state/app-reducer/app-reducer";
 
 
 type TodoListProps = {
@@ -27,8 +28,6 @@ type TodoListProps = {
 
 
 export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => {
-  console.log("TodoList has been called")
-
   const dispatch = useAppDispatch()
   //в useEffect выполняются запросы на api
   useEffect(() => { //download all todolists from api when loading the component
@@ -49,6 +48,7 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
   const mappedTasks = () => {
     return tasksForTodolist.map(task => (
       <TaskForMap
+        disabled={false}
         key={task.id}
         task={task}
       />))
@@ -71,8 +71,9 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
 
   return (
     <div>
-      <Box component={"div"} sx={{ display: "flex", gap: "10px", alignItems: "center", justifyContent: "space-between" }}>
-        <EditableSpan value={props.title} onChange={EditableSpanTitleHandler} />
+      <Box component={"div"}
+        sx={{ display: "flex", gap: "10px", alignItems: "center", justifyContent: "space-between" }}>
+        <EditableSpan value={props.title} onChange={EditableSpanTitleHandler} additionalClass="" />
         <IconButton aria-label="delete" onClick={removeTodolistHandler} size="small" >
           <Delete />
         </IconButton>

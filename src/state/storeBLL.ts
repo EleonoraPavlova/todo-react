@@ -20,8 +20,9 @@ const rootReducer = combineReducers({ //все dispatch приходят в root
 
 export const store = createStore(rootReducer, applyMiddleware(thunk)) //подкл thunk
 //следит что приходит: обычный объект или функция-санки, которую нужно вызвать
+
+//типизация dispatch санки
 export type AppDispatchType = ThunkDispatch<AppRootState, unknown, AnyAction> //будет приниматься любой action
 
 //@ts-ignore
 window.store = store
-

@@ -1,13 +1,8 @@
 .todolist {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  flex-direction: column;
-}
-
-.additionalClass {
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  flex-direction: "column";
 }
 
 .done {

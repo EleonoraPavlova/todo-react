@@ -1,7 +1,8 @@
 //BLL
 import { TodolistTypeApi, todolistsApi } from "../../api_DAL/todolists-api";
 import { Dispatch } from "redux";
-import { RequestStatusType, setAppStatusAC } from "../app-reducer/app-reducer";
+import { RequestStatusType, setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
+import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
 
 export type RemoveTodoList = ReturnType<typeof removeTodolistAC>
 export type AddTodoList = ReturnType<typeof addTodolistAC>
@@ -92,19 +93,22 @@ export const changeStatusTodolistAC = (entityStatus: RequestStatusType, todolist
   } as const
 }
 
-
 export const setTodolistAC = (todolists: TodolistTypeApi[]) => { //фиксирую прилетевшие с сервера todolists
   return {
     type: 'SET-TODOLIST', todolists
   } as const
 }
 
+//thunk
 export const getTodolistTC = (dispatch: Dispatch) => { //функц прослойка для dispatch api
   dispatch(setAppStatusAC('loading'))
   todolistsApi.getTodoslists()
     .then((res) => {
       dispatch(setTodolistAC(res.data))
       dispatch(setAppStatusAC('succeeded'))
+    })
+    .catch((error) => {
+      handleServerNetworkError(error, dispatch)
     })
 }
 
@@ -115,8 +119,13 @@ export const removeTodolistTC = (todolistId: string) => { //функц прос�
     todolistsApi.deleteTodoslist(todolistId)
       .then((res) => {
         dispatch(removeTodolistAC(todolistId))
+        dispatch(setAppSuccessAC("todolist was successful removed"))
         dispatch(setAppStatusAC('succeeded'))
       })
+      .catch((error) => {
+        handleServerNetworkError(error, dispatch)
+      })
+
   }
 }
 
@@ -125,8 +134,16 @@ export const addTodolistTC = (title: string) => { //функц прослойк�
     dispatch(setAppStatusAC('loading'))
     todolistsApi.createTodoslist(title)
       .then((res) => {
-        dispatch(addTodolistAC(res.data.data.item))
-        dispatch(setAppStatusAC('succeeded'))
+        if (res.data.resultCode === 0) {
+          dispatch(addTodolistAC(res.data.data.item))
+          dispatch(setAppSuccessAC("todolist was successful added"))
+          dispatch(setAppStatusAC('succeeded'))
+        } else {
+          handleServerAppError(res.data.messages, dispatch)
+        }
+      })
+      .catch((error) => {
+        handleServerNetworkError(error, dispatch)
       })
   }
 }
@@ -136,8 +153,16 @@ export const changeTitleTodolistTC = (todolistId: string, title: string) => { //
     dispatch(setAppStatusAC('loading'))
     todolistsApi.updateTodoslist(todolistId, title)
       .then((res) => {
-        dispatch(changeTitleTodolistAC(title, todolistId))
-        dispatch(setAppStatusAC('succeeded'))
+        if (res.data.resultCode === 0) {
+          dispatch(changeTitleTodolistAC(title, todolistId))
+          dispatch(setAppSuccessAC("todolist title was successful change"))
+          dispatch(setAppStatusAC('succeeded'))
+        } else {
+          handleServerAppError(res.data.messages, dispatch)
+        }
+      })
+      .catch((error) => {
+        handleServerNetworkError(error, dispatch)
       })
   }
 }
@@ -149,6 +174,8 @@ export const changeFilterTodolistTC = (todolistId: string, title: string, filter
       .then((res) => {
         dispatch(changeFilterTodolistAC(filter, todolistId))
         dispatch(setAppStatusAC('succeeded'))
+      }).catch((error) => {
+        handleServerNetworkError(error, dispatch)
       })
   }
 }

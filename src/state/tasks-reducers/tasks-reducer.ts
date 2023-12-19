@@ -3,7 +3,7 @@ import { AddTodoList, RemoveTodoList, SetTodoList } from "../todoList-reducers/t
 import { TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } from "../../api_DAL/tasks-api";
 import { Dispatch } from "redux";
 import { AppRootState } from "../storeBLL";
-import { setAppErrorAC, setAppStatusAC } from "../app-reducer/app-reducer";
+import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
 
 //type ActionsType = ReturnType<typeof getTodosAC> | ReturnType<typeof changeTodoStatusAC>
@@ -66,7 +66,7 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
       return copyState
     }
 
-    case "SET-TODOLIST": {
+    case "SET-TODOLIST": {//устанавливает пустой массив!
       const copyState = { ...state }
       action.todolists.map(tl => copyState[tl.id] = [])
       return copyState
@@ -129,6 +129,9 @@ export const getTasksTC = (todolistId: string) => { //функц прослой�
         dispatch(setTasksAC(res.data.items, todolistId))
         dispatch(setAppStatusAC('succeeded'))
       })
+      .catch((error) => {
+        handleServerNetworkError(error, dispatch)
+      })
   }
 }
 
@@ -138,7 +141,11 @@ export const removeTaskTC = (todoListId: string, taskId: string) => {
     tasksApi.deleteTasks(todoListId, taskId)
       .then((res) => {
         dispatch(removeTaskAC(todoListId, taskId))
+        dispatch(setAppSuccessAC("task was successful removed"))
         dispatch(setAppStatusAC('succeeded'))
+      })
+      .catch((error) => {
+        handleServerNetworkError(error, dispatch)
       })
   }
 }
@@ -151,6 +158,7 @@ export const addTaskTC = (title: string, todoListId: string) => {
         if (res.data.resultCode === 0) {
           const task = res.data.data.item
           dispatch(addTaskAC(task))
+          dispatch(setAppSuccessAC("task was successful added"))
           dispatch(setAppStatusAC('succeeded'))
         } else {
           handleServerAppError(res.data.messages, dispatch)
@@ -168,8 +176,15 @@ export const changeTaskTitleTC = (todoListId: string, id: string, title: string)
     dispatch(setAppStatusAC('loading'))
     tasksApi.updateTaskTitle(todoListId, id, title)
       .then((res) => {
-        dispatch(changeTaskTitleAC(id, title, todoListId))
-        dispatch(setAppStatusAC('succeeded'))
+        if (res.data.resultCode === 0) {
+          dispatch(changeTaskTitleAC(id, title, todoListId))
+          dispatch(setAppSuccessAC("task title was successful changed"))
+          dispatch(setAppStatusAC('succeeded'))
+        } else {
+          handleServerAppError(res.data.messages, dispatch)
+        }
+      }).catch((error) => {
+        handleServerNetworkError(error, dispatch)
       })
   }
 }
@@ -190,8 +205,16 @@ export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskS
       }
       tasksApi.updateTaskAtAll(todoListId, id, payload)
         .then((res) => {
-          dispatch(changeTaskStatusAC(todoListId, id, status))
-          dispatch(setAppStatusAC('succeeded'))
+          if (res.data.resultCode === 0) {
+            dispatch(changeTaskStatusAC(todoListId, id, status))
+            dispatch(setAppSuccessAC("task status was successful changed"))
+            dispatch(setAppStatusAC('succeeded'))
+          } else {
+            handleServerAppError(res.data.messages, dispatch)
+          }
+        })
+        .catch((error) => {
+          handleServerNetworkError(error, dispatch)
         })
     }
   }
@@ -226,6 +249,7 @@ export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTas
         .then((res) => {
           if (res.data.resultCode === 0) {
             dispatch(updateTaskAC(todoListId, id, payload))
+            dispatch(setAppSuccessAC("task was successful updated"))
             dispatch(setAppStatusAC('succeeded'))
           } else {
             handleServerAppError(res.data.messages, dispatch)

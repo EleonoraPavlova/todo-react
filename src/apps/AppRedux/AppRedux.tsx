@@ -9,8 +9,8 @@ import {
 import { TaskTypeApi } from "../../api_DAL/tasks-api";
 import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
 import { TodolistRender } from "../../components/TodolistRender/TodolistRender";
-import { ErrorSnackbar } from "../../components/ErrorSnackBar/ErrorSnackBar";
 import { RequestStatusType } from "../../state/app-reducer/app-reducer";
+import { SnackbarComponent } from "../../components/SnackbarComponent/SnackbarComponent";
 
 type AppReduxProps = {
   demo: boolean //загрузка мокового state
@@ -44,7 +44,7 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
           <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
             <Menu />
           </IconButton>
-          <Typography variant="h6" color="inherit" component="div">
+          <Typography variant="h5" color="inherit" component="div">
             Menu
           </Typography>
         </Toolbar>
@@ -60,7 +60,7 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
           <TodolistRender demo={demo} />
         </Grid>
       </Container >
-      <ErrorSnackbar />
+      <SnackbarComponent />
     </div >
   );
 }

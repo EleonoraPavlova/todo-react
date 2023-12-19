@@ -11,5 +11,5 @@ export default {
 const onChange = action("onChanges")
 
 export const EditableSpanBase = () => {
-  return (<EditableSpan value={"Title"} onChange={onChange} />)
+  return (<EditableSpan value={"Title"} onChange={onChange} additionalClass="" />)
 }

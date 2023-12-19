@@ -8,39 +8,47 @@ import styled from "../../page/TodoList/TodoList.module.scss"
 import { TaskStatuses, TaskTypeApi } from "../../api_DAL/tasks-api";
 import { useAppDispatch } from "../../state/hooks/hooks-selectors";
 import { removeTaskTC, updateTaskTC } from "../../state/tasks-reducers/tasks-reducer";
+import s from "./TaskForMap.module.scss";
 
 
 type TaskForMapType = {
   task: TaskTypeApi;
+  disabled: boolean
 };
 
-export const TaskForMap: React.FC<TaskForMapType> = memo(({ task }) => {
+export const TaskForMap: React.FC<TaskForMapType> = memo(({ task, disabled }) => {
+  let { todoListId, id, status, title } = task
   const dispatch = useAppDispatch()
 
   const onRemoveHandler = useCallback(() => {
-    dispatch(removeTaskTC(task.todoListId, task.id))
-  }, [dispatch, task.todoListId, task.id])
+    dispatch(removeTaskTC(todoListId, id))
+  }, [dispatch, todoListId, id])
 
-  const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     let currentStatus = e.currentTarget.checked
     const newStatus = currentStatus ? TaskStatuses.Completed : TaskStatuses.New;
-    dispatch(updateTaskTC(task.todoListId, task.id, { status: newStatus }))
-  }, [dispatch, task.todoListId, task.id])
+    dispatch(updateTaskTC(todoListId, id, { status: newStatus }))
+  }, [dispatch, todoListId, id])
 
   const changeTaskTitle = useCallback((title: string) => {
-    dispatch(updateTaskTC(task.todoListId, task.id, { title }))
-  }, [dispatch, task.todoListId, task.id]);
+    dispatch(updateTaskTC(todoListId, id, { title }))
+  }, [dispatch, todoListId, id]);
 
   return (
     <ListItem sx={{ justifyContent: "space-between" }}
-      className={`${styled.list} ${task.status === TaskStatuses.Completed ? styled.done : ""}`} >
-      <Checkbox checked={task.status === TaskStatuses.Completed} onChange={onChangeHandler}
+      className={`${styled.list} ${status === TaskStatuses.Completed ? styled.done : ""}`} >
+      <Checkbox checked={status === TaskStatuses.Completed} onChange={changeTaskStatus}
         icon={<BookmarkBorderIcon />}
         checkedIcon={<BookmarkIcon />}
         color="success"
+        disabled={disabled}
       />
-      <EditableSpan value={task.title} onChange={changeTaskTitle} isDone={task.status === TaskStatuses.Completed} />
-      <IconButton aria-label="delete" onClick={onRemoveHandler} size="small" >
+      <EditableSpan value={title}
+        additionalClass={s.additionalClassTask}
+        onChange={changeTaskTitle}
+        isDone={status === TaskStatuses.Completed}
+        disabled={disabled} />
+      <IconButton aria-label="delete" onClick={onRemoveHandler} size="small" disabled={disabled}>
         <Delete fontSize="inherit" />
       </IconButton>
     </ListItem>
