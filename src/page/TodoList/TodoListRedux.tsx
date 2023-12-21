@@ -32,7 +32,6 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
     dispatch(getTasksTC(id));
   }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
-
   const mappedTasks = () => {
     return tasksForTodolist.map((task) => (
       <TaskForMap

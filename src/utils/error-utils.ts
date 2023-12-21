@@ -1,9 +1,9 @@
 import { setAppErrorAC, setAppStatusAC } from "../state/app-reducer/app-reducer"
 import { Dispatch } from "redux"
-// import { AppAllActionsType } from "../state/storeBLL"
+import { AppAllActionsType } from "../state/storeBLL"
 
 
-export const handleServerAppError = <D>(messages: string[], dispatch: Dispatch) => {
+export const handleServerAppError = <D>(messages: string[], dispatch: Dispatch<AppAllActionsType>) => {
   if (messages.length) {
     dispatch(setAppErrorAC(messages[0])) //приходит текст ошибки из сервера
   } else {
@@ -12,7 +12,7 @@ export const handleServerAppError = <D>(messages: string[], dispatch: Dispatch) 
   dispatch(setAppStatusAC('failed'))
 }
 
-export const handleServerNetworkError = (error: any, dispatch: Dispatch) => {
+export const handleServerNetworkError = (error: any, dispatch: Dispatch<AppAllActionsType>) => {
   dispatch(setAppErrorAC(error.message ? error.message : "Some error occurred"))
   dispatch(setAppStatusAC('failed'))
 }

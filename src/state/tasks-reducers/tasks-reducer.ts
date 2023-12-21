@@ -1,7 +1,7 @@
 //BLL
 import { AddTodoList, RemoveTodoList, SetTodoList } from "../todoList-reducers/todolists-reducer";
 import { TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } from "../../api_DAL/tasks-api";
-import { Dispatch } from "redux"; //only fron redux
+import { Dispatch } from "redux"; //only from redux
 import { AppRootState, AppThunkType } from "../storeBLL";
 import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
