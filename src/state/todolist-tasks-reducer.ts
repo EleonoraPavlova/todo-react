@@ -1,5 +1,4 @@
 import { TasksObjType } from "../api_DAL/tasks-api"
-import { todoListId1 } from "./initialState/id-utils"
 import { tasksReducer } from "./tasks-reducers/tasks-reducer"
 import { addTodolistAC, TodolistDomainType, todolistsReducer } from "./todoList-reducers/todolists-reducer"
 
@@ -12,7 +11,7 @@ test('ids should be equals', () => {
   const startTodolistsState: TodolistDomainType[] = []
 
   const newTodolist = {
-    id: todoListId1, title: 'What to learn', addedDate: "",
+    id: "1", title: 'What to learn', addedDate: "",
     order: 0
   }
   const action = addTodolistAC(newTodolist)

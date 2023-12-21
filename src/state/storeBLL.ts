@@ -9,7 +9,7 @@ import { ActionsAppType, appReducer } from "./app-reducer/app-reducer";
 //tasksReducer - за мофицикац тасок
 //todolistsReducer - за todolist
 
-export type AppRootState = ReturnType<typeof rootReducer>
+export type AppRootState = ReturnType<typeof store.getState>
 
 const rootReducer = combineReducers({ //все dispatch приходят в rootReducer, а он самостоятельно раскидывает их 
   //по нужным напрвлениям
@@ -23,6 +23,7 @@ export const store = createStore(rootReducer, applyMiddleware(thunk)) //подк
 
 //типизация dispatch санки
 export type AppDispatchType = ThunkDispatch<AppRootState, unknown, AnyAction> // будет приниматься любой action
+
 export type AppAllActionsType = ActionsTasksType | ActionsTodolistsType | ActionsAppType// all actions in app
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, AppAllActionsType>//in thunk to dispatch other thunk and any actions(like a main type)
 //<ReturnType = void>значение по умолчанию

@@ -1,9 +1,8 @@
 //BLL
 import { TodolistTypeApi, todolistsApi } from "../../api_DAL/todolists-api";
-import { Dispatch } from "redux";
 import { RequestStatusType, setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
-import { AppAllActionsType, AppThunkType } from "../storeBLL";
+import { AppThunkType } from "../storeBLL";
 
 export type RemoveTodoList = ReturnType<typeof removeTodolistAC>
 export type AddTodoList = ReturnType<typeof addTodolistAC>

@@ -8,9 +8,10 @@ import { Menu } from "@mui/icons-material";
 import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from "../state/tasks-reducers/tasks-reducer";
 import { changeFilterTodolistAC, changeTitleTodolistAC, FilterValuesType, removeTodolistAC, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
 import { TaskPriorities, TaskStatuses, TaskTypeApi } from "../api_DAL/tasks-api";
-import { todoListId1, todoListId2 } from "../state/initialState/id-utils";
 
 //переделать на санки
+const todoListId1 = v1()
+const todoListId2 = v1()
 
 function AppReducer() {
   let [tasks, dispatchTasks] = useReducer(tasksReducer, {

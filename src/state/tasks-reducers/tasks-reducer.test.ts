@@ -1,10 +1,71 @@
 import { addTodolistAC, setTodolistAC } from "../todoList-reducers/todolists-reducer"
-import { todoListId1, todoListId2 } from "../initialState/id-utils"
 import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC, tasksReducer } from "./tasks-reducer"
 import { startStateTodolists } from "../initialState/todolistsStartState"
-import { TaskStatuses } from "../../api_DAL/tasks-api"
+import { TaskPriorities, TaskStatuses } from "../../api_DAL/tasks-api"
 import { startStateTasks } from "../initialState/tasksStartState"
+import { v1 } from "uuid";
 
+const todoListId1 = v1()
+const todoListId2 = v1()
+
+let startState;
+
+beforeEach(() => {
+  startState = {
+    [todoListId1]: [
+      {
+        id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed,
+        description: "", completed: true,
+        priority: TaskPriorities.Low, startDate: "",
+        todoListId: todoListId1, deadline: "", order: 1, addedDate: ""
+      },
+      {
+        id: v1(), title: "JS", status: TaskStatuses.Completed,
+        description: "", completed: true,
+        priority: TaskPriorities.Low, startDate: "",
+        todoListId: todoListId1, deadline: "", order: 1, addedDate: ""
+      },
+      {
+        id: v1(), title: "ReactJS", status: TaskStatuses.New,
+        description: "", completed: true,
+        priority: TaskPriorities.Low, startDate: "",
+        todoListId: todoListId1, deadline: "", order: 1, addedDate: ""
+      },
+      {
+        id: v1(), title: "Redax", status: TaskStatuses.New,
+        description: "", completed: true,
+        priority: TaskPriorities.Low, startDate: "",
+        todoListId: todoListId1, deadline: "", order: 1, addedDate: ""
+      }
+    ],
+    [todoListId2]: [
+      {
+        id: v1(), title: "Milk", status: TaskStatuses.Completed,
+        description: "", completed: true,
+        priority: TaskPriorities.Low, startDate: "",
+        todoListId: todoListId2, deadline: "", order: 1, addedDate: ""
+      },
+      {
+        id: v1(), title: "Juice", status: TaskStatuses.Completed,
+        description: "", completed: true,
+        priority: TaskPriorities.Low, startDate: "",
+        todoListId: todoListId2, deadline: "", order: 1, addedDate: ""
+      },
+      {
+        id: v1(), title: "Meat", status: TaskStatuses.New,
+        description: "", completed: true,
+        priority: TaskPriorities.Low, startDate: "",
+        todoListId: todoListId2, deadline: "", order: 1, addedDate: ""
+      },
+      {
+        id: v1(), title: "Bread", status: TaskStatuses.New,
+        description: "", completed: true,
+        priority: TaskPriorities.Low, startDate: "",
+        todoListId: todoListId2, deadline: "", order: 1, addedDate: ""
+      }
+    ],
+  }
+})
 
 test('new array should be added when new todolist is added', () => {
   const endState = tasksReducer(startStateTasks, addTodolistAC({

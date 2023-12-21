@@ -1,8 +1,7 @@
 import React from 'react';
 import { TaskForMap } from "./TaskForMap";
 import { Box } from "@mui/material";
-import { todoListId2 } from "../../state/initialState/id-utils";
-import { startStateTasks } from "../../state/initialState/tasksStartState";
+import { startStateTasks, todoListId2 } from "../../state/initialState/tasksStartState";
 
 export default {
   title: "AddItemForm",

@@ -7,10 +7,12 @@ import {
   addTodolistTC, getTodolistTC
 } from "../../state/todoList-reducers/todolists-reducer";
 import { TaskTypeApi } from "../../api_DAL/tasks-api";
-import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
+// import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
 import { TodolistRender } from "../../components/TodolistRender/TodolistRender";
 import { RequestStatusType } from "../../state/app-reducer/app-reducer";
 import { SnackbarComponent } from "../../components/SnackbarComponent/SnackbarComponent";
+import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
+
 
 type AppReduxProps = {
   demo: boolean //загрузка мокового state
@@ -28,13 +30,12 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
     if (demo) {
       return;
     }
-    dispatch(getTodolistTC)
+    dispatch(getTodolistTC())
   }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
 
   const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
-    const thunk = addTodolistTC(input)
-    dispatch(thunk)
+    dispatch(addTodolistTC(input))
   }, [dispatch])
 
   return (
