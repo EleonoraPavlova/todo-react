@@ -22,13 +22,10 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
   // ПИСАТЬ НУЖНО ТО, ЧТО НУЖНО ВЫТЯНУТЬ ИЗ state - разворачивание объекта todoLists
   //const tasks = useAppSelector<TasksObjType>(state => state.tasks)
   let disabledFor = entityStatus === "loading"
-
   const dispatch = useAppDispatch()
 
   useEffect(() => { //download all todolists from api when loading the component
-    if (demo) {
-      return
-    }
+    if (demo) return
     dispatch(getTasksTC(id));
   }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
@@ -84,13 +81,15 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
       </List>
       <div style={{ display: "flex", gap: "15px" }}>
         <Button size="small" variant={filter === "all" ? "contained" : "text"}
-          children={"All"}
+          children={"All"} disabled={disabledFor}
           onClick={changeFilterAll} className="button" />
         <Button size="small" color={"success"}
-          variant={filter === "active" ? "contained" : "text"} children={"Active"}
+          variant={filter === "active" ? "contained" : "text"}
+          children={"Active"} disabled={disabledFor}
           onClick={changeFilterActive} className="button" />
         <Button size="small" color={"secondary"}
           variant={filter === "completed" ? "contained" : "text"}
+          disabled={disabledFor}
           children={"Completed"} onClick={changeFilterCompleted}
           className="button" />
       </div>

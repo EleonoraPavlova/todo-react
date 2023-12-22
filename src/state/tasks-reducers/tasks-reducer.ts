@@ -5,6 +5,7 @@ import { Dispatch } from "redux"; //only from redux
 import { AppRootState, AppThunkType } from "../storeBLL";
 import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
+import { AxiosError } from "axios";
 
 //type ActionsType = ReturnType<typeof getTodosAC> | ReturnType<typeof changeTodoStatusAC>
 
@@ -128,8 +129,8 @@ export const getTasksTC = (todolistId: string): AppThunkType =>  //функц п
       const res = await tasksApi.getTasks(todolistId)
       dispatch(setTasksAC(res.data.items, todolistId))
       dispatch(setAppStatusAC('succeeded'))
-    } catch (err) {
-      handleServerNetworkError(err, dispatch)
+    } catch (err) { //: AxiosError<>
+      handleServerNetworkError(err, dispatch) //обработка серверных ошибок
     }
   }
 

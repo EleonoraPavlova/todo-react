@@ -5,7 +5,7 @@ import axios from 'axios'
 export const settings = {
   withCredentials: true, //есть валидац токен
   headers: {
-    "API-KEY": "6a891b51-a742-4c47-8da1-58a8df99feb7"
+    "API-KEY": "da75ba21-ff7d-45de-8bae-e8c163a0a2e8"
   }
 }
 
