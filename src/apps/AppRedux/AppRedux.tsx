@@ -60,7 +60,7 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
               {btnText}
             </Button>
             <Button variant="outlined" size="small" color={"inherit"}>
-              <NavLink to="/login">Login</NavLink>
+              <NavLink to="/login">LogIn</NavLink>
             </Button>
           </Box>
         </Toolbar>

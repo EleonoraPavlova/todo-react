@@ -112,7 +112,6 @@ export const getTodolistTC = (): AppThunkType => { //функц прослойк
         handleServerNetworkError(error, dispatch)
       })
   }
-
 }
 
 export const removeTodolistTC = (todolistId: string): AppThunkType => { //функц прослойка для dispatch api

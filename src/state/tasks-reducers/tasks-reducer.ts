@@ -5,7 +5,6 @@ import { Dispatch } from "redux"; //only from redux
 import { AppRootState, AppThunkType } from "../storeBLL";
 import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
-import { AxiosError } from "axios";
 
 //type ActionsType = ReturnType<typeof getTodosAC> | ReturnType<typeof changeTodoStatusAC>
 
@@ -21,7 +20,7 @@ export type ActionsTasksType =
   | RemoveTodoList
 
 
-enum ResultCode { //enum  ONLY for reading, cannot be overwritten!!
+export enum ResultCode { //enum  ONLY for reading, cannot be overwritten!!
   SUCCEEDED = 0,
   ERROR = 1,
   ERROR_CAPTCHA = 10

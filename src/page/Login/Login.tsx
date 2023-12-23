@@ -8,8 +8,14 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from "formik";
+import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
+import { authTC } from "../../state/auth-reducers/auth-reducer";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  let isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate();
 
   const formik = useFormik({
     validate: (values) => {
@@ -31,9 +37,14 @@ export const Login = () => {
       rememberMe: false
     },
     onSubmit: values => {
-      alert(JSON.stringify(values));
+      dispatch(authTC(values))
     },
   })
+
+  if (isLoggedIn) {
+    navigate("/")
+    return null
+  }
 
   //  {...formik.getFieldProps("email")} /> взяла все пропсы которые есть у formik c крнкретным именем email
   return <Grid container justifyContent={'center'}>
@@ -45,11 +56,14 @@ export const Login = () => {
           </FormLabel>
           <FormGroup>
             <TextField label="Email" margin="normal"
-              {...formik.getFieldProps("email")} />
+              {...formik.getFieldProps("email")}
+              inputProps={{ autoComplete: 'username' }}
+            />
             {formik.errors.email && formik.touched.email && formik.errors.email}
             <TextField type="password" label="Password"
               margin="normal"
               {...formik.getFieldProps("password")}
+              inputProps={{ autoComplete: 'current-password' }}
             />
             {formik.errors.password && formik.touched.email && formik.errors.password}
             <FormControlLabel label={'Remember me'}
