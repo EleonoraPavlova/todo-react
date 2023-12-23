@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './style/index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, HashRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 // import AppRedux from "../src/apps/AppRedux/AppRedux";
 import { Provider } from "react-redux";
 import { store } from "./state/storeBLL";

@@ -21,6 +21,12 @@ export type ActionsTasksType =
   | RemoveTodoList
 
 
+enum ResultCode { //enum  ONLY for reading, cannot be overwritten!!
+  SUCCEEDED = 0,
+  ERROR = 1,
+  ERROR_CAPTCHA = 10
+}
+
 export const initialStateTasks: TasksObjType = {}
 
 export const tasksReducer = (state: TasksObjType = initialStateTasks, action: ActionsTasksType): TasksObjType => {
@@ -129,7 +135,7 @@ export const getTasksTC = (todolistId: string): AppThunkType =>  //функц п
       const res = await tasksApi.getTasks(todolistId)
       dispatch(setTasksAC(res.data.items, todolistId))
       dispatch(setAppStatusAC('succeeded'))
-    } catch (err) { //: AxiosError<>
+    } catch (err) {
       handleServerNetworkError(err, dispatch) //обработка серверных ошибок
     }
   }
@@ -154,7 +160,7 @@ export const addTaskTC = (title: string, todoListId: string): AppThunkType =>
     dispatch(setAppStatusAC('loading'))
     try {
       const res = await tasksApi.createTasks(title, todoListId)
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.SUCCEEDED) {
         const task = res.data.data.item
         dispatch(addTaskAC(task))
         dispatch(setAppSuccessAC("task was successful added"))
@@ -173,7 +179,7 @@ export const changeTaskTitleTC = (todoListId: string, id: string, title: string)
     dispatch(setAppStatusAC('loading'))
     try {
       const res = await tasksApi.updateTaskTitle(todoListId, id, title)
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.SUCCEEDED) {
         dispatch(changeTaskTitleAC(id, title, todoListId))
         dispatch(setAppSuccessAC("task title was successful changed"))
         dispatch(setAppStatusAC('succeeded'))
@@ -203,7 +209,7 @@ export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskS
 
       const res = await tasksApi.updateTaskAtAll(todoListId, id, payload)
       try {
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.SUCCEEDED) {
           dispatch(changeTaskStatusAC(todoListId, id, status))
           dispatch(setAppSuccessAC("task status was successful changed"))
           dispatch(setAppStatusAC('succeeded'))
@@ -243,7 +249,7 @@ export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTas
       dispatch(setAppStatusAC('loading'))
       const res = await tasksApi.updateTaskAtAll(todoListId, id, payload)
       try {
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.SUCCEEDED) {
           dispatch(updateTaskAC(todoListId, id, payload))
           dispatch(setAppSuccessAC("task was successful updated"))
           dispatch(setAppStatusAC('succeeded'))
