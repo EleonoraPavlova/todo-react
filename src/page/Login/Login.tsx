@@ -13,9 +13,8 @@ import { authTC } from "../../state/auth-reducers/auth-reducer";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  let isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  //let isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const dispatch = useAppDispatch()
-  const navigate = useNavigate();
 
   const formik = useFormik({
     validate: (values) => {
@@ -41,10 +40,9 @@ export const Login = () => {
     },
   })
 
-  if (isLoggedIn) {
-    navigate("/")
-    return null
-  }
+  // if (isLoggedIn) {
+  //   navigate("/")
+  // }
 
   //  {...formik.getFieldProps("email")} /> взяла все пропсы которые есть у formik c крнкретным именем email
   return <Grid container justifyContent={'center'}>
@@ -65,9 +63,9 @@ export const Login = () => {
               {...formik.getFieldProps("password")}
               inputProps={{ autoComplete: 'current-password' }}
             />
-            {formik.errors.password && formik.touched.email && formik.errors.password}
+            {formik.errors.password && formik.touched.password && formik.errors.password}
             <FormControlLabel label={'Remember me'}
-              control={<Checkbox  {...formik.getFieldProps("Remember me")}
+              control={<Checkbox  {...formik.getFieldProps("rememberMe")}
                 checked={formik.values.rememberMe}
               />}
               sx={{ marginBottom: "15px" }} />

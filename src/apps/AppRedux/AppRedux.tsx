@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import "../../style/App.css";
-import { AppBar, Box, Button, Container, IconButton, LinearProgress, ThemeProvider, Toolbar, Typography, createTheme } from "@mui/material";
+import { AppBar, Box, Button, CircularProgress, Container, IconButton, LinearProgress, ThemeProvider, Toolbar, Typography, createTheme, styled } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { getTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
 import { TaskTypeApi } from "../../api_DAL/tasks-api";
 import { TodolistRender } from "../../components/TodolistRender/TodolistRender";
-import { RequestStatusType } from "../../state/app-reducer/app-reducer";
+import { RequestStatusType, setAppInitializeTC } from "../../state/app-reducer/app-reducer";
 import { SnackbarComponent } from "../../components/SnackbarComponent/SnackbarComponent";
 import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import { Login } from "../../page/Login/Login";
-import { blue, purple } from "@mui/material/colors";
+import { blue, purple, red } from "@mui/material/colors";
 
 
 type AppReduxProps = {
@@ -23,11 +23,20 @@ export type TasksObjType = {
 
 export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
   let status = useAppSelector<RequestStatusType>(state => state.app.status)
+  let initialized = useAppSelector<boolean>(state => state.app.initialized)
+  let isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn) //не залогинены
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch()
+
   //в useEffect выполняются запросы на api
   useEffect(() => { //download all todolists from api when loading the component
+    dispatch(setAppInitializeTC())
+    if (initialized && !isLoggedIn) {
+      navigate("/login");
+    }
     dispatch(getTodolistTC())
-  }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
+  }, [initialized, isLoggedIn]) //пустой [] - отрабатывает один раз при загрузке страницы!
 
   let [lightMode, setLightMode] = useState<boolean>(true) // для изменения темы стейт
   let btnText = lightMode ? "dark" : "light"
@@ -41,6 +50,21 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
 
   const toggleTheme = () => {
     setLightMode(!lightMode)
+  }
+
+  const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
+    "& circle": {
+      strokeWidth: 2,
+    },
+  }));
+
+  if (!initialized) {
+    return (
+      <Box
+        sx={{ display: 'flex', alignItems: "center", justifyContent: 'center', height: '100vh' }}>
+        <CustomCircularProgress />
+      </Box>)
+
   }
 
   return (

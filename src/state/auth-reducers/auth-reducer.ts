@@ -10,7 +10,6 @@ import { getTodolistTC } from "../todoList-reducers/todolists-reducer";
 
 export type ActionsAuthType = ReturnType<typeof setIsLoggedInAC>
 
-
 export type initialAuthStateType = {
   email: string,
   password: string,

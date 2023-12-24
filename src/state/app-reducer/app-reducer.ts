@@ -1,4 +1,9 @@
+import { authApi } from "../../api_DAL/login-api"
+import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils"
+import { setIsLoggedInAC } from "../auth-reducers/auth-reducer"
 import { appStartState } from "../initialState/appStartState"
+import { AppThunkType } from "../storeBLL"
+import { ResultCode } from "../tasks-reducers/tasks-reducer"
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -6,7 +11,7 @@ export type initialStateType = {
   status: RequestStatusType,
   error: string | null,
   success: string | null,
-  initialized: boolean
+  initialized: boolean // инициализ приложения, проверка отображать todolists or not
 }
 
 export type SetAppErrorType = ReturnType<typeof setAppErrorAC>
@@ -21,6 +26,7 @@ export type ActionsAppType = SetAppErrorType
 
 export const appReducer = (state: initialStateType = appStartState, action: ActionsAppType): initialStateType => {
   switch (action.type) {
+
     case 'APP/SET-STATUS':
       return { ...state, status: action.status }
     case 'APP/SET-ERROR':
@@ -50,3 +56,18 @@ export const setAppStatusAC = (status: RequestStatusType) => {
 export const setAppSuccessAC = (success: string | null) => {
   return { type: 'APP/SET-SUCCESS', success } as const
 }
+
+//thunk
+export const setAppInitializeTC = (): AppThunkType =>  //функц прослойка для dispatch api
+  async dispatch => {
+    try {
+      const res = await authApi.checkAuthMe()
+      if (res.data.resultCode === ResultCode.SUCCEEDED) {
+        dispatch(setIsLoggedInAC(true))// анонимный пользователь или авторизованный
+        dispatch(setAppInitializedAC(true))
+      }
+      dispatch(setAppInitializedAC(true))
+    } catch (err) {
+      handleServerNetworkError(err, dispatch) //обработка серверных ошибок
+    }
+  }
