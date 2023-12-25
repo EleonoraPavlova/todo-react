@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import "../../style/App.css";
 import { AppBar, Box, Button, CircularProgress, Container, IconButton, LinearProgress, ThemeProvider, Toolbar, Typography, createTheme, styled } from "@mui/material";
 import { Menu } from "@mui/icons-material";
@@ -10,7 +10,8 @@ import { SnackbarComponent } from "../../components/SnackbarComponent/SnackbarCo
 import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import { Login } from "../../page/Login/Login";
-import { blue, purple, red } from "@mui/material/colors";
+import { blue, purple } from "@mui/material/colors";
+import { logOutTC } from "../../state/auth-reducers/auth-reducer";
 
 
 type AppReduxProps = {
@@ -23,7 +24,7 @@ export type TasksObjType = {
 
 export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
   let status = useAppSelector<RequestStatusType>(state => state.app.status)
-  let initialized = useAppSelector<boolean>(state => state.app.initialized)
+  let initialized = useAppSelector<boolean>(state => state.app.initialized) //first initialization
   let isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn) //не залогинены
   const navigate = useNavigate();
 
@@ -34,6 +35,8 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
     dispatch(setAppInitializeTC())
     if (initialized && !isLoggedIn) {
       navigate("/login");
+    } else {
+      navigate("/");
     }
     dispatch(getTodolistTC())
   }, [initialized, isLoggedIn]) //пустой [] - отрабатывает один раз при загрузке страницы!
@@ -51,6 +54,10 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
   const toggleTheme = () => {
     setLightMode(!lightMode)
   }
+
+  const logOutHandler = useCallback(() => {
+    dispatch(logOutTC())
+  }, [dispatch])
 
   const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
     "& circle": {
@@ -83,8 +90,8 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
             <Button variant="outlined" size="small" color={"inherit"} onClick={toggleTheme} sx={{ mr: '10px' }}>
               {btnText}
             </Button>
-            <Button variant="outlined" size="small" color={"inherit"}>
-              <NavLink to="/login">LogIn</NavLink>
+            <Button variant="outlined" size="small" color={"inherit"} onClick={logOutHandler}>
+              <NavLink to="/login">{isLoggedIn ? "LogOut" : "LogIn"}</NavLink>
             </Button>
           </Box>
         </Toolbar>

@@ -1,6 +1,6 @@
 //BLL
 import { AddTodoList, RemoveTodoList, SetTodoList } from "../todoList-reducers/todolists-reducer";
-import { TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } from "../../api_DAL/tasks-api";
+import { TaskPriorities, TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } from "../../api_DAL/tasks-api";
 import { Dispatch } from "redux"; //only from redux
 import { AppRootState, AppThunkType } from "../storeBLL";
 import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
@@ -26,7 +26,38 @@ export enum ResultCode { //enum  ONLY for reading, cannot be overwritten!!
   ERROR_CAPTCHA = 10
 }
 
-export const initialStateTasks: TasksObjType = {}
+export const initialStateTasks: TasksObjType = {
+  "todoListId1": [
+    {
+      description: "",
+      title: "",
+      completed: false,
+      status: TaskStatuses.New,
+      priority: TaskPriorities.Low,
+      startDate: "",
+      deadline: "",
+      id: "",
+      todoListId: "",
+      order: 0,
+      addedDate: ""
+    }
+  ],
+  "todoListId2": [
+    {
+      description: "",
+      title: "",
+      completed: false,
+      status: TaskStatuses.New,
+      priority: TaskPriorities.Low,
+      startDate: "",
+      deadline: "",
+      id: "",
+      todoListId: "",
+      order: 0,
+      addedDate: ""
+    }
+  ]
+}
 
 export const tasksReducer = (state: TasksObjType = initialStateTasks, action: ActionsTasksType): TasksObjType => {
   switch (action.type) {
@@ -143,6 +174,7 @@ export const getTasksTC = (todolistId: string): AppThunkType =>  //функц п
 export const removeTaskTC = (todoListId: string, taskId: string): AppThunkType =>
   async dispatch => {
     dispatch(setAppStatusAC('loading'))
+    dispatch(changeTaskStatusAC(todoListId, taskId, TaskStatuses.InProgress))
     try {
       await tasksApi.deleteTasks(todoListId, taskId)
       dispatch(removeTaskAC(todoListId, taskId))

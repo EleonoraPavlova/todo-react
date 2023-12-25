@@ -26,7 +26,6 @@ export type ActionsAppType = SetAppErrorType
 
 export const appReducer = (state: initialStateType = appStartState, action: ActionsAppType): initialStateType => {
   switch (action.type) {
-
     case 'APP/SET-STATUS':
       return { ...state, status: action.status }
     case 'APP/SET-ERROR':
@@ -65,6 +64,8 @@ export const setAppInitializeTC = (): AppThunkType =>  //функц просло
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
         dispatch(setIsLoggedInAC(true))// анонимный пользователь или авторизованный
         dispatch(setAppInitializedAC(true))
+      } else {
+        handleServerAppError(res.data.messages, dispatch)
       }
       dispatch(setAppInitializedAC(true))
     } catch (err) {

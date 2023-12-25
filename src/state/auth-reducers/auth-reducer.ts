@@ -40,7 +40,7 @@ export const setIsLoggedInAC = (isLoggedIn: boolean) => {
 }
 
 
-export const authTC = (params: LoginParamsTypeApi): AppThunkType =>  //функц прослойка для dispatch api
+export const loginTC = (params: LoginParamsTypeApi): AppThunkType =>  //функц прослойка для dispatch api
   async dispatch => {
     dispatch(setAppStatusAC('loading'))
     try {
@@ -49,6 +49,24 @@ export const authTC = (params: LoginParamsTypeApi): AppThunkType =>  //функ�
         dispatch(setIsLoggedInAC(true))
         dispatch(getTodolistTC())
         dispatch(setAppSuccessAC("Authorization was successful"))
+        dispatch(setAppStatusAC('succeeded'))
+      } else {
+        handleServerAppError(res.data.messages, dispatch)
+      }
+    } catch (error) {
+      handleServerNetworkError(error, dispatch)
+    }
+  }
+
+
+export const logOutTC = (): AppThunkType =>  //функц прослойка для dispatch api
+  async dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+      const res = await authApi.logOut()
+      if (res.data.resultCode === ResultCode.SUCCEEDED) {
+        dispatch(setIsLoggedInAC(false))
+        dispatch(setAppSuccessAC("You have successfully logged out"))
         dispatch(setAppStatusAC('succeeded'))
       } else {
         handleServerAppError(res.data.messages, dispatch)

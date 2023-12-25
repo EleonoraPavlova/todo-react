@@ -48,7 +48,6 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
   const mappedTasks = () => {
     return tasksForTodolist.map(task => (
       <TaskForMap
-        disabled={false}
         key={task.id}
         task={task}
       />))

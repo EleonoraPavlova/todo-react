@@ -2,7 +2,7 @@ import React, { memo, useCallback, useEffect } from 'react';
 import { TaskForMap } from "../../components/TaskForMap/TaskForMap";
 import { FilterValuesType, TodolistDomainType, changeFilterTodolistTC, changeTitleTodolistTC, removeTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
 import { addTaskTC, getTasksTC } from "../../state/tasks-reducers/tasks-reducer";
-import { useAppDispatch, } from "../../state/hooks/hooks-selectors";
+import { useAppDispatch } from "../../state/hooks/hooks-selectors";
 import { Box, Button, IconButton, List } from "@mui/material";
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
 import { Delete } from "@mui/icons-material";
@@ -21,7 +21,8 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
   let { id, filter, title, entityStatus } = todolist // что входит todoLists пропсы,
   // ПИСАТЬ НУЖНО ТО, ЧТО НУЖНО ВЫТЯНУТЬ ИЗ state - разворачивание объекта todoLists
   //const tasks = useAppSelector<TasksObjType>(state => state.tasks)
-  let disabledFor = entityStatus === "loading"
+  let disabledFor = (entityStatus === "loading")
+
   const dispatch = useAppDispatch()
 
   useEffect(() => { //download all todolists from api when loading the component
@@ -32,7 +33,6 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
   const mappedTasks = () => {
     return tasksForTodolist.map((task) => (
       <TaskForMap
-        disabled={disabledFor}
         key={task.id}
         task={task}
       />
@@ -67,6 +67,7 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
       >
         <EditableSpan value={title} onChange={changeTodolistTitle}
           additionalClass={s.additionalClass}
+          disabled={disabledFor}
         />
         <IconButton aria-label="delete"
           size="small"

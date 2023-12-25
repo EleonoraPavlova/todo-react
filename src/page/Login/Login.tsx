@@ -8,12 +8,11 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from "formik";
-import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
-import { authTC } from "../../state/auth-reducers/auth-reducer";
-import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../state/hooks/hooks-selectors";
+import { loginTC } from "../../state/auth-reducers/auth-reducer";
+import { Typography } from "@mui/material";
 
 export const Login = () => {
-  //let isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const dispatch = useAppDispatch()
 
   const formik = useFormik({
@@ -36,13 +35,10 @@ export const Login = () => {
       rememberMe: false
     },
     onSubmit: values => {
-      dispatch(authTC(values))
+      dispatch(loginTC(values))
     },
   })
 
-  // if (isLoggedIn) {
-  //   navigate("/")
-  // }
 
   //  {...formik.getFieldProps("email")} /> взяла все пропсы которые есть у formik c крнкретным именем email
   return <Grid container justifyContent={'center'}>
@@ -57,13 +53,21 @@ export const Login = () => {
               {...formik.getFieldProps("email")}
               inputProps={{ autoComplete: 'username' }}
             />
-            {formik.errors.email && formik.touched.email && formik.errors.email}
+            {formik.errors.email && formik.touched.email && (
+              <Typography variant="body2" color="error">
+                {formik.errors.email}
+              </Typography>
+            )}
             <TextField type="password" label="Password"
               margin="normal"
               {...formik.getFieldProps("password")}
               inputProps={{ autoComplete: 'current-password' }}
             />
-            {formik.errors.password && formik.touched.password && formik.errors.password}
+            {formik.errors.password && formik.touched.password && (
+              <Typography variant="body2" color="error">
+                {formik.errors.password}
+              </Typography>
+            )}
             <FormControlLabel label={'Remember me'}
               control={<Checkbox  {...formik.getFieldProps("rememberMe")}
                 checked={formik.values.rememberMe}

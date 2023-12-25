@@ -12,11 +12,10 @@ import s from "./TaskForMap.module.scss";
 
 
 type TaskForMapType = {
-  task: TaskTypeApi;
-  disabled: boolean
-};
+  task: TaskTypeApi
+}
 
-export const TaskForMap: React.FC<TaskForMapType> = memo(({ task, disabled }) => {
+export const TaskForMap: React.FC<TaskForMapType> = memo(({ task }) => {
   let { todoListId, id, status, title } = task
   const dispatch = useAppDispatch()
 
@@ -41,14 +40,14 @@ export const TaskForMap: React.FC<TaskForMapType> = memo(({ task, disabled }) =>
         icon={<BookmarkBorderIcon />}
         checkedIcon={<BookmarkIcon />}
         color="success"
-        disabled={disabled}
+        disabled={status === TaskStatuses.InProgress}
       />
       <EditableSpan value={title}
         additionalClass={s.additionalClassTask}
         onChange={changeTaskTitle}
         isDone={status === TaskStatuses.Completed}
-        disabled={disabled} />
-      <IconButton aria-label="delete" onClick={onRemoveHandler} size="small" disabled={disabled}>
+        disabled={status === TaskStatuses.InProgress} />
+      <IconButton aria-label="delete" onClick={onRemoveHandler} size="small" disabled={status === TaskStatuses.InProgress}>
         <Delete fontSize="inherit" />
       </IconButton>
     </ListItem>

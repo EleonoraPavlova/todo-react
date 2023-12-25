@@ -62,21 +62,13 @@ export const tasksApi = {
   },
 
   createTasks(title: string, todolistId: string) {
-    try {
-      return instanse.post<ResponseType<{ item: TaskTypeApi }>>(`todo-lists/${todolistId}/tasks`, {
-        title: title
-      }, settings)
-    } catch {
-      throw new Error("Enter title or todolistId")
-    }
+    return instanse.post<ResponseType<{ item: TaskTypeApi }>>(`todo-lists/${todolistId}/tasks`, {
+      title: title
+    }, settings)
   },
 
   deleteTasks(todolistId: string, taskId: string) {
-    try {
-      return instanse.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
-    } catch (err) {
-      throw new Error("Something went wrong")
-    }
+    return instanse.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
   },
 
   updateTaskTitle(todolistId: string, taskId: string, title: string) {
