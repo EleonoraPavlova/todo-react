@@ -11,22 +11,29 @@ import { useFormik } from "formik";
 import { useAppDispatch } from "../../state/hooks/hooks-selectors";
 import { loginTC } from "../../state/auth-reducers/auth-reducer";
 import { Typography } from "@mui/material";
+import { LoginParamsTypeApi } from "../../api_DAL/login-api";
+import { handleServerNetworkError } from "../../utils/error-utils";
 
 export const Login = () => {
   const dispatch = useAppDispatch()
 
   const formik = useFormik({
     validate: (values) => {
+      const errors: Partial<LoginParamsTypeApi> = {}
+
       if (!values.email) {
-        return {
-          email: "Email is required"
-        }
+        errors.email = 'Required'
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address'
       }
+
       if (!values.password) {
-        return {
-          password: "Password is required"
-        }
+        errors.password = 'Required';
+      } else if (values.password.length < 5) {
+        errors.password = 'Must be more 5 symbols';
       }
+
+      return errors
     },
 
     initialValues: {
@@ -34,9 +41,16 @@ export const Login = () => {
       password: '',
       rememberMe: false
     },
-    onSubmit: values => {
-      dispatch(loginTC(values))
-    },
+    onSubmit: async (values, { setFieldValue, setSubmitting }) => {
+      setSubmitting(true)
+      try {
+        await dispatch(loginTC(values))
+        setFieldValue("password", "")
+      } catch (err) {
+        handleServerNetworkError(err as { message: string }, dispatch)
+      }
+      setSubmitting(false)
+    }
   })
 
 
@@ -49,32 +63,39 @@ export const Login = () => {
             <h4>To log in get registered</h4>
           </FormLabel>
           <FormGroup>
-            <TextField label="Email" margin="normal"
-              {...formik.getFieldProps("email")}
-              inputProps={{ autoComplete: 'username' }}
-            />
-            {formik.errors.email && formik.touched.email && (
-              <Typography variant="body2" color="error">
-                {formik.errors.email}
-              </Typography>
-            )}
-            <TextField type="password" label="Password"
+
+            <TextField label="Email"
               margin="normal"
-              {...formik.getFieldProps("password")}
-              inputProps={{ autoComplete: 'current-password' }}
+              autoComplete="email"
+              error={!!(formik.touched.email && formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              {...formik.getFieldProps("email")}
             />
-            {formik.errors.password && formik.touched.password && (
-              <Typography variant="body2" color="error">
-                {formik.errors.password}
-              </Typography>
-            )}
+
+            <TextField label="Password"
+              margin="normal"
+              type="password"
+              autoComplete="password"
+              error={!!(formik.touched.password && formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+              {...formik.getFieldProps("password")}
+            />
+
             <FormControlLabel label={'Remember me'}
               control={<Checkbox  {...formik.getFieldProps("rememberMe")}
                 checked={formik.values.rememberMe}
               />}
               sx={{ marginBottom: "15px" }} />
-            <Button type={'submit'} variant={'contained'} color={'primary'}>
-              Login
+
+            <Button type={'submit'}
+              variant={'contained'}
+              color={'primary'}
+              sx={{ color: 'white', margin: "20px 0" }}
+              disabled={
+                formik.isSubmitting ||
+                !(formik.dirty && formik.isValid)
+              }
+            >Login
             </Button>
           </FormGroup>
         </FormControl>
