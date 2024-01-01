@@ -1,7 +1,7 @@
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { memo, useCallback } from 'react';
 import { TaskForMap } from "../../components/TaskForMap/TaskForMap";
 import { FilterValuesType, TodolistDomainType, changeFilterTodolistTC, changeTitleTodolistTC, removeTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
-import { addTaskTC, getTasksTC } from "../../state/tasks-reducers/tasks-reducer";
+import { addTaskTC } from "../../state/tasks-reducers/tasks-reducer";
 import { useAppDispatch } from "../../state/hooks/hooks-selectors";
 import { Box, Button, IconButton, List } from "@mui/material";
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
@@ -24,11 +24,9 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
   let disabledFor = (entityStatus === "loading")
 
   const dispatch = useAppDispatch()
-
-  useEffect(() => { //download all todolists from api when loading the component
-    if (demo) return
-    dispatch(getTasksTC(id));
-  }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
+  // useEffect(() => { //download all todolists from api when loading the component
+  //   if (demo) return
+  // }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
   const mappedTasks = () => {
     return tasksForTodolist.map((task) => (

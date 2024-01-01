@@ -1,7 +1,7 @@
 //BLL
 import { AddTodoList, RemoveTodoList, SetTodoList } from "../todoList-reducers/todolists-reducer";
 import { TaskPriorities, TaskStatuses, TaskTypeApi, TasksObjType, UpdateTaskModel, tasksApi } from "../../api_DAL/tasks-api";
-import { Dispatch } from "redux"; //only from redux
+//import { Dispatch } from "redux"; //only from redux
 import { AppRootState, AppThunkType } from "../storeBLL";
 import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
@@ -15,6 +15,7 @@ export type ActionsTasksType =
   | ReturnType<typeof changeTaskStatusAC>
   | ReturnType<typeof setTasksAC>
   | ReturnType<typeof updateTaskAC>
+  | ReturnType<typeof clearTasksAC>
   | SetTodoList
   | AddTodoList
   | RemoveTodoList
@@ -105,6 +106,8 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
 
     case "SET-TODOLIST": {//устанавливает пустой массив!
       const copyState = { ...state }
+      delete copyState["todoListId1"];
+      delete copyState["todoListId2"];
       action.todolists.map(tl => copyState[tl.id] = [])
       return copyState
     }
@@ -112,6 +115,10 @@ export const tasksReducer = (state: TasksObjType = initialStateTasks, action: Ac
     case "SET-TASKS": {
       //: action.tasks  переопределила массив тасок по конкр action.todolistId
       return { ...state, [action.todoListId]: action.tasks }
+    }
+
+    case "CLEAR-TASKS": {
+      return {}
     }
 
     default:
@@ -156,6 +163,9 @@ export const updateTaskAC = (todoListId: string, id: string, payload: UpdateTask
   } as const
 }
 
+export const clearTasksAC = () => {
+  return { type: 'CLEAR-TASKS' } as const
+}
 
 //функции санки  ВСЕ ЗАПРОСЫ НА СЕРВЕР ДЕЛАТЬ В САНКАХ ТОЛЬКО!
 export const getTasksTC = (todolistId: string): AppThunkType =>  //функц прослойка для dispatch api
@@ -166,7 +176,7 @@ export const getTasksTC = (todolistId: string): AppThunkType =>  //функц п
       dispatch(setTasksAC(res.data.items, todolistId))
       dispatch(setAppStatusAC('succeeded'))
     } catch (err) {
-      handleServerNetworkError(err, dispatch) //обработка серверных ошибок
+      handleServerNetworkError(err as { message: string }, dispatch) //обработка серверных ошибок
     }
   }
 
@@ -180,8 +190,8 @@ export const removeTaskTC = (todoListId: string, taskId: string): AppThunkType =
       dispatch(removeTaskAC(todoListId, taskId))
       dispatch(setAppSuccessAC("task was successful removed"))
       dispatch(setAppStatusAC('succeeded'))
-    } catch (error) {
-      handleServerNetworkError(error, dispatch)
+    } catch (err) {
+      handleServerNetworkError(err as { message: string }, dispatch)
     }
   }
 
@@ -199,8 +209,8 @@ export const addTaskTC = (title: string, todoListId: string): AppThunkType =>
       } else {
         handleServerAppError(res.data.messages, dispatch)
       }
-    } catch (error) {
-      handleServerNetworkError(error, dispatch)
+    } catch (err) {
+      handleServerNetworkError(err as { message: string }, dispatch)
     }
   }
 
@@ -217,8 +227,8 @@ export const changeTaskTitleTC = (todoListId: string, id: string, title: string)
       } else {
         handleServerAppError(res.data.messages, dispatch)
       }
-    } catch (error) {
-      handleServerNetworkError(error, dispatch)
+    } catch (err) {
+      handleServerNetworkError(err as { message: string }, dispatch)
     }
   }
 
@@ -237,9 +247,8 @@ export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskS
         deadline: task.deadline,
         status: status
       }
-
-      const res = await tasksApi.updateTaskAtAll(todoListId, id, payload)
       try {
+        const res = await tasksApi.updateTaskAtAll(todoListId, id, payload)
         if (res.data.resultCode === ResultCode.SUCCEEDED) {
           dispatch(changeTaskStatusAC(todoListId, id, status))
           dispatch(setAppSuccessAC("task status was successful changed"))
@@ -247,8 +256,8 @@ export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskS
         } else {
           handleServerAppError(res.data.messages, dispatch)
         }
-      } catch (error) {
-        handleServerNetworkError(error, dispatch)
+      } catch (err) {
+        handleServerNetworkError(err as { message: string }, dispatch)
       }
     }
   }
@@ -278,8 +287,8 @@ export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTas
         ...apiModal
       }
       dispatch(setAppStatusAC('loading'))
-      const res = await tasksApi.updateTaskAtAll(todoListId, id, payload)
       try {
+        const res = await tasksApi.updateTaskAtAll(todoListId, id, payload)
         if (res.data.resultCode === ResultCode.SUCCEEDED) {
           dispatch(updateTaskAC(todoListId, id, payload))
           dispatch(setAppSuccessAC("task was successful updated"))
@@ -287,8 +296,8 @@ export const updateTaskTC = (todoListId: string, id: string, apiModal: UpdateTas
         } else {
           handleServerAppError(res.data.messages, dispatch)
         }
-      } catch (error) {
-        handleServerNetworkError(error, dispatch)
+      } catch (err) {
+        handleServerNetworkError(err as { message: string }, dispatch)
       }
     }
   }

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppRootState } from "../../../state/storeBLL"
 import { useCallback } from "react"
 import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, addTaskTC } from "../../../state/tasks-reducers/tasks-reducer"
-import { FilterValuesType, changeFilterTodolistAC, changeTitleTodolistAC, removeTodolistAC, TodolistDomainType, addTodolistTC } from "../../../state/todoList-reducers/todolists-reducer"
+import { FilterValuesType, changeFilterTodolistAC, changeTitleTodolistAC, removeTodolistAC, TodolistDomainType, addNewTodolistTC } from "../../../state/todoList-reducers/todolists-reducer"
 import { TaskStatuses, TasksObjType } from "../../../api_DAL/tasks-api"
 
 export function useAppRedux() {
@@ -44,7 +44,7 @@ export function useAppRedux() {
   }, [dispatch])
 
   const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
-    const thunk = addTodolistTC(input) as any
+    const thunk = addNewTodolistTC(input) as any
     dispatch(thunk)
   }, [dispatch])
 

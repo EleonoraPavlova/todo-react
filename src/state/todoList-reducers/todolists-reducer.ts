@@ -3,12 +3,13 @@ import { TodolistTypeApi, todolistsApi } from "../../api_DAL/todolists-api";
 import { RequestStatusType, setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
 import { AppThunkType } from "../storeBLL";
-import { ResultCode } from "../tasks-reducers/tasks-reducer";
+import { ResultCode, getTasksTC } from "../tasks-reducers/tasks-reducer";
 
 export type RemoveTodoList = ReturnType<typeof removeTodolistAC>
 export type AddTodoList = ReturnType<typeof addTodolistAC>
 export type SetTodoList = ReturnType<typeof setTodolistAC>
 export type ChangeStatusTodolist = ReturnType<typeof changeStatusTodolistAC>
+export type ClearTodolist = ReturnType<typeof clearTodolistAC>
 
 
 export type ActionsTodolistsType =  //общий тип!
@@ -18,6 +19,7 @@ export type ActionsTodolistsType =  //общий тип!
   | AddTodoList
   | SetTodoList
   | ChangeStatusTodolist
+  | ClearTodolist
 
 export type FilterValuesType = "all" | "completed" | "active"
 
@@ -58,6 +60,9 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
           entityStatus: "idle"
         }
       })
+    }
+    case 'CLEAR-TODOLIST': {
+      return []
     }
     default:
       return state;
@@ -100,6 +105,10 @@ export const setTodolistAC = (todolists: TodolistTypeApi[]) => { //фиксир�
   } as const
 }
 
+export const clearTodolistAC = () => {
+  return { type: 'CLEAR-TODOLIST' } as const
+}
+
 //thunk
 export const getTodolistTC = (): AppThunkType => //функц прослойка для dispatch api
   async dispatch => {
@@ -108,8 +117,11 @@ export const getTodolistTC = (): AppThunkType => //функц прослойка
       const res = await todolistsApi.getTodoslists()
       dispatch(setTodolistAC(res.data))
       dispatch(setAppStatusAC('succeeded'))
+      res.data.forEach(t => {
+        dispatch(getTasksTC(t.id))
+      })
     } catch (err) {
-      handleServerNetworkError(err, dispatch)
+      handleServerNetworkError(err as { message: string }, dispatch)
     }
   }
 
@@ -124,11 +136,11 @@ export const removeTodolistTC = (todolistId: string): AppThunkType =>  //фун�
       dispatch(setAppSuccessAC("todolist was successful removed"))
       dispatch(setAppStatusAC('succeeded'))
     } catch (err) {
-      handleServerNetworkError(err, dispatch)
+      handleServerNetworkError(err as { message: string }, dispatch)
     }
   }
 
-export const addTodolistTC = (title: string): AppThunkType => //функц прослойка для dispatch api
+export const addNewTodolistTC = (title: string): AppThunkType => //функц прослойка для dispatch api
   async dispatch => {
     dispatch(setAppStatusAC('loading'))
     try {
@@ -141,7 +153,7 @@ export const addTodolistTC = (title: string): AppThunkType => //функц пр�
         handleServerAppError(res.data.messages, dispatch)
       }
     } catch (err) {
-      handleServerNetworkError(err, dispatch)
+      handleServerNetworkError(err as { message: string }, dispatch)
     }
   }
 
@@ -158,7 +170,7 @@ export const changeTitleTodolistTC = (todolistId: string, title: string): AppThu
         handleServerAppError(res.data.messages, dispatch)
       }
     } catch (err) {
-      handleServerNetworkError(err, dispatch)
+      handleServerNetworkError(err as { message: string }, dispatch)
     }
   }
 
@@ -174,6 +186,6 @@ export const changeFilterTodolistTC = (todolistId: string, title: string, filter
         handleServerAppError(res.data.messages, dispatch)
       }
     } catch (err) {
-      handleServerNetworkError(err, dispatch)
+      handleServerNetworkError(err as { message: string }, dispatch)
     }
   }

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import "../../style/App.css";
 import { AppBar, Box, Button, CircularProgress, Container, IconButton, LinearProgress, ThemeProvider, Toolbar, Typography, createTheme, styled } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { getTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
 import { TaskTypeApi } from "../../api_DAL/tasks-api";
 import { TodolistRender } from "../../components/TodolistRender/TodolistRender";
 import { RequestStatusType, setAppInitializeTC } from "../../state/app-reducer/app-reducer";
@@ -38,7 +37,6 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
     } else {
       navigate("/");
     }
-    dispatch(getTodolistTC())
   }, [initialized, isLoggedIn]) //пустой [] - отрабатывает один раз при загрузке страницы!
 
   let [lightMode, setLightMode] = useState<boolean>(true) // для изменения темы стейт
@@ -71,7 +69,6 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
         sx={{ display: 'flex', alignItems: "center", justifyContent: 'center', height: '100vh' }}>
         <CustomCircularProgress />
       </Box>)
-
   }
 
   return (
@@ -90,9 +87,12 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
             <Button variant="outlined" size="small" color={"inherit"} onClick={toggleTheme} sx={{ mr: '10px' }}>
               {btnText}
             </Button>
-            <Button variant="outlined" size="small" color={"inherit"} onClick={logOutHandler}>
-              <NavLink to="/login">{isLoggedIn ? "LogOut" : "LogIn"}</NavLink>
-            </Button>
+            {isLoggedIn && <Button variant="outlined"
+              size="small"
+              color={"inherit"}
+              onClick={logOutHandler} sx={{ mr: '10px' }}>
+              <NavLink to="/login">Log Out</NavLink>
+            </Button>}
           </Box>
         </Toolbar>
         {status === 'loading' && < LinearProgress />}

@@ -4,6 +4,7 @@ import { setIsLoggedInAC } from "../auth-reducers/auth-reducer"
 import { appStartState } from "../initialState/appStartState"
 import { AppThunkType } from "../storeBLL"
 import { ResultCode } from "../tasks-reducers/tasks-reducer"
+import { getTodolistTC } from "../todoList-reducers/todolists-reducer"
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -59,16 +60,18 @@ export const setAppSuccessAC = (success: string | null) => {
 //thunk
 export const setAppInitializeTC = (): AppThunkType =>  //функц прослойка для dispatch api
   async dispatch => {
+    dispatch(setAppStatusAC("loading"))
     try {
       const res = await authApi.checkAuthMe()
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
         dispatch(setIsLoggedInAC(true))// анонимный пользователь или авторизованный
         dispatch(setAppInitializedAC(true))
+        dispatch(getTodolistTC())
       } else {
         handleServerAppError(res.data.messages, dispatch)
       }
       dispatch(setAppInitializedAC(true))
     } catch (err) {
-      handleServerNetworkError(err, dispatch) //обработка серверных ошибок
+      handleServerNetworkError(err as { message: string }, dispatch) //обработка серверных ошибок
     }
   }

@@ -2,7 +2,7 @@ import { Container, Grid, Paper } from "@mui/material";
 import { TaskStatuses, TasksObjType } from "../../api_DAL/tasks-api";
 import { memo, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
-import { TodolistDomainType, addTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
+import { TodolistDomainType, addNewTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
 import { TodoListRedux } from "../../page/TodoList/TodoListRedux";
 import { AddItemForm } from "../AddItemForm/AddItemForm";
 
@@ -17,7 +17,7 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
   const dispatch = useAppDispatch()
 
   const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
-    dispatch(addTodolistTC(input))
+    dispatch(addNewTodolistTC(input))
   }, [dispatch])
 
   return (

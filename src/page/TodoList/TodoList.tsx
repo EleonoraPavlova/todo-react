@@ -28,13 +28,6 @@ type TodoListProps = {
 
 
 export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => {
-  const dispatch = useAppDispatch()
-  //в useEffect выполняются запросы на api
-  useEffect(() => { //download all todolists from api when loading the component
-    dispatch(getTasksTC(props.todoListId))
-  }, [props.todoListId]) //пустой [] - отрабатывает один раз при загрузке страницы!
-
-
   let tasksForTodolist = useMemo(() => {
     if (props.filter === 'completed') {
       return props.tasks.filter(t => t.status === TaskStatuses.Completed);

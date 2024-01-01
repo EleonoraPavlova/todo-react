@@ -3,8 +3,8 @@ import { AppThunkType } from "../storeBLL";
 import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
 import { LoginParamsTypeApi, authApi } from "../../api_DAL/login-api";
-import { ResultCode } from "../tasks-reducers/tasks-reducer";
-import { getTodolistTC } from "../todoList-reducers/todolists-reducer";
+import { ResultCode, clearTasksAC } from "../tasks-reducers/tasks-reducer";
+import { clearTodolistAC, getTodolistTC } from "../todoList-reducers/todolists-reducer";
 
 //type ActionsType = ReturnType<typeof getTodosAC> | ReturnType<typeof changeTodoStatusAC>
 
@@ -53,8 +53,8 @@ export const loginTC = (params: LoginParamsTypeApi): AppThunkType =>  //функ
       } else {
         handleServerAppError(res.data.messages, dispatch)
       }
-    } catch (error) {
-      handleServerNetworkError(error, dispatch)
+    } catch (err) {
+      handleServerNetworkError(err as { message: string }, dispatch)
     }
   }
 
@@ -68,10 +68,12 @@ export const logOutTC = (): AppThunkType =>  //функц прослойка д�
         dispatch(setIsLoggedInAC(false))
         dispatch(setAppSuccessAC("You have successfully logged out"))
         dispatch(setAppStatusAC('succeeded'))
+        dispatch(clearTasksAC())
+        dispatch(clearTodolistAC())
       } else {
         handleServerAppError(res.data.messages, dispatch)
       }
-    } catch (error) {
-      handleServerNetworkError(error, dispatch)
+    } catch (err) {
+      handleServerNetworkError(err as { message: string }, dispatch)
     }
   }
