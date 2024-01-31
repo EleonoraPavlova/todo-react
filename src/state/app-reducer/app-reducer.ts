@@ -1,76 +1,64 @@
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { authApi } from "../../api_DAL/login-api"
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils"
 import { setIsLoggedInAC } from "../auth-reducers/auth-reducer"
-import { appStartState } from "../initialState/appStartState"
-import { AppThunkType } from "../storeBLL"
 import { ResultCode } from "../tasks-reducers/tasks-reducer"
 import { getTodolistTC } from "../todoList-reducers/todolists-reducer"
+import { AppThunkType } from "../storeBLL"
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
-export type initialStateType = {
+type appStartStateType = {
   status: RequestStatusType,
   error: string | null,
   success: string | null,
-  initialized: boolean // инициализ приложения, проверка отображать todolists or not
+  initialized: boolean
 }
 
-export type SetAppErrorType = ReturnType<typeof setAppErrorAC>
-export type SetAppStatusType = ReturnType<typeof setAppStatusAC>
-export type SetAppSuccessType = ReturnType<typeof setAppSuccessAC>
-export type SetAppInitializedType = ReturnType<typeof setAppInitializedAC>
+export const appStartState: appStartStateType = {
+  status: "idle", //without load
+  error: null,
+  success: null,
+  initialized: false //when no auth (check user, settings, ect) // инициализ приложения, проверка отображать todolists or not
+}
 
-export type ActionsAppType = SetAppErrorType
-  | SetAppStatusType
-  | SetAppSuccessType
-  | SetAppInitializedType
-
-export const appReducer = (state: initialStateType = appStartState, action: ActionsAppType): initialStateType => {
-  switch (action.type) {
-    case 'APP/SET-STATUS':
-      return { ...state, status: action.status }
-    case 'APP/SET-ERROR':
-      return { ...state, error: action.error }
-    case 'APP/SET-SUCCESS':
-      return { ...state, success: action.success }
-    case 'APP/INITIALIZED':
-      return { ...state, initialized: action.initialized }
-    default:
-      return state
+const slice = createSlice({
+  name: "app",
+  initialState: appStartState,
+  reducers: {
+    setAppInitializedAC(state, action: PayloadAction<{ initialized: boolean }>) {
+      state.initialized = action.payload.initialized
+    },
+    setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
+      state.error = action.payload.error
+    },
+    setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
+      state.status = action.payload.status
+    },
+    setAppSuccessAC(state, action: PayloadAction<{ success: string | null }>) {
+      state.success = action.payload.success
+    }
   }
-}
+})
 
+export const appReducer = slice.reducer
+export const { setAppInitializedAC, setAppErrorAC, setAppStatusAC, setAppSuccessAC } = slice.actions
 
-export const setAppInitializedAC = (initialized: boolean) => {
-  return { type: 'APP/INITIALIZED', initialized } as const
-}
-
-export const setAppErrorAC = (error: string | null) => {
-  return { type: 'APP/SET-ERROR', error } as const
-}
-
-export const setAppStatusAC = (status: RequestStatusType) => {
-  return { type: 'APP/SET-STATUS', status } as const
-}
-
-export const setAppSuccessAC = (success: string | null) => {
-  return { type: 'APP/SET-SUCCESS', success } as const
-}
 
 //thunk
 export const setAppInitializeTC = (): AppThunkType =>  //функц прослойка для dispatch api
   async dispatch => {
-    dispatch(setAppStatusAC("loading"))
+    dispatch(setAppStatusAC({ status: "loading" }))
     try {
       const res = await authApi.checkAuthMe()
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
-        dispatch(setIsLoggedInAC(true))// анонимный пользователь или авторизованный
-        dispatch(setAppInitializedAC(true))
+        dispatch(setIsLoggedInAC({ value: true }))// анонимный пользователь или авторизованный
+        dispatch(setAppInitializedAC({ initialized: true }))
         dispatch(getTodolistTC())
       } else {
         handleServerAppError(res.data.messages, dispatch)
       }
-      dispatch(setAppInitializedAC(true))
+      dispatch(setAppInitializedAC({ initialized: true }))
     } catch (err) {
       handleServerNetworkError(err as { message: string }, dispatch) //обработка серверных ошибок
     }

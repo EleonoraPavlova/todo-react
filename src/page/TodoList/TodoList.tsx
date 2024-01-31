@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
 import { EditableSpan } from "../../components/EditableSpan/EditableSpan";
 import { Button, IconButton, List } from "@mui/material";
@@ -6,10 +6,8 @@ import { Box } from '@mui/system';
 import { Delete } from "@mui/icons-material";
 import { TaskForMap } from "../../components/TaskForMap/TaskForMap";
 import { TaskStatuses, TaskTypeApi } from "../../api_DAL/tasks-api";
-import { FilterValuesType, TodolistDomainType } from "../../state/todoList-reducers/todolists-reducer";
-import { getTasksTC } from "../../state/tasks-reducers/tasks-reducer";
-import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
-import { RequestStatusType } from "../../state/app-reducer/app-reducer";
+import { FilterValuesType } from "../../state/todoList-reducers/todolists-reducer";
+
 
 
 type TodoListProps = {

@@ -8,13 +8,6 @@ import { useAppRedux } from "./hooks/useAppRedux";
 import { TodolistDomainType } from "../../state/todoList-reducers/todolists-reducer";
 
 
-// export type TodoListsType = {
-//   id: string
-//   title: string
-//   filter: FilterValues
-// }
-
-
 function AppReduxHooks() {
   console.log("AppRedux has been called")
 

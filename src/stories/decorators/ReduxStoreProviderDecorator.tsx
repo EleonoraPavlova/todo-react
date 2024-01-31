@@ -6,8 +6,7 @@ import { todolistsReducer } from "../../state/todoList-reducers/todolists-reduce
 import { tasksReducer } from "../../state/tasks-reducers/tasks-reducer";
 import { startStateTodolists } from "../../state/initialState/todolistsStartState";
 import { startStateTasks } from "../../state/initialState/tasksStartState";
-import { appReducer } from "../../state/app-reducer/app-reducer";
-import { appStartState } from "../../state/initialState/appStartState";
+import { appReducer, appStartState } from "../../state/app-reducer/app-reducer";
 import thunk from "redux-thunk";
 import { authReducer, initialAuthState } from "../../state/auth-reducers/auth-reducer";
 

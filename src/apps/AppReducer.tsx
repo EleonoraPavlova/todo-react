@@ -69,8 +69,8 @@ function AppReducer() {
   ])
 
   //tasks action creators
-  function removeTask(id: string, todoListId: string) {
-    const action = removeTaskAC(id, todoListId)
+  function removeTask(id: string, todolistId: string) {
+    const action = removeTaskAC({ taskId: id, todolistId })
     dispatchTasks(action)
   }
 
@@ -79,25 +79,25 @@ function AppReducer() {
     // dispatchTasks(action)
   }
 
-  function changeStatus(todoListId: string, id: string, status: TaskStatuses) {
-    const action = changeTaskStatusAC(todoListId, id, status)
+  function changeStatus(todolistId: string, id: string, status: TaskStatuses) {
+    const action = changeTaskStatusAC({ todolistId, id, status })
     dispatchTasks(action)
   }
 
-  function changeTaskTitle(id: string, input: string, todoListId: string) {
-    const action = changeTaskTitleAC(id, input, todoListId)
+  function changeTaskTitle(id: string, title: string, todolistId: string) {
+    const action = changeTaskTitleAC({ id, title, todolistId })
     dispatchTasks(action)
   }
 
 
   // todolists action creators
   function changeFilterHandler(value: FilterValuesType, todoListId: string) {
-    const action = changeFilterTodolistAC(value, todoListId)
+    const action = changeFilterTodolistAC({ filter: value, todolistId: todoListId })
     dispatchTodoLists(action)
   }
 
-  function removeTodolist(todoListId: string) {
-    const action = removeTodolistAC(todoListId)
+  function removeTodolist(todolistId: string) {
+    const action = removeTodolistAC({ todolistId })
     dispatchTodoLists(action)
     // dispatchTasks(action)
   }
@@ -109,8 +109,8 @@ function AppReducer() {
   }
 
 
-  function changeTodolistTitle(title: string, todoListId: string) {
-    const action = changeTitleTodolistAC(title, todoListId)
+  function changeTodolistTitle(title: string, todolistId: string) {
+    const action = changeTitleTodolistAC({ title, todolistId })
     dispatchTodoLists(action)
   }
 

@@ -18,9 +18,9 @@ export const SnackbarComponent = () => {
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') return;
-    dispatch(setAppErrorAC(null))
-    dispatch(setAppSuccessAC(null))
-  };
+    dispatch(setAppErrorAC({ error: null }))
+    dispatch(setAppSuccessAC({ success: null }))
+  }
 
   if (!error && !success) return null
 
