@@ -58,19 +58,18 @@ const slice = createSlice({
   name: "tasks",
   initialState: initialStateTasks,
   reducers: {
-    removeTaskAC(state, action: PayloadAction<{ todolistId: string, taskId: string }>) {//
+    removeTaskAC(state, action: PayloadAction<{ todolistId: string, taskId: string }>) {
       const tasks = state[action.payload.todolistId]
       const index = tasks.findIndex(t => t.id === action.payload.taskId)
       if (index > -1) tasks.splice(index, 1)
     },
-    addTaskAC(state, action: PayloadAction<{ task: TaskTypeApi }>) {//
-      debugger
-      state[action.payload.task.id].unshift(action.payload.task)
+    addTaskAC(state, action: PayloadAction<{ task: TaskTypeApi }>) {
+      state[action.payload.task.todoListId].unshift(action.payload.task)
     },
-    setTasksAC(state, action: PayloadAction<{ tasks: TaskTypeApi[], todoListId: string }>) {//
+    setTasksAC(state, action: PayloadAction<{ tasks: TaskTypeApi[], todoListId: string }>) {
       state[action.payload.todoListId] = action.payload.tasks
     },
-    updateTaskAC(state, action: PayloadAction<{ todoListId: string, id: string, payload: UpdateTaskModelForReducerFn }>) {//
+    updateTaskAC(state, action: PayloadAction<{ todoListId: string, id: string, payload: UpdateTaskModelForReducerFn }>) {
       const tasks = state[action.payload.todoListId]
       const index = tasks.findIndex(t => t.id === action.payload.id)
       if (index > -1) {
@@ -91,23 +90,23 @@ const slice = createSlice({
         tasks[index] = { ...tasks[index], status: action.payload.status }
       }
     },
-    clearTasksAC(state, action) {//
+    clearTasksAC(state, action) {
       return {}
     },
-    extraReducers: (builder) => { //для обработки чужих редьюсеров
-      builder
-        .addCase(addTodolistAC, (state: TasksObjType, action) => {
-          state[action.payload.todolist.id] = [];
+  },
+  extraReducers: (builder) => { //для обработки чужих редьюсеров
+    builder
+      .addCase(addTodolistAC, (state, action) => {
+        state[action.payload.todolist.id] = [];
+      })
+      .addCase(removeTodolistAC, (state, action) => {
+        delete state[action.payload.todolistId];
+      })
+      .addCase(setTodolistAC, (state, action) => {
+        action.payload.todolists.forEach((tl: TodolistTypeApi) => {
+          state[tl.id] = [];
         })
-        .addCase(removeTodolistAC, (state: TasksObjType, action) => {
-          delete state[action.payload.todolistId];
-        })
-        .addCase(setTodolistAC, (state: TasksObjType, action) => {
-          action.payload.todolists.forEach((tl: TodolistTypeApi) => {
-            state[tl.id] = [];
-          })
-        })
-    }
+      })
   }
 })
 
@@ -150,12 +149,10 @@ export const removeTaskTC = (todolistId: string, taskId: string): AppThunkType =
 export const addTaskTC = (title: string, todoListId: string): AppThunkType =>
   async dispatch => {
     dispatch(setAppStatusAC({ status: 'loading' }))
-    debugger
     try {
       const res = await tasksApi.createTasks(title, todoListId)
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
         const task = res.data.data.item
-        debugger
         dispatch(addTaskAC({ task }))
         dispatch(setAppSuccessAC({ success: "task was successful added" }))
         dispatch(setAppStatusAC({ status: 'succeeded' }))

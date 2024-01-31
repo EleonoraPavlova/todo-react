@@ -35,7 +35,7 @@ export const loginTC = (params: LoginParamsTypeApi): AppThunkType =>  //функ
       const res = await authApi.login(params)
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
         dispatch(setIsLoggedInAC({ value: true }))
-        dispatch(getTodolistTC())
+        // dispatch(getTodolistTC())
         dispatch(setAppSuccessAC({ success: "Authorization was successful" }))
         dispatch(setAppStatusAC({ status: 'succeeded' }))
       } else {
