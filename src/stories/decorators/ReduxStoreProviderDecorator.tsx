@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from "react-redux";
-import { AppRootState } from "../../state/storeBLL";
+import { AppRootState, RootReducerType } from "../../state/storeBLL";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import { todolistsReducer } from "../../state/todoList-reducers/todolists-reducer";
 import { tasksReducer } from "../../state/tasks-reducers/tasks-reducer";
@@ -9,6 +9,8 @@ import { startStateTasks } from "../../state/initialState/tasksStartState";
 import { appReducer, appStartState } from "../../state/app-reducer/app-reducer";
 import thunk from "redux-thunk";
 import { authReducer, initialAuthState } from "../../state/auth-reducers/auth-reducer";
+import { MemoryRouter } from "react-router-dom";
+import { configureStore } from "@reduxjs/toolkit";
 
 
 const rootReducer = combineReducers({
@@ -25,8 +27,13 @@ export const initialGlobalState: AppRootState = {
   auth: initialAuthState
 }
 
-export const storyBookStore = createStore(rootReducer, initialGlobalState as AppRootState, applyMiddleware(thunk))
+export const storyBookStore = configureStore({
+  reducer: rootReducer,
+  preloadedState: initialGlobalState,
+})
 
 export const ReduxStoreProviderDecorator = (story: any) => {
-  return <Provider store={storyBookStore}>{story()}</Provider>
+  return <MemoryRouter>
+    <Provider store={storyBookStore}>{story()}</Provider>
+  </MemoryRouter>
 }

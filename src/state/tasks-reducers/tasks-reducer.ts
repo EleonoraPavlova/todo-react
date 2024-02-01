@@ -63,8 +63,8 @@ const slice = createSlice({
       const index = tasks.findIndex(t => t.id === action.payload.taskId)
       if (index > -1) tasks.splice(index, 1)
     },
-    addTaskAC(state, action: PayloadAction<{ task: TaskTypeApi }>) {
-      state[action.payload.task.todoListId].unshift(action.payload.task)
+    addTaskAC(state, action: PayloadAction<TaskTypeApi>) {
+      state[action.payload.todoListId].unshift(action.payload)
     },
     setTasksAC(state, action: PayloadAction<{ tasks: TaskTypeApi[], todoListId: string }>) {
       state[action.payload.todoListId] = action.payload.tasks
@@ -153,7 +153,7 @@ export const addTaskTC = (title: string, todoListId: string): AppThunkType =>
       const res = await tasksApi.createTasks(title, todoListId)
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
         const task = res.data.data.item
-        dispatch(addTaskAC({ task }))
+        dispatch(addTaskAC(task))
         dispatch(setAppSuccessAC({ success: "task was successful added" }))
         dispatch(setAppStatusAC({ status: 'succeeded' }))
       } else {

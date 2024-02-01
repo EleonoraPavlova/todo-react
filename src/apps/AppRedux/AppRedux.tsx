@@ -1,6 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import "../../style/App.css";
-import { AppBar, Box, Button, CircularProgress, Container, IconButton, LinearProgress, ThemeProvider, Toolbar, Typography, createTheme, styled } from "@mui/material";
+import {
+  AppBar, Box, Button, CircularProgress, Container,
+  IconButton, LinearProgress,
+  ThemeProvider, Toolbar, Typography, createTheme, styled
+} from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { TaskTypeApi } from "../../api_DAL/tasks-api";
 import { TodolistRender } from "../../components/TodolistRender/TodolistRender";
@@ -37,7 +41,8 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
     } else {
       navigate("/");
     }
-  }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
+    if (!demo) dispatch(setAppInitializeTC())
+  }, [isLoggedIn]) //пустой [] - отрабатывает один раз при загрузке страницы!
 
   let [lightMode, setLightMode] = useState<boolean>(true) // для изменения темы стейт
   let btnText = lightMode ? "dark" : "light"

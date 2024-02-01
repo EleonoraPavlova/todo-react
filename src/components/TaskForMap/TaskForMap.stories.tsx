@@ -2,6 +2,8 @@ import React from 'react';
 import { TaskForMap } from "./TaskForMap";
 import { Box } from "@mui/material";
 import { startStateTasks, todoListId2 } from "../../state/initialState/tasksStartState";
+import { Provider } from "react-redux";
+import { storyBookStore } from "../../stories/decorators/ReduxStoreProviderDecorator";
 
 export default {
   title: "AddItemForm",
@@ -11,7 +13,9 @@ export default {
 const tasks = startStateTasks
 
 export const TaskForMapBase = () => {
-  return <Box sx={{ width: "200px" }}>
-    <TaskForMap task={tasks[todoListId2][1]} />
-  </Box>
+  return (<Provider store={storyBookStore}>
+    <Box sx={{ width: "200px" }}>
+      <TaskForMap task={tasks[todoListId2][1]} />
+    </Box>
+  </Provider>)
 }

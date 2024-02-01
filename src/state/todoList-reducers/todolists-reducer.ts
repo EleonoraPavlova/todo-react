@@ -98,7 +98,6 @@ export const removeTodolistTC = (todolistId: string): AppThunkType =>  //фун�
 
 export const addNewTodolistTC = (title: string): AppThunkType => //функц прослойка для dispatch api
   async dispatch => {
-    debugger
     dispatch(setAppStatusAC({ status: 'loading' }))
     try {
       const res = await todolistsApi.createTodoslist(title)

@@ -16,7 +16,7 @@ import { v1 } from "uuid";
 const todoListId1 = v1()
 const todoListId2 = v1()
 
-let todolists: TodolistDomainType[] = []
+let todolists: TodolistDomainType[];
 
 beforeEach(() => { })
 todolists = [

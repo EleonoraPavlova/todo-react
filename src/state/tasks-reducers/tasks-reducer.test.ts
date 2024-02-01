@@ -107,7 +107,7 @@ test('correct task should be added', () => {
     priority: 0, startDate: "1",
     todoListId: todoListId1, deadline: "", order: 1, addedDate: ""
   }
-  const endState = tasksReducer(startStateTasks, addTaskAC({ task: newTask }))
+  const endState = tasksReducer(startStateTasks, addTaskAC(newTask))
 
   expect(endState[todoListId2].length).toBe(5)
   expect(startStateTasks[todoListId2].length).toBe(4)

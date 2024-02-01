@@ -11,8 +11,6 @@ import { AnyAction } from "redux";
 //tasksReducer - за мофицикац тасок
 //todolistsReducer - за todolist
 
-export type AppRootState = ReturnType<typeof store.getState>
-
 const rootReducer = combineReducers({ //все dispatch приходят в rootReducer, а он самостоятельно раскидывает их 
   //по нужным напрвлениям
   todolist: todolistsReducer,
@@ -24,6 +22,9 @@ const rootReducer = combineReducers({ //все dispatch приходят в root
 export const store = configureStore({
   reducer: rootReducer
 })
+
+export type RootReducerType = typeof rootReducer
+export type AppRootState = ReturnType<RootReducerType>
 
 //типизация dispatch санки
 export type AppDispatchType = ThunkDispatch<AppRootState, unknown, AnyAction> // будет приниматься любой action

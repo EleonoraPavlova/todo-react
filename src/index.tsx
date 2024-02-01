@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <HashRouter>
     <Provider store={store}>
-      <AppRedux demo={false} />
+      <AppRedux demo={true} />
     </Provider>
   </HashRouter>
 );

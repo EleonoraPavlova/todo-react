@@ -17,7 +17,6 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
   const dispatch = useAppDispatch()
 
   const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
-    debugger
     dispatch(addNewTodolistTC(input))
   }, [dispatch])
 
