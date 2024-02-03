@@ -43,8 +43,16 @@ export const Login = () => {
     onSubmit: async (values, { setFieldValue, setSubmitting }) => {
       setSubmitting(true)
       try {
-        await dispatch(loginTC(values))
-        setFieldValue("password", "")
+        const res = await dispatch(loginTC(values))
+        if (loginTC.rejected.match(res)) {
+          if (res.payload?.fieldsError?.length) {
+            const error = res.payload?.fieldsError[0]
+            // setFieldValue("password", "")
+            setFieldValue(error.field, error.error)
+          } else {
+
+          }
+        }
       } catch (err) {
         handleServerNetworkError(err as { message: string }, dispatch)
       }

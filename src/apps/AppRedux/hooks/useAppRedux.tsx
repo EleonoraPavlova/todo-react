@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppRootState } from "../../../state/storeBLL"
 import { useCallback } from "react"
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, addTaskTC } from "../../../state/tasks-reducers/tasks-reducer"
+import { changeTaskStatusAC, changeTaskTitleAC, addTaskTC } from "../../../state/tasks-reducers/tasks-reducer"
 import { FilterValuesType, changeFilterTodolistAC, changeTitleTodolistAC, removeTodolistAC, TodolistDomainType, addNewTodolistTC } from "../../../state/todoList-reducers/todolists-reducer"
 import { TaskStatuses, TasksObjType } from "../../../api_DAL/tasks-api"
 
@@ -12,12 +12,12 @@ export function useAppRedux() {
   const tasks = useSelector<AppRootState, TasksObjType>(tasks => tasks.tasks)
 
   const removeTask = useCallback((id: string, todolistId: string) => {
-    const action = removeTaskAC({ taskId: id, todolistId })
-    dispatch(action)
+    // const action = removeTaskAC({ taskId: id, todolistId }) here is redux toolkit now
+    // dispatch(action)
   }, [dispatch])
 
-  const addTask = useCallback((title: string, todoListId: string) => {
-    const thunk = addTaskTC(title, todoListId) as any
+  const addTask = useCallback((title: string, todolistId: string) => {
+    const thunk = addTaskTC(title, todolistId) as any
     dispatch(thunk)
   }, [dispatch])
 

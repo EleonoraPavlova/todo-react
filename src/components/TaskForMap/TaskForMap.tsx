@@ -16,22 +16,22 @@ type TaskForMapType = {
 }
 
 export const TaskForMap: React.FC<TaskForMapType> = memo(({ task }) => {
-  let { todoListId, id, status, title } = task
+  let { todolistId, id, status, title } = task
   const dispatch = useAppDispatch()
 
   const onRemoveHandler = useCallback(() => {
-    dispatch(removeTaskTC(todoListId, id))
-  }, [dispatch, todoListId, id])
+    dispatch(removeTaskTC({ todolistId, taskId: id }))
+  }, [dispatch, todolistId, id])
 
   const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     let currentStatus = e.currentTarget.checked
     const newStatus = currentStatus ? TaskStatuses.Completed : TaskStatuses.New;
-    dispatch(updateTaskTC(todoListId, id, { status: newStatus }))
-  }, [dispatch, todoListId, id])
+    dispatch(updateTaskTC(todolistId, id, { status: newStatus }))
+  }, [dispatch, todolistId, id])
 
   const changeTaskTitle = useCallback((title: string) => {
-    dispatch(updateTaskTC(todoListId, id, { title }))
-  }, [dispatch, todoListId, id]);
+    dispatch(updateTaskTC(todolistId, id, { title }))
+  }, [dispatch, todolistId, id]);
 
   return (
     <ListItem sx={{ justifyContent: "space-between" }}

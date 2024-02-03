@@ -13,7 +13,7 @@ import { FilterValuesType } from "../../state/todoList-reducers/todolists-reduce
 type TodoListProps = {
   title: string
   tasks: TaskTypeApi[]
-  todoListId: string // id из конкретно каждого массива, который лежит в объекте
+  todolistId: string // id из конкретно каждого массива, который лежит в объекте
   filter: FilterValuesType
   removeTask: (id: string, togoListId: string) => void
   addTask: (inputValue: string, togoListId: string) => void
@@ -45,18 +45,18 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
   }
 
   const removeTodolistHandler = useCallback(() => {
-    const { removeTodolist, todoListId } = props
-    removeTodolist(todoListId)
+    const { removeTodolist, todolistId } = props
+    removeTodolist(todolistId)
   }, [props])
 
   const addTasks = useCallback((input: string) => {
-    const { addTask, todoListId } = props
-    addTask(input, todoListId)
+    const { addTask, todolistId } = props
+    addTask(input, todolistId)
   }, [props]) //пропсы добавляем в зависомость!
 
   const EditableSpanTitleHandler = useCallback((title: string) => {
-    const { changeTodolistTitle, todoListId } = props
-    changeTodolistTitle(title, todoListId)
+    const { changeTodolistTitle, todolistId } = props
+    changeTodolistTitle(title, todolistId)
   }, [props])
 
   return (
@@ -75,13 +75,13 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
       <div style={{ display: "flex", gap: "15px" }}>
         <Button size="small" variant={props.filter === "all" ? "contained" : "text"}
           children={"All"}
-          onClick={() => { props.changeFilterHandler("all", props.todoListId) }} className="button" />
+          onClick={() => { props.changeFilterHandler("all", props.todolistId) }} className="button" />
         <Button size="small" color={"success"}
           variant={props.filter === "active" ? "contained" : "text"} children={"Active"}
-          onClick={() => { props.changeFilterHandler("active", props.todoListId) }} className="button" />
+          onClick={() => { props.changeFilterHandler("active", props.todolistId) }} className="button" />
         <Button size="small" color={"secondary"}
           variant={props.filter === "completed" ? "contained" : "text"}
-          children={"Completed"} onClick={() => { props.changeFilterHandler("completed", props.todoListId) }}
+          children={"Completed"} onClick={() => { props.changeFilterHandler("completed", props.todolistId) }}
           className="button" />
       </div>
     </div >

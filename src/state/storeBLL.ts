@@ -3,8 +3,7 @@ import { todolistsReducer } from "./todoList-reducers/todolists-reducer";
 import { ThunkAction, ThunkDispatch } from "redux-thunk"
 import { appReducer } from "./app-reducer/app-reducer";
 import { authReducer } from "./auth-reducers/auth-reducer";
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { AnyAction } from "redux";
+import { configureStore, combineReducers, UnknownAction } from "@reduxjs/toolkit";
 
 //обязательно Provider в App
 //отдельный reducer отвечает за каждую ветку
@@ -27,9 +26,9 @@ export type RootReducerType = typeof rootReducer
 export type AppRootState = ReturnType<RootReducerType>
 
 //типизация dispatch санки
-export type AppDispatchType = ThunkDispatch<AppRootState, unknown, AnyAction> // будет приниматься любой action
+export type AppDispatchType = ThunkDispatch<AppRootState, unknown, UnknownAction> // будет приниматься любой action
 //export type AppAllActionsType = ActionsTasksType | ActionsTodolistsType | ActionsAppType | ActionsAuthType // all actions in app
-export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, AnyAction>//in thunk to dispatch other thunk and any actions(like a main type)
+export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, UnknownAction>//in thunk to dispatch other thunk and any actions(like a main type)
 //<ReturnType = void>значение по умолчанию
 
 //@ts-ignore

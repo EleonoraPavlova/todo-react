@@ -50,8 +50,8 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
   }, [dispatch])
 
 
-  const changeTodoListFilter = useCallback((todoListId: string, filter: FilterValuesType) => {
-    dispatch(changeFilterTodolistTC(todoListId, title, filter))
+  const changeTodoListFilter = useCallback((todolistId: string, filter: FilterValuesType) => {
+    dispatch(changeFilterTodolistTC(todolistId, title, filter))
   }, [dispatch, title])
 
   const changeFilterAll = useCallback(() => { changeTodoListFilter(id, "all") }, [changeTodoListFilter, id])

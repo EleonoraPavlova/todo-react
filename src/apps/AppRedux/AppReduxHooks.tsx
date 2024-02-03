@@ -25,7 +25,7 @@ function AppReduxHooks() {
           <TodoList
             tasks={tasksForTodolist} //передаю все tasks массив
             title={l.title}
-            todoListId={l.id}
+            todolistId={l.id}
             filter={l.filter}
             removeTask={removeTask}
             addTask={addTask}

@@ -38,6 +38,9 @@ const slice = createSlice({
     setAppSuccessAC(state, action: PayloadAction<{ success: string | null }>) {
       state.success = action.payload.success
     }
+  },
+  selectors: {
+    selectAppStatus: (sliceState) => sliceState.status
   }
 })
 
@@ -52,7 +55,7 @@ export const setAppInitializeTC = (): AppThunkType =>  //функц просло
     try {
       const res = await authApi.checkAuthMe()
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
-        dispatch(setIsLoggedInAC({ value: true }))// анонимный пользователь или авторизованный
+        dispatch(setIsLoggedInAC({ isLoggedIn: true }))// анонимный пользователь или авторизованный
         dispatch(setAppInitializedAC({ initialized: true }))
         dispatch(getTodolistTC())
       } else {

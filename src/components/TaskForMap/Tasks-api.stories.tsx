@@ -70,7 +70,7 @@ export const DeleteTasks = () => {
   const [todolistId, setTodolistId] = useState<string>("")
 
   const deleteTask = () => {
-    tasksApi.deleteTasks(todolistId, taskId).then((res) => {
+    tasksApi.deleteTask(todolistId, taskId).then((res) => {
       setState(res.data)
       setTaskId("")
       setTodolistId("")
@@ -136,7 +136,7 @@ export const UpdateTaskAtAll = () => {
 
   //{ "id": "58352dcc-39e0-4495-b506-0ed0223801ae", 
   //"title": "RRRRRRRRR", "description": null, 
-  //"todoListId": "2ab7ab1a-cc3c-40eb-8af4-f12f55bc4db1",
+  //"todolistId": "2ab7ab1a-cc3c-40eb-8af4-f12f55bc4db1",
   //"order": -2, "status": 0, "priority": 1, "startDate": null, "deadline": null, "addedDate": "2023-11-07T16:29:48.5120773Z"
 
 

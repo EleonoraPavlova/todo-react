@@ -23,6 +23,7 @@ const slice = createSlice({
   reducers: {
     //state comes like a draft state!
     removeTodolistAC(state, action: PayloadAction<{ todolistId: string }>) {
+      // let a = current(state)//debag state
       const index = state.findIndex(t => t.id === action.payload.todolistId)
       if (index > -1) {
         state.splice(index, 1)
@@ -33,23 +34,21 @@ const slice = createSlice({
     },
     changeTitleTodolistAC(state, action: PayloadAction<{ title: string, todolistId: string }>) {
       const index = state.findIndex(t => t.id === action.payload.todolistId)
-      state[index].title = action.payload.title
+      if (index > -1) state[index].title = action.payload.title
     },
     changeFilterTodolistAC(state, action: PayloadAction<{ filter: FilterValuesType, todolistId: string }>) {
       const index = state.findIndex(t => t.id === action.payload.todolistId)
-      state[index].filter = action.payload.filter
+      if (index > -1) state[index].filter = action.payload.filter
     },
     changeStatusTodolistAC(state, action: PayloadAction<{ entityStatus: RequestStatusType, todolistId: string }>) {
       const index = state.findIndex(t => t.id === action.payload.todolistId)
-      state[index].entityStatus = action.payload.entityStatus
+      if (index > -1) state[index].entityStatus = action.payload.entityStatus
     },
     setTodolistAC(state, action: PayloadAction<{ todolists: TodolistTypeApi[] }>) {
-      return action.payload.todolists.map(tl => {
-        return {
-          ...tl,
-          filter: "all",
-          entityStatus: "idle"
-        }
+      action.payload.todolists.forEach(tl => {
+        state.push({
+          ...tl, filter: "all", entityStatus: "idle"
+        })
       })
     },
     clearTodolistAC(state) {

@@ -25,7 +25,7 @@ export type TaskTypeApi = {
   startDate: string
   deadline: string
   id: string
-  todoListId: string
+  todolistId: string
   order: number
   addedDate: string
 }
@@ -40,9 +40,15 @@ export type GetTaskResponse = {
   items: TaskTypeApi[]
 }
 
+export type FieldErrorType = {
+  field: string
+  error: string
+}
+
 export type ResponseType<Data = {}> = {
   resultCode: number
   messages: string[]
+  fieldsErrors?: FieldErrorType[]
   data: Data
 }
 
@@ -67,7 +73,7 @@ export const tasksApi = {
     }, settings)
   },
 
-  deleteTasks(todolistId: string, taskId: string) {
+  deleteTask(todolistId: string, taskId: string) {
     return instanse.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
   },
 

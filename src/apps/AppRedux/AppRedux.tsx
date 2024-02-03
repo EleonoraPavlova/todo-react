@@ -42,7 +42,7 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
       navigate("/");
     }
     if (!demo) dispatch(setAppInitializeTC())
-  }, [isLoggedIn]) //пустой [] - отрабатывает один раз при загрузке страницы!
+  }, [isLoggedIn, initialized]) //пустой [] - отрабатывает один раз при загрузке страницы!
 
   let [lightMode, setLightMode] = useState<boolean>(true) // для изменения темы стейт
   let btnText = lightMode ? "dark" : "light"
