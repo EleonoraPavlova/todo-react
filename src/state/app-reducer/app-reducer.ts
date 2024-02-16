@@ -1,10 +1,10 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { authApi } from "../../api_DAL/login-api"
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils"
 import { setIsLoggedInAC } from "../auth-reducers/auth-reducer"
 import { ResultCode } from "../tasks-reducers/tasks-reducer"
 import { getTodolistTC } from "../todoList-reducers/todolists-reducer"
-import { AppThunkType } from "../storeBLL"
+import { AxiosError } from "axios"
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -22,13 +22,32 @@ export const appStartState: appStartStateType = {
   initialized: false //when no auth (check user, settings, ect) // инициализ приложения, проверка отображать todolists or not
 }
 
+//thunk
+export const setAppInitializeTC = createAsyncThunk('app/appInitialize', async (params, { dispatch, rejectWithValue }) => {
+  dispatch(setAppStatusAC({ status: "loading" }))
+  try {
+    const res = await authApi.checkAuthMe()
+    if (res.data.resultCode === ResultCode.SUCCEEDED) {
+      dispatch(setIsLoggedInAC({ isLoggedIn: true }))// анонимный пользователь или авторизованный
+      // dispatch(setAppInitializedAC({ initialized: true }))
+      await dispatch(getTodolistTC())
+      // return { initialized: true }
+    } else {
+      return handleServerAppError(res.data.messages, dispatch)
+      // rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
+    }
+    return { initialized: true }
+  } catch (err: unknown) {
+    const error: AxiosError = err as AxiosError;
+    handleServerNetworkError(error as { message: string }, dispatch)
+    return rejectWithValue(null)
+  }
+})
+
 const slice = createSlice({
   name: "app",
   initialState: appStartState,
   reducers: {
-    setAppInitializedAC(state, action: PayloadAction<{ initialized: boolean }>) {
-      state.initialized = action.payload.initialized
-    },
     setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
       state.error = action.payload.error
     },
@@ -41,28 +60,14 @@ const slice = createSlice({
   },
   selectors: {
     selectAppStatus: (sliceState) => sliceState.status
+  },
+  extraReducers: (builder) => { //для обработки чужих редьюсеров
+    builder
+      .addCase(setAppInitializeTC.fulfilled, (state) => {
+        state.initialized = true
+      })
   }
 })
 
 export const appReducer = slice.reducer
-export const { setAppInitializedAC, setAppErrorAC, setAppStatusAC, setAppSuccessAC } = slice.actions
-
-
-//thunk
-export const setAppInitializeTC = (): AppThunkType =>  //функц прослойка для dispatch api
-  async dispatch => {
-    dispatch(setAppStatusAC({ status: "loading" }))
-    try {
-      const res = await authApi.checkAuthMe()
-      if (res.data.resultCode === ResultCode.SUCCEEDED) {
-        dispatch(setIsLoggedInAC({ isLoggedIn: true }))// анонимный пользователь или авторизованный
-        dispatch(setAppInitializedAC({ initialized: true }))
-        dispatch(getTodolistTC())
-      } else {
-        handleServerAppError(res.data.messages, dispatch)
-      }
-      dispatch(setAppInitializedAC({ initialized: true }))
-    } catch (err) {
-      handleServerNetworkError(err as { message: string }, dispatch) //обработка серверных ошибок
-    }
-  }
+export const { setAppErrorAC, setAppStatusAC, setAppSuccessAC } = slice.actions

@@ -1,10 +1,11 @@
 import { Container, Grid, Paper } from "@mui/material";
 import { TaskStatuses, TasksObjType } from "../../api_DAL/tasks-api";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
-import { TodolistDomainType, addNewTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
+import { TodolistDomainType, addTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
 import { TodoListRedux } from "../../page/TodoList/TodoListRedux";
 import { AddItemForm } from "../AddItemForm/AddItemForm";
+import { useNavigate } from "react-router-dom";
 
 type TodolistRenderProps = {
   demo: boolean //загрузка мокового state
@@ -14,11 +15,19 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
   const todolists = useAppSelector<TodolistDomainType[]>(state => state.todolist) //выбираем todolist из стора state
   //TodoListsType[]> означает хотим достать массив todolists из этого типа
   const tasks = useAppSelector<TasksObjType>(tasks => tasks.tasks)
+  let isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn) //не залогинены
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const addTodoList = useCallback((input: string) => { //добавление новой колонки списка задач
-    dispatch(addNewTodolistTC(input))
+    dispatch(addTodolistTC(input))
   }, [dispatch])
+
+  useEffect(() => { //download all todolists from api when loading the component
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [isLoggedIn])
 
   return (
     <Grid container spacing={7} className="grid">

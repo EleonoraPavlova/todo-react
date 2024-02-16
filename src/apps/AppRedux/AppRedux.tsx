@@ -29,20 +29,12 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
   let status = useAppSelector<RequestStatusType>(state => state.app.status)
   let initialized = useAppSelector<boolean>(state => state.app.initialized) //first initialization
   let isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn) //не залогинены
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch()
 
-  //в useEffect выполняются запросы на api
   useEffect(() => { //download all todolists from api when loading the component
     dispatch(setAppInitializeTC())
-    if (initialized && !isLoggedIn) {
-      navigate("/login");
-    } else {
-      navigate("/");
-    }
-    if (!demo) dispatch(setAppInitializeTC())
-  }, [isLoggedIn, initialized]) //пустой [] - отрабатывает один раз при загрузке страницы!
+  }, [])
 
   let [lightMode, setLightMode] = useState<boolean>(true) // для изменения темы стейт
   let btnText = lightMode ? "dark" : "light"

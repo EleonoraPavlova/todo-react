@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -8,13 +8,16 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from "formik";
-import { useAppDispatch } from "../../state/hooks/hooks-selectors";
+import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
 import { loginTC } from "../../state/auth-reducers/auth-reducer";
 import { LoginParamsTypeApi } from "../../api_DAL/login-api";
 import { handleServerNetworkError } from "../../utils/error-utils";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  let isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn) //не залогинены
 
   const formik = useFormik({
     validate: (values) => {
@@ -45,12 +48,11 @@ export const Login = () => {
       try {
         const res = await dispatch(loginTC(values))
         if (loginTC.rejected.match(res)) {
-          if (res.payload?.fieldsError?.length) {
-            const error = res.payload?.fieldsError[0]
+          if (res.payload?.fieldsErrors?.length) {
+            const error = res.payload?.fieldsErrors[0]
             // setFieldValue("password", "")
             setFieldValue(error.field, error.error)
           } else {
-
           }
         }
       } catch (err) {
@@ -59,6 +61,12 @@ export const Login = () => {
       setSubmitting(false)
     }
   })
+
+  useEffect(() => { //download all todolists from api when loading the component
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn])
 
 
   //  {...formik.getFieldProps("email")} /> взяла все пропсы которые есть у formik c крнкретным именем email

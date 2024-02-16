@@ -40,12 +40,12 @@ export const todolistsApi = {
     })
   },
 
-  deleteTodoslist(todolistId: string) {
-    return instanse.delete<ResponseTodolistType>(`todo-lists/${todolistId}`)
+  deleteTodoslist(todoListId: string) {
+    return instanse.delete<ResponseTodolistType>(`todo-lists/${todoListId}`)
   },
 
-  updateTodoslist(todolistId: string, title: string) {
-    return instanse.put<ResponseTodolistType>(`todo-lists/${todolistId}`, {
+  updateTodoslist(todoListId: string, title: string) {
+    return instanse.put<ResponseTodolistType>(`todo-lists/${todoListId}`, {
       title: title
     })
   }

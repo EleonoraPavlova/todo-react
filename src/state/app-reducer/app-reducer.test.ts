@@ -20,14 +20,12 @@ beforeEach(() => {
   }
 })
 
-
 test('correct error message should be set', () => {
   const endState = appReducer(startState, setAppErrorAC({ error: "Some error" }))
 
   expect(endState.error).toBe("Some error")
   expect(startState.error).toBe(null)
 })
-
 
 test('correct status message should be set', () => {
   const endState = appReducer(startState, setAppStatusAC({ status: "succeeded" }))

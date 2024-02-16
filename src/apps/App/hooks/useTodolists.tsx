@@ -3,28 +3,28 @@ import { FilterValuesType, TodolistDomainType } from "../../../state/todoList-re
 import { startStateTodolists } from "../../../state/initialState/todolistsStartState"
 import { v1 } from "uuid"
 
-export function useTodolists(removeTodolistsSetTasks: (todolistId: string) => void, addTodoListSetTasks: (newTodolist: string) => void) {
+export function useTodolists(removeTodolistsSetTasks: (todoListId: string) => void, addTodoListSetTasks: (newTodolist: string) => void) {
   //внутри кастомных хуков можно использовать другие хуки!
   //хуки не должны быть в if
   let [todoLists, setTodoLists] = useState<TodolistDomainType[]>(startStateTodolists)
   //этот стейт для управления  map отрисовки TodoList
 
-  function changeFilter(value: FilterValuesType, todolistId: string) {
-    let todoList = todoLists.find((t) => t.id === todolistId)
+  function changeFilter(value: FilterValuesType, todoListId: string) {
+    let todoList = todoLists.find((t) => t.id === todoListId)
     if (todoList) {
       todoList.filter = value
       return setTodoLists([...todoLists])
     }
   }
 
-  function removeTodolist(todolistId: string) {
-    let removeTodoList = todoLists.filter(l => l.id !== todolistId) //filter возвращает новый массив
+  function removeTodolist(todoListId: string) {
+    let removeTodoList = todoLists.filter(l => l.id !== todoListId) //filter возвращает новый массив
     setTodoLists(removeTodoList)
-    removeTodolistsSetTasks(todolistId) //внутри todolist удалили таску, вот ее id
+    removeTodolistsSetTasks(todoListId) //внутри todolist удалили таску, вот ее id
   }
 
-  function changeTodolistTitle(title: string, todolistId: string) {
-    let foundTodoLists = todoLists.find(t => t.id === todolistId)//достала нужный массив сначала
+  function changeTodolistTitle(title: string, todoListId: string) {
+    let foundTodoLists = todoLists.find(t => t.id === todoListId)//достала нужный массив сначала
     if (foundTodoLists) {
       foundTodoLists.title = title
       setTodoLists([...todoLists])

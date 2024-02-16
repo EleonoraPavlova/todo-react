@@ -33,10 +33,10 @@ export const CreateTodolist = () => {
 
 export const DeleteTodolist = () => {
   const [state, setState] = useState<any>(null)
-  const [todolistId, setTodolistId] = useState<string>("")
+  const [todoListId, setTodolistId] = useState<string>("")
 
   const deleteTodolist = () => {
-    todolistsApi.deleteTodoslist(todolistId).then((res) => {
+    todolistsApi.deleteTodoslist(todoListId).then((res) => {
       setState(res.data.data)
       setTodolistId("")
       setState("todolist deleted successfully")
@@ -46,12 +46,12 @@ export const DeleteTodolist = () => {
   return (<>
     <div> {JSON.stringify(state)}</div>
     <div style={{ display: "flex", gap: "15px", flexDirection: "column", width: "250px", margin: "20px" }}>
-      <input value={todolistId}
+      <input value={todoListId}
         onChange={(e) => setTodolistId(e.currentTarget.value)}
-        placeholder="todolistId to be deleted" />
+        placeholder="todoListId to be deleted" />
       <button style={{ width: "70px", padding: "6px" }}
         onClick={deleteTodolist}
-        disabled={!todolistId}
+        disabled={!todoListId}
       >delete todolist</button>
     </div>
   </>)
@@ -61,16 +61,16 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
   const [state, setState] = useState<any>(null)
   const [title, setTitle] = useState<string>("")
-  const [todolistId, setTodolistId] = useState<string>("")
+  const [todoListId, setTodolistId] = useState<string>("")
 
   // useEffect(() => {
-  //   todolistsApi.updateTodoslistsTitle(todolistId, "update").then((res) => {
+  //   todolistsApi.updateTodoslistsTitle(todoListId, "update").then((res) => {
   //     setState(res.data.messages)
   //   })
   // }, [])
 
   const updateTodolist = () => {
-    todolistsApi.updateTodoslist(todolistId, title).then((res) => {
+    todolistsApi.updateTodoslist(todoListId, title).then((res) => {
       setState(res.data.data)
       setTodolistId("")
       setTitle("")
@@ -82,15 +82,15 @@ export const UpdateTodolistTitle = () => {
   return (<>
     <div> {JSON.stringify(state)}</div>
     <div style={{ display: "flex", gap: "15px", flexDirection: "column", width: "250px", margin: "20px" }}>
-      <input value={todolistId}
+      <input value={todoListId}
         onChange={(e) => setTodolistId(e.currentTarget.value)}
-        placeholder="todolistId to be update" />
+        placeholder="todoListId to be update" />
       <input value={title}
         onChange={(e) => setTitle(e.currentTarget.value)}
         placeholder="new title" />
       <button style={{ width: "70px", padding: "6px" }}
         onClick={updateTodolist}
-        disabled={!todolistId}
+        disabled={!todoListId}
       >update todolist title</button>
     </div>
   </>)

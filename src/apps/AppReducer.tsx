@@ -6,99 +6,99 @@ import { AddItemForm } from "../components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { changeTaskStatusAC, changeTaskTitleAC, tasksReducer } from "../state/tasks-reducers/tasks-reducer";
-import { changeFilterTodolistAC, changeTitleTodolistAC, FilterValuesType, removeTodolistAC, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
+import { changeFilterTodolistAC, FilterValuesType, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
 import { TaskPriorities, TaskStatuses, TaskTypeApi } from "../api_DAL/tasks-api";
 
 //переделать на санки
-const todolistId1 = v1()
-const todolistId2 = v1()
+const todoListId1 = v1()
+const todoListId2 = v1()
 
 function AppReducer() {
   let [tasks, dispatchTasks] = useReducer(tasksReducer, {
-    ["todolistId1"]: [  //id этот передала пропсами id={l.id}  в  TodoList
+    ["todoListId1"]: [  //id этот передала пропсами id={l.id}  в  TodoList
       {
         id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed,
         description: "", completed: true,
         priority: TaskPriorities.Low, startDate: "",
-        todolistId: todolistId1, deadline: "", order: 1, addedDate: ""
+        todoListId: todoListId1, deadline: "", order: 1, addedDate: ""
       },
       {
         id: v1(), title: "JS", status: TaskStatuses.Completed,
         description: "", completed: true,
         priority: TaskPriorities.Low, startDate: "",
-        todolistId: todolistId1, deadline: "", order: 1, addedDate: ""
+        todoListId: todoListId1, deadline: "", order: 1, addedDate: ""
       },
       {
         id: v1(), title: "ReactJS", status: TaskStatuses.New,
         description: "", completed: true,
         priority: TaskPriorities.Low, startDate: "",
-        todolistId: todolistId1, deadline: "", order: 1, addedDate: ""
+        todoListId: todoListId1, deadline: "", order: 1, addedDate: ""
       }
     ],
-    ["todolistId2"]: [
+    ["todoListId2"]: [
       {
         id: v1(), title: "Milk", status: TaskStatuses.Completed,
         description: "", completed: true,
         priority: TaskPriorities.Low, startDate: "",
-        todolistId: todolistId2, deadline: "", order: 1, addedDate: ""
+        todoListId: todoListId2, deadline: "", order: 1, addedDate: ""
       },
       {
         id: v1(), title: "Juice", status: TaskStatuses.Completed,
         description: "", completed: true,
         priority: TaskPriorities.Low, startDate: "",
-        todolistId: todolistId2, deadline: "", order: 1, addedDate: ""
+        todoListId: todoListId2, deadline: "", order: 1, addedDate: ""
       },
       {
         id: v1(), title: "Meat", status: TaskStatuses.New,
         description: "", completed: true,
         priority: TaskPriorities.Low, startDate: "",
-        todolistId: todolistId2, deadline: "", order: 1, addedDate: ""
+        todoListId: todoListId2, deadline: "", order: 1, addedDate: ""
       }
     ],
   })
 
   let [todoLists, dispatchTodoLists] = useReducer(todolistsReducer, [ //этот стейт для управления  map отрисовки TodoList
     {
-      id: todolistId1, title: 'What to learn', filter: 'all', addedDate: "",
+      id: todoListId1, title: 'What to learn', filter: 'all', addedDate: "",
       order: 0, entityStatus: "idle"
     },
     {
-      id: todolistId2, title: 'What to buy', filter: 'all', addedDate: "",
+      id: todoListId2, title: 'What to buy', filter: 'all', addedDate: "",
       order: 0, entityStatus: "idle"
     }
   ])
 
   //tasks action creators
-  function removeTask(id: string, todolistId: string) {
-    // const action = removeTaskAC({ taskId: id, todolistId }) here is redux toolkit now
+  function removeTask(id: string, todoListId: string) {
+    // const action = removeTaskAC({ taskId: id, todoListId }) here is redux toolkit now
     // dispatchTasks(action)
   }
 
-  function addTask(inputValue: string, todolistId: string) {
-    // const action = addTaskAC(inputValue, todolistId)
+  function addTask(inputValue: string, todoListId: string) {
+    // const action = addTaskAC(inputValue, todoListId)
     // dispatchTasks(action)
   }
 
-  function changeStatus(todolistId: string, id: string, status: TaskStatuses) {
-    const action = changeTaskStatusAC({ todolistId, id, status })
+  function changeStatus(todoListId: string, id: string, status: TaskStatuses) {
+    const action = changeTaskStatusAC({ todoListId, id, status })
     dispatchTasks(action)
   }
 
-  function changeTaskTitle(id: string, title: string, todolistId: string) {
-    const action = changeTaskTitleAC({ id, title, todolistId })
+  function changeTaskTitle(id: string, title: string, todoListId: string) {
+    const action = changeTaskTitleAC({ id, title, todoListId })
     dispatchTasks(action)
   }
 
 
   // todolists action creators
-  function changeFilterHandler(value: FilterValuesType, todolistId: string) {
-    const action = changeFilterTodolistAC({ filter: value, todolistId: todolistId })
+  function changeFilterHandler(value: FilterValuesType, todoListId: string) {
+    const action = changeFilterTodolistAC({ filter: value, todoListId: todoListId })
     dispatchTodoLists(action)
   }
 
-  function removeTodolist(todolistId: string) {
-    const action = removeTodolistAC({ todolistId })
-    dispatchTodoLists(action)
+  function removeTodolist(todoListId: string) {
+    // const action = removeTodolistAC({ todoListId })
+    // dispatchTodoLists(action)
     // dispatchTasks(action)
   }
 
@@ -109,9 +109,9 @@ function AppReducer() {
   }
 
 
-  function changeTodolistTitle(title: string, todolistId: string) {
-    const action = changeTitleTodolistAC({ title, todolistId })
-    dispatchTodoLists(action)
+  function changeTodolistTitle(title: string, todoListId: string) {
+    // const action = changeTitleTodolistAC({ title, todoListId })
+    // dispatchTodoLists(action)
   }
 
   const mappedList = () => {
@@ -131,7 +131,7 @@ function AppReducer() {
             removeTask={removeTask}
             addTask={addTask}
             changeStatus={changeStatus}
-            todolistId={l.id} filter={l.filter}
+            todoListId={l.id} filter={l.filter}
             changeFilterHandler={changeFilterHandler}
             removeTodolist={removeTodolist}
             changeTaskTitle={changeTaskTitle}

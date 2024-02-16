@@ -18,11 +18,11 @@ export default {
 //GET
 export const GetTasks = () => {
   const [state, setState] = useState<any>(null)
-  const [todolistId, setTodolistId] = useState<string>("")
+  const [todoListId, setTodolistId] = useState<string>("")
 
   const getTask = () => {
 
-    tasksApi.getTasks(todolistId).then((res) => {
+    tasksApi.getTasks(todoListId).then((res) => {
       setState(res.data.items)
       setTodolistId("")
     })
@@ -31,10 +31,10 @@ export const GetTasks = () => {
   return (<>
     <div>{JSON.stringify(state)}</div>
     <div style={{ display: "flex", gap: "15px", flexDirection: "column", width: "250px", margin: "20px" }}>
-      <input value={todolistId}
+      <input value={todoListId}
         onChange={(e) => setTodolistId(e.currentTarget.value)}
-        placeholder="todolistId куда ложить таску" />
-      <button style={{ width: "70px", padding: "6px" }} onClick={getTask} disabled={!todolistId}>get task</button>
+        placeholder="todoListId куда ложить таску" />
+      <button style={{ width: "70px", padding: "6px" }} onClick={getTask} disabled={!todoListId}>get task</button>
     </div>
   </>)
 }
@@ -43,10 +43,10 @@ export const GetTasks = () => {
 export const CreateTasks = () => {
   const [state, setState] = useState<any>(null)
   const [title, setTitle] = useState<string>('')
-  const [todolistId, setTodolistId] = useState<string>("")
+  const [todoListId, setTodolistId] = useState<string>("")
 
   const createTask = () => {
-    tasksApi.createTasks(title, todolistId).then((res) => {
+    tasksApi.createTasks(title, todoListId).then((res) => {
       setState(res.data.data.item)
       setTitle("")
       setTodolistId("")
@@ -56,10 +56,10 @@ export const CreateTasks = () => {
     <input value={title}
       onChange={(e) => setTitle(e.currentTarget.value)}
       placeholder="title for new task" />
-    <input value={todolistId}
+    <input value={todoListId}
       onChange={(e) => setTodolistId(e.currentTarget.value)}
-      placeholder="todolistId" />
-    <button style={{ width: "70px", padding: "6px" }} onClick={createTask} disabled={!title || !todolistId}>create task</button>
+      placeholder="todoListId" />
+    <button style={{ width: "70px", padding: "6px" }} onClick={createTask} disabled={!title || !todoListId}>create task</button>
   </div>
 }
 
@@ -67,10 +67,10 @@ export const CreateTasks = () => {
 export const DeleteTasks = () => {
   const [state, setState] = useState<any>(null)
   const [taskId, setTaskId] = useState<string>('')
-  const [todolistId, setTodolistId] = useState<string>("")
+  const [todoListId, setTodolistId] = useState<string>("")
 
   const deleteTask = () => {
-    tasksApi.deleteTask(todolistId, taskId).then((res) => {
+    tasksApi.deleteTask(todoListId, taskId).then((res) => {
       setState(res.data)
       setTaskId("")
       setTodolistId("")
@@ -82,12 +82,12 @@ export const DeleteTasks = () => {
     <input value={taskId}
       onChange={(e) => setTaskId(e.currentTarget.value)}
       placeholder="id task" />
-    <input value={todolistId}
+    <input value={todoListId}
       onChange={(e) => setTodolistId(e.currentTarget.value)}
-      placeholder="todolistId" />
+      placeholder="todoListId" />
     <button style={{ width: "70px", padding: "6px" }}
       onClick={deleteTask}
-      disabled={!taskId || !todolistId}
+      disabled={!taskId || !todoListId}
     >delete task</button>
   </div>
 }
@@ -96,11 +96,11 @@ export const DeleteTasks = () => {
 export const UpdateTasksTitle = () => {
   const [state, setState] = useState<any>(null)
   const [taskId, setTaskId] = useState<string>('')
-  const [todolistId, setTodolistId] = useState<string>("")
+  const [todoListId, setTodolistId] = useState<string>("")
   const [title, setTitle] = useState<string>("")
 
   const updateTask = () => {
-    tasksApi.updateTaskTitle(todolistId, taskId, title).then((res) => {
+    tasksApi.updateTaskTitle(todoListId, taskId, title).then((res) => {
       setState(res.data.data)
     })
   }
@@ -109,9 +109,9 @@ export const UpdateTasksTitle = () => {
     <input value={taskId}
       onChange={(e) => setTaskId(e.currentTarget.value)}
       placeholder="id task" />
-    <input value={todolistId}
+    <input value={todoListId}
       onChange={(e) => setTodolistId(e.currentTarget.value)}
-      placeholder="todolistId" />
+      placeholder="todoListId" />
     <input value={title}
       onChange={(e) => setTitle(e.currentTarget.value)}
       placeholder="title for a task" />
@@ -127,7 +127,7 @@ export const UpdateTaskAtAll = () => {
   const [status, setStatus] = useState<number>(0)
   const [priority, setPriority] = useState<number>(0)
   const [taskId, setTaskId] = useState<string>('')
-  const [todolistId, setTodolistId] = useState<string>("")
+  const [todoListId, setTodolistId] = useState<string>("")
   const [title, setTitle] = useState<string>("")
   const [description, setDescription] = useState<string>("")
   const [startDate, setStartDate] = useState<string>("")
@@ -136,12 +136,12 @@ export const UpdateTaskAtAll = () => {
 
   //{ "id": "58352dcc-39e0-4495-b506-0ed0223801ae", 
   //"title": "RRRRRRRRR", "description": null, 
-  //"todolistId": "2ab7ab1a-cc3c-40eb-8af4-f12f55bc4db1",
+  //"todoListId": "2ab7ab1a-cc3c-40eb-8af4-f12f55bc4db1",
   //"order": -2, "status": 0, "priority": 1, "startDate": null, "deadline": null, "addedDate": "2023-11-07T16:29:48.5120773Z"
 
 
   const updateTask = () => {
-    tasksApi.updateTaskAtAll(todolistId, taskId, {
+    tasksApi.updateTaskAtAll(todoListId, taskId, {
       deadline: "",
       description: description,
       title: title,
@@ -165,9 +165,9 @@ export const UpdateTaskAtAll = () => {
     <input value={taskId}
       onChange={(e) => setTaskId(e.currentTarget.value)}
       placeholder="id task" />
-    <input value={todolistId}
+    <input value={todoListId}
       onChange={(e) => setTodolistId(e.currentTarget.value)}
-      placeholder="todolistId" />
+      placeholder="todoListId" />
     <input value={title}
       onChange={(e) => setTitle(e.currentTarget.value)}
       placeholder="title for a task" />

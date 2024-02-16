@@ -1,6 +1,6 @@
 import { TasksObjType } from "../api_DAL/tasks-api"
 import { tasksReducer } from "./tasks-reducers/tasks-reducer"
-import { addTodolistAC, TodolistDomainType, todolistsReducer } from "./todoList-reducers/todolists-reducer"
+import { TodolistDomainType, addTodolistTC, todolistsReducer } from "./todoList-reducers/todolists-reducer"
 
 //общий редьюсер для tasks / todolists, 
 //если нужно генерировать общие значения для state
@@ -13,7 +13,7 @@ test('ids should be equals', () => {
     id: "1", title: 'What to learn', addedDate: "",
     order: 0
   }
-  const action = addTodolistAC({ todolist: newTodolist })
+  const action = addTodolistTC.fulfilled({ todolist: newTodolist }, "requestId", newTodolist.title)
 
   const endTasksState = tasksReducer(startTasksState, action)
   const endTodolistsState = todolistsReducer(startTodolistsState, action)
