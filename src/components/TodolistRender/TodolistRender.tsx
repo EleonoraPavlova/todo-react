@@ -23,7 +23,7 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
     dispatch(addTodolistTC(input))
   }, [dispatch])
 
-  useEffect(() => { //download all todolists from api when loading the component
+  useEffect(() => {
     if (!isLoggedIn) {
       navigate("/login");
     }
@@ -54,7 +54,7 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
                 />
               </Paper>
             </Grid>
-          );
+          )
         })
       }
     </Grid>

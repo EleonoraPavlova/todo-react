@@ -62,7 +62,7 @@ export const Login = () => {
     }
   })
 
-  useEffect(() => { //download all todolists from api when loading the component
+  useEffect(() => {
     if (isLoggedIn) {
       navigate("/");
     }

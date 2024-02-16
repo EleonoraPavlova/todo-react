@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppRootState } from "../../../state/storeBLL"
 import { useCallback } from "react"
 import { changeTaskStatusAC, changeTaskTitleAC, addTaskTC } from "../../../state/tasks-reducers/tasks-reducer"
-import { FilterValuesType, changeFilterTodolistAC, TodolistDomainType, addTodolistTC } from "../../../state/todoList-reducers/todolists-reducer"
+import { FilterValuesType, TodolistDomainType, addTodolistTC } from "../../../state/todoList-reducers/todolists-reducer"
 import { TaskStatuses, TasksObjType } from "../../../api_DAL/tasks-api"
 
 export function useAppRedux() {
@@ -34,8 +34,8 @@ export function useAppRedux() {
 
   // todolists action creators
   const changeFilterHandler = useCallback((value: FilterValuesType, todoListId: string) => {
-    const action = changeFilterTodolistAC({ filter: value, todoListId: todoListId })
-    dispatch(action)
+    // const action = changeFilterTodolistAC({ filter: value, todoListId: todoListId })
+    // dispatch(action)
   }, [dispatch])
 
   const removeTodolist = useCallback((todoListId: string) => {

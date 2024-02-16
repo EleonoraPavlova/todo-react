@@ -6,7 +6,7 @@ import { AddItemForm } from "../components/AddItemForm/AddItemForm";
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { changeTaskStatusAC, changeTaskTitleAC, tasksReducer } from "../state/tasks-reducers/tasks-reducer";
-import { changeFilterTodolistAC, FilterValuesType, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
+import { FilterValuesType, todolistsReducer } from "../state/todoList-reducers/todolists-reducer";
 import { TaskPriorities, TaskStatuses, TaskTypeApi } from "../api_DAL/tasks-api";
 
 //переделать на санки
@@ -92,8 +92,8 @@ function AppReducer() {
 
   // todolists action creators
   function changeFilterHandler(value: FilterValuesType, todoListId: string) {
-    const action = changeFilterTodolistAC({ filter: value, todoListId: todoListId })
-    dispatchTodoLists(action)
+    // const action = changeFilterTodolistAC({ filter: value, todoListId: todoListId })
+    // dispatchTodoLists(action)
   }
 
   function removeTodolist(todoListId: string) {

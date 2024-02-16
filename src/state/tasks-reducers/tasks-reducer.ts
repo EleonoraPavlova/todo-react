@@ -56,9 +56,6 @@ export type UpdateTaskModelForReducerFn = { //какие поля можно о�
   deadline?: string
 }
 
-// | clearTodoListAction
-// | getTodoListAction 
-
 //Thunk always return promise! ALWAYS!
 export const getTasksTC = createAsyncThunk("tasks/getTasks", async (todoListId: string, { dispatch, rejectWithValue }) => {
   dispatch(setAppStatusAC({ status: 'loading' }))
@@ -243,26 +240,6 @@ export const tasksReducer = slice.reducer
 export const { changeTaskTitleAC, changeTaskStatusAC, clearTasksAC } = slice.actions
 
 
-//функции санки  ВСЕ ЗАПРОСЫ НА СЕРВЕР ДЕЛАТЬ В САНКАХ ТОЛЬКО!
-// export const addTaskTC_ = (title: string, todoListId: string): AppThunkType =>
-//   async dispatch => {
-//     dispatch(setAppStatusAC({ status: 'loading' }))
-//     try {
-//       const res = await tasksApi.createTasks(title, todoListId)
-//       if (res.data.resultCode === ResultCode.SUCCEEDED) {
-//         const task = res.data.data.item
-//         dispatch(addTaskAC({ task }))
-//         dispatch(setAppSuccessAC({ success: "task was successful added" }))
-//         dispatch(setAppStatusAC({ status: 'succeeded' }))
-//       } else {
-//         handleServerAppError(res.data.messages, dispatch)
-//       }
-//     } catch (err) {
-//       handleServerNetworkError(err as { message: string }, dispatch)
-//     }
-//   }
-
-
 export const changeTaskTitleTC = (todoListId: string, id: string, title: string): AppThunkType =>
   async dispatch => {
     dispatch(setAppStatusAC({ status: 'loading' }))
@@ -309,34 +286,3 @@ export const changeTaskStatusTC = (todoListId: string, id: string, status: TaskS
       }
     }
   }
-
-//вариант как объединить 2 функции
-// export const updateTaskTC_ = (todoListId: string, id: string, apiModal: UpdateTaskModelForReducerFn): AppThunkType =>
-//   async (dispatch, getState: () => AppRootState) => {
-//     const task = getState().tasks[todoListId].find(t => t.id === id)   //вытянула rootReducer с тасками и нашла нужную
-//     if (task) {
-//       const model: UpdateTaskModel = { //модель самой таски, которую мы пишем вручную чтобы знать конкретные поля для изменения
-//         //сервер присылает отсылает больше полей
-//         title: task.title,
-//         description: task.description,
-//         priority: task.priority,
-//         startDate: task.startDate,
-//         deadline: task.deadline,
-//         status: task.status,
-//         ...apiModal
-//       }
-//       dispatch(setAppStatusAC({ status: 'loading' }))
-//       try {
-//         const res = await tasksApi.updateTaskAtAll(todoListId, id, model)
-//         if (res.data.resultCode === ResultCode.SUCCEEDED) {
-//           dispatch(updateTaskAC({ todoListId, id, model }))
-//           dispatch(setAppSuccessAC({ success: "task was successful updated" }))
-//           dispatch(setAppStatusAC({ status: 'succeeded' }))
-//         } else {
-//           handleServerAppError(res.data.messages, dispatch)
-//         }
-//       } catch (err) {
-//         handleServerNetworkError(err as { message: string }, dispatch)
-//       }
-//     }
-//   }

@@ -11,7 +11,7 @@ import { TodolistRender } from "../../components/TodolistRender/TodolistRender";
 import { RequestStatusType, setAppInitializeTC } from "../../state/app-reducer/app-reducer";
 import { SnackbarComponent } from "../../components/SnackbarComponent/SnackbarComponent";
 import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
-import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { NavLink, Route, Routes } from "react-router-dom";
 import { Login } from "../../page/Login/Login";
 import { blue, purple } from "@mui/material/colors";
 import { logOutTC } from "../../state/auth-reducers/auth-reducer";
@@ -102,6 +102,6 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
       </Container >
       <SnackbarComponent />
     </ThemeProvider >
-  );
+  )
 }
 export default AppRedux

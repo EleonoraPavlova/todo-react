@@ -2,8 +2,8 @@ import { TodolistTypeApi } from "api_DAL/todolists-api";
 import { RequestStatusType } from "../app-reducer/app-reducer"
 import { startStateTodolists } from "../initialState/todolistsStartState"
 import {
-  changeFilterTodolistAC, todolistsReducer, FilterValuesType, changeStatusTodolistAC, TodolistDomainType,
-  getTodolistTC, removeTodolistTC, changeTitleTodolistTC, addTodolistTC
+  todolistsReducer, FilterValuesType, changeStatusTodolistAC, TodolistDomainType,
+  getTodolistTC, removeTodolistTC, addTodolistTC, updateTodolistTC
 } from './todolists-reducer'
 import { v1 } from "uuid";
 
@@ -53,21 +53,14 @@ test('correct todolist should be added', () => {
   expect(endState[2].filter).toBe("all")
 })
 
-test('correct todolist should change its name', () => {
-  let newTodolistTitle = 'New Todolist'
-  const payload = { title: newTodolistTitle, todoListId: todoListId2 }
-  const action = changeTitleTodolistTC.fulfilled(payload, "requestId", payload)
-  const endState = todolistsReducer(todolists, action)
-
-  expect(endState[0].title).toBe('What to learn')
-  expect(endState[1].title).toBe(newTodolistTitle)
-})
 
 
-test('correct filter of todolist should be changed', () => {
-  let newFilter: FilterValuesType = 'completed';
+test('todolist should be updated', () => {
+  let newFilter: FilterValuesType = 'completed'
 
-  const action = changeFilterTodolistAC({ filter: newFilter, todoListId: todoListId2 })
+  const payload = { filter: newFilter, todoListId: todoListId2, title: 'What to buy' }
+
+  const action = updateTodolistTC.fulfilled({ param: payload }, "requestId", payload)
   const endState = todolistsReducer(todolists, action)
 
   expect(endState[0].filter).toBe('all')

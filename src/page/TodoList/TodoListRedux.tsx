@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { TaskForMap } from "../../components/TaskForMap/TaskForMap";
-import { FilterValuesType, TodolistDomainType, changeFilterTodolistTC, changeTitleTodolistTC, removeTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
+import { FilterValuesType, TodolistDomainType, removeTodolistTC, updateTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
 import { addTaskTC } from "../../state/tasks-reducers/tasks-reducer";
 import { useAppDispatch } from "../../state/hooks/hooks-selectors";
 import { Box, Button, IconButton, List } from "@mui/material";
@@ -46,12 +46,12 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
   }, [dispatch, id])
 
   const changeTodolistTitle = useCallback((title: string) => {
-    dispatch(changeTitleTodolistTC({ todoListId: id, title }))
+    dispatch(updateTodolistTC({ todoListId: id, title, filter }))
   }, [dispatch])
 
 
   const changeTodoListFilter = useCallback((todoListId: string, filter: FilterValuesType) => {
-    dispatch(changeFilterTodolistTC({ todoListId, title, filter }))
+    dispatch(updateTodolistTC({ todoListId, title, filter }))
   }, [dispatch, title])
 
   const changeFilterAll = useCallback(() => { changeTodoListFilter(id, "all") }, [changeTodoListFilter, id])
