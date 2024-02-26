@@ -1,9 +1,8 @@
-import { ClearTasksTodolistsType } from './../../actions/actions';
 //BLL
 import { TodolistTypeApi, todolistsApi } from "../../api_DAL/todolists-api";
 import { RequestStatusType, setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
-import { ResultCode, getTasksTC } from "../tasks-reducers/tasks-reducer";
+import { ResultCode } from "../tasks-reducers/tasks-reducer";
 import { PayloadAction, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { AsyncThunkConfig } from "@reduxjs/toolkit/dist/createAsyncThunk";
@@ -176,9 +175,9 @@ const slice = createSlice({
         const index = state.findIndex(t => t.id === action.payload.param.todoListId)
         if (index > -1) state[index] = { ...state[index], ...action.payload.param }
       })
-      .addCase(clearTasksTodolists, (state, action: PayloadAction<ClearTasksTodolistsType>) => {
+      .addCase(clearTasksTodolists, (state, action) => {
         console.log("state/todolists", current(state))
-        return action.payload.todolists
+        return []
       })
   }
 })

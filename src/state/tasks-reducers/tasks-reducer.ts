@@ -6,7 +6,7 @@ import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { AppRootState, AppThunkType } from "../storeBLL";
 import { addTodolistTC, getTodolistTC, removeTodolistTC } from "../todoList-reducers/todolists-reducer";
 import { AxiosError } from "axios";
-import { ClearTasksTodolistsType, clearTasksTodolists } from "actions/actions";
+import { clearTasksTodolists } from "actions/actions";
 
 
 export enum ResultCode { //enum  ONLY for reading, cannot be overwritten!!
@@ -171,6 +171,21 @@ const slice = createSlice({
     //   const index = tasks.findIndex(t => t.id === action.payload.taskId)
     //   if (index > -1) tasks.splice(index, 1)
     // },
+    removeTaskAC: {
+      reducer: (state, action: PayloadAction<{ todoListId: string, taskId: string }>) => {
+        const tasks = state[action.payload.todoListId] // find a new arr
+        const index = tasks.findIndex(t => t.id === action.payload.taskId)
+        if (index > -1) tasks.splice(index, 1)
+      },
+      prepare: (todoListId: string, taskId: string) => {//полготов расчеты actions
+        //ДО редьюсера выполняется
+        return {
+          payload: {
+            todoListId, taskId
+          }
+        }
+      }
+    },
     // addTaskAC(state, action: PayloadAction<{ task: TaskTypeApi }>) {
     //   state[action.payload.task.todoListId].unshift(action.payload.task)
     // },
@@ -232,7 +247,7 @@ const slice = createSlice({
       })
       .addCase(clearTasksTodolists, (state, action) => {
         console.log("state/tasks", current(state))
-        return action.payload.tasks
+        return {}
       })
   }
 })

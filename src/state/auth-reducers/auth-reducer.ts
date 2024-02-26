@@ -53,9 +53,7 @@ export const logOutTC = createAsyncThunk('auth/logOut', async (param, { dispatch
       // dispatch(setIsLoggedInAC({ isLoggedIn: false }))
       dispatch(setAppSuccessAC({ success: "You have successfully logged out" }))
       dispatch(setAppStatusAC({ status: 'succeeded' }))
-      dispatch(clearTasksTodolists({
-        tasks: {}, todolists: []
-      }))
+      dispatch(clearTasksTodolists())
       return { isLoggedIn: false }
     } else {
       handleServerAppError(res.data.messages, dispatch)
