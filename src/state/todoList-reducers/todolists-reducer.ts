@@ -1,12 +1,14 @@
+import { ClearTasksTodolistsType } from './../../actions/actions';
 //BLL
 import { TodolistTypeApi, todolistsApi } from "../../api_DAL/todolists-api";
 import { RequestStatusType, setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
 import { ResultCode, getTasksTC } from "../tasks-reducers/tasks-reducer";
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { produce } from "immer";
+import { PayloadAction, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { AsyncThunkConfig } from "@reduxjs/toolkit/dist/createAsyncThunk";
+import { clearTasksTodolists } from "actions/actions";
+import { FieldErrorType } from "api_DAL/tasks-api";
 
 export type FilterValuesType = "all" | "completed" | "active"
 
@@ -16,15 +18,16 @@ export type TodolistDomainType = TodolistTypeApi & { // расширяем ти�
 }
 
 //thunk
-export const getTodolistTC = createAsyncThunk('todolists/getTodolist', async (params, { dispatch, rejectWithValue }) => {
+export const getTodolistTC = createAsyncThunk<{ todolists: TodolistTypeApi[] }, void,
+  {
+    rejectValue: { errors: string[], fieldsErrors?: FieldErrorType[] }
+  }
+>('todolists/getTodolist', async (params, { dispatch, rejectWithValue }) => {
   dispatch(setAppStatusAC({ status: 'loading' }))
   try {
     const res = await todolistsApi.getTodoslists()
     // dispatch(setTodolistAC({ todolists: res.data })) //уходит в return 
     dispatch(setAppStatusAC({ status: 'succeeded' }))
-    res.data.forEach(t => {
-      dispatch(getTasksTC(t.id));
-    })
     return { todolists: res.data }
   } catch (err: unknown) {
     const error: AxiosError = err as AxiosError;
@@ -102,7 +105,7 @@ export const addTodolistTC = createAsyncThunk<{ todolist: TodolistTypeApi }, str
 // })
 
 
-export const updateTodolistTC = createAsyncThunk('todolists/changeFilterTodolis', async (param: { todoListId: string, title: string, filter: FilterValuesType }, { dispatch, rejectWithValue }) => {
+export const updateTodolistTC = createAsyncThunk('todolists/updateTodolist', async (param: { todoListId: string, title: string, filter: FilterValuesType }, { dispatch, rejectWithValue }) => {
   const { todoListId, title, filter } = param
   dispatch(setAppStatusAC({ status: 'loading' }))
   try {
@@ -152,11 +155,6 @@ const slice = createSlice({
     //     })
     //   })
     // },
-    clearTodolistAC(state) {
-      return produce(state, (draftState) => {
-        draftState.splice(0); // Очищаем массив путем удаления всех элементов
-      });
-    },
   },
   extraReducers: (builder) => { //для обработки чужих редьюсеров
     builder
@@ -175,12 +173,15 @@ const slice = createSlice({
         state.unshift({ ...action.payload.todolist, filter: "all", entityStatus: "idle" })
       })
       .addCase(updateTodolistTC.fulfilled, (state, action) => {
-        const { param } = action.payload;
         const index = state.findIndex(t => t.id === action.payload.param.todoListId)
         if (index > -1) state[index] = { ...state[index], ...action.payload.param }
+      })
+      .addCase(clearTasksTodolists, (state, action: PayloadAction<ClearTasksTodolistsType>) => {
+        console.log("state/todolists", current(state))
+        return action.payload.todolists
       })
   }
 })
 
 export const todolistsReducer = slice.reducer
-export const { changeStatusTodolistAC, clearTodolistAC } = slice.actions
+export const { changeStatusTodolistAC } = slice.actions

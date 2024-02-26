@@ -13,6 +13,7 @@ import { loginTC } from "../../state/auth-reducers/auth-reducer";
 import { LoginParamsTypeApi } from "../../api_DAL/login-api";
 import { handleServerNetworkError } from "../../utils/error-utils";
 import { useNavigate } from "react-router-dom";
+import { setAppInitializeTC } from "state/app-reducer/app-reducer";
 
 export const Login = () => {
   const dispatch = useAppDispatch()
@@ -47,14 +48,14 @@ export const Login = () => {
       setSubmitting(true)
       try {
         const res = await dispatch(loginTC(values))
-        if (loginTC.rejected.match(res)) {
-          if (res.payload?.fieldsErrors?.length) {
-            const error = res.payload?.fieldsErrors[0]
-            // setFieldValue("password", "")
-            setFieldValue(error.field, error.error)
-          } else {
-          }
-        }
+        setFieldValue("password", "")
+        // if (loginTC.rejected.match(res)) {
+        //   if (res.payload?.fieldsErrors?.length) {
+        //     const error = res.payload?.fieldsErrors[0]
+        //     setFieldValue("password", "")
+        //     // setFieldValue(error.field, error.error)
+        //   }
+        // }
       } catch (err) {
         handleServerNetworkError(err as { message: string }, dispatch)
       }
@@ -63,9 +64,7 @@ export const Login = () => {
   })
 
   useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/");
-    }
+    if (isLoggedIn) navigate("/")
   }, [isLoggedIn])
 
 

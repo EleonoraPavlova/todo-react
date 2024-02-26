@@ -1,11 +1,12 @@
 //BLL
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { TaskPriorities, TaskStatuses, TasksObjType, UpdateTaskModel, tasksApi } from "../../api_DAL/tasks-api";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
 import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { AppRootState, AppThunkType } from "../storeBLL";
 import { addTodolistTC, getTodolistTC, removeTodolistTC } from "../todoList-reducers/todolists-reducer";
 import { AxiosError } from "axios";
+import { ClearTasksTodolistsType, clearTasksTodolists } from "actions/actions";
 
 
 export enum ResultCode { //enum  ONLY for reading, cannot be overwritten!!
@@ -196,10 +197,7 @@ const slice = createSlice({
       if (index > -1) {
         tasks[index] = { ...tasks[index], status: action.payload.status }
       }
-    },
-    clearTasksAC(state, action) {
-      return {}
-    },
+    }
   },
   extraReducers: (builder) => { //для обработки чужих редьюсеров
     builder
@@ -232,12 +230,16 @@ const slice = createSlice({
           if (index > -1) tasks[index] = { ...tasks[index], ...action.payload.apiModal }
         }
       })
+      .addCase(clearTasksTodolists, (state, action) => {
+        console.log("state/tasks", current(state))
+        return action.payload.tasks
+      })
   }
 })
 
 
 export const tasksReducer = slice.reducer
-export const { changeTaskTitleAC, changeTaskStatusAC, clearTasksAC } = slice.actions
+export const { changeTaskTitleAC, changeTaskStatusAC } = slice.actions
 
 
 export const changeTaskTitleTC = (todoListId: string, id: string, title: string): AppThunkType =>

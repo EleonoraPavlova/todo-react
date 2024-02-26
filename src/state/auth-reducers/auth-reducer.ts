@@ -2,11 +2,11 @@
 import { setAppStatusAC, setAppSuccessAC } from "../app-reducer/app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils";
 import { LoginParamsTypeApi, authApi } from "../../api_DAL/login-api";
-import { ResultCode, clearTasksAC } from "../tasks-reducers/tasks-reducer";
-import { clearTodolistAC, getTodolistTC } from "../todoList-reducers/todolists-reducer";
+import { ResultCode } from "../tasks-reducers/tasks-reducer";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { FieldErrorType } from "api_DAL/tasks-api";
+import { clearTasksTodolists } from "actions/actions";
 
 
 export const initialAuthState = {
@@ -53,8 +53,9 @@ export const logOutTC = createAsyncThunk('auth/logOut', async (param, { dispatch
       // dispatch(setIsLoggedInAC({ isLoggedIn: false }))
       dispatch(setAppSuccessAC({ success: "You have successfully logged out" }))
       dispatch(setAppStatusAC({ status: 'succeeded' }))
-      dispatch(clearTasksAC({}))
-      dispatch(clearTodolistAC())
+      dispatch(clearTasksTodolists({
+        tasks: {}, todolists: []
+      }))
       return { isLoggedIn: false }
     } else {
       handleServerAppError(res.data.messages, dispatch)

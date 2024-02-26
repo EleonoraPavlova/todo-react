@@ -2,10 +2,12 @@ import { Container, Grid, Paper } from "@mui/material";
 import { TaskStatuses, TasksObjType } from "../../api_DAL/tasks-api";
 import { memo, useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks/hooks-selectors";
-import { TodolistDomainType, addTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
+import { TodolistDomainType, addTodolistTC, getTodolistTC } from "../../state/todoList-reducers/todolists-reducer";
 import { TodoListRedux } from "../../page/TodoList/TodoListRedux";
 import { AddItemForm } from "../AddItemForm/AddItemForm";
 import { useNavigate } from "react-router-dom";
+import { getTasksTC } from "state/tasks-reducers/tasks-reducer";
+import { TodolistTypeApi } from "api_DAL/todolists-api";
 
 type TodolistRenderProps = {
   demo: boolean //загрузка мокового state
@@ -28,6 +30,19 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
       navigate("/login");
     }
   }, [isLoggedIn])
+
+  useEffect(() => {
+    const getTodos = async () => {
+      const res = await dispatch(getTodolistTC())
+      if (getTodolistTC.fulfilled.match(res)) {
+        const todolists = res.payload.todolists as TodolistTypeApi[]
+        todolists.forEach((t: TodolistTypeApi) => {
+          dispatch(getTasksTC(t.id));
+        })
+      }
+    }
+    getTodos()
+  }, [])
 
   return (
     <Grid container spacing={7} className="grid">

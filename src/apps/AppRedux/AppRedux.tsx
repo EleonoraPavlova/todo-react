@@ -33,7 +33,9 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
   const dispatch = useAppDispatch()
 
   useEffect(() => { //download all todolists from api when loading the component
-    dispatch(setAppInitializeTC())
+    if (!initialized) {
+      dispatch(setAppInitializeTC())
+    }
   }, [])
 
   let [lightMode, setLightMode] = useState<boolean>(true) // для изменения темы стейт

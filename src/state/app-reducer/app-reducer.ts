@@ -3,7 +3,6 @@ import { authApi } from "../../api_DAL/login-api"
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils"
 import { setIsLoggedInAC } from "../auth-reducers/auth-reducer"
 import { ResultCode } from "../tasks-reducers/tasks-reducer"
-import { getTodolistTC } from "../todoList-reducers/todolists-reducer"
 import { AxiosError } from "axios"
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -30,7 +29,6 @@ export const setAppInitializeTC = createAsyncThunk('app/appInitialize', async (p
     if (res.data.resultCode === ResultCode.SUCCEEDED) {
       dispatch(setIsLoggedInAC({ isLoggedIn: true }))// анонимный пользователь или авторизованный
       // dispatch(setAppInitializedAC({ initialized: true }))
-      await dispatch(getTodolistTC())
       // return { initialized: true }
     } else {
       return handleServerAppError(res.data.messages, dispatch)
