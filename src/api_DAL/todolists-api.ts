@@ -5,13 +5,13 @@ import axios from 'axios'
 export const settings = {
   withCredentials: true, //есть валидац токен
   headers: {
-    "API-KEY": "da75ba21-ff7d-45de-8bae-e8c163a0a2e8"
-  }
+    'API-KEY': 'da75ba21-ff7d-45de-8bae-e8c163a0a2e8',
+  },
 }
 
 export const instanse = axios.create({
-  baseURL: "https://social-network.samuraijs.com/api/1.1/",
-  ...settings
+  baseURL: 'https://social-network.samuraijs.com/api/1.1/',
+  ...settings,
 })
 
 export type TodolistTypeApi = {
@@ -28,15 +28,14 @@ export type ResponseTodolistType<Data = {}> = {
   data: Data
 }
 
-
 export const todolistsApi = {
   getTodoslists() {
-    return instanse.get<TodolistTypeApi[]>("todo-lists")
+    return instanse.get<TodolistTypeApi[]>('todo-lists')
   },
 
   createTodoslist(title: string) {
-    return instanse.post<ResponseTodolistType<{ item: TodolistTypeApi }>>("/todo-lists", {
-      title: title
+    return instanse.post<ResponseTodolistType<{ item: TodolistTypeApi }>>('/todo-lists', {
+      title: title,
     })
   },
 
@@ -46,7 +45,7 @@ export const todolistsApi = {
 
   updateTodoslist(todoListId: string, title: string) {
     return instanse.put<ResponseTodolistType>(`todo-lists/${todoListId}`, {
-      title: title
+      title: title,
     })
-  }
+  },
 }

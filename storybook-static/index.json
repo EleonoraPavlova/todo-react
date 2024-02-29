@@ -1,1 +1,64 @@
-{"v":4,"entries":{"appreduxbase--docs":{"id":"appreduxbase--docs","title":"AppReduxBase","name":"Docs","importPath":"./src/apps/AppRedux/AppRedux.stories.tsx","type":"docs","tags":["docs","autodocs"],"storiesImports":[]},"appreduxbase--app-redux-base":{"type":"story","id":"appreduxbase--app-redux-base","name":"App Redux Base","title":"AppReduxBase","importPath":"./src/apps/AppRedux/AppRedux.stories.tsx","tags":["story"]},"additemform--docs":{"id":"additemform--docs","title":"AddItemForm","name":"Docs","importPath":"./src/components/AddItemForm/AddItemForm.stories.tsx","type":"docs","tags":["docs","autodocs"],"storiesImports":["./src/components/TaskForMap/TaskForMap.stories.tsx"]},"additemform--add-item-form-base":{"type":"story","id":"additemform--add-item-form-base","name":"Add Item Form Base","title":"AddItemForm","importPath":"./src/components/AddItemForm/AddItemForm.stories.tsx","tags":["story"]},"editablespan--docs":{"id":"editablespan--docs","title":"EditableSpan","name":"Docs","importPath":"./src/components/EditableSpan/EditableSpan.stories.tsx","type":"docs","tags":["docs","autodocs"],"storiesImports":[]},"editablespan--editable-span-base":{"type":"story","id":"editablespan--editable-span-base","name":"Editable Span Base","title":"EditableSpan","importPath":"./src/components/EditableSpan/EditableSpan.stories.tsx","tags":["story"]},"additemform--task-for-map-base":{"type":"story","id":"additemform--task-for-map-base","name":"Task For Map Base","title":"AddItemForm","importPath":"./src/components/TaskForMap/TaskForMap.stories.tsx","tags":["story"]}}}
+{
+  "v": 4,
+  "entries": {
+    "appreduxbase--docs": {
+      "id": "appreduxbase--docs",
+      "title": "AppReduxBase",
+      "name": "Docs",
+      "importPath": "./src/apps/AppRedux/AppRedux.stories.tsx",
+      "type": "docs",
+      "tags": ["docs", "autodocs"],
+      "storiesImports": []
+    },
+    "appreduxbase--app-redux-base": {
+      "type": "story",
+      "id": "appreduxbase--app-redux-base",
+      "name": "App Redux Base",
+      "title": "AppReduxBase",
+      "importPath": "./src/apps/AppRedux/AppRedux.stories.tsx",
+      "tags": ["story"]
+    },
+    "additemform--docs": {
+      "id": "additemform--docs",
+      "title": "AddItemForm",
+      "name": "Docs",
+      "importPath": "./src/components/AddItemForm/AddItemForm.stories.tsx",
+      "type": "docs",
+      "tags": ["docs", "autodocs"],
+      "storiesImports": ["./src/components/TaskForMap/TaskForMap.stories.tsx"]
+    },
+    "additemform--add-item-form-base": {
+      "type": "story",
+      "id": "additemform--add-item-form-base",
+      "name": "Add Item Form Base",
+      "title": "AddItemForm",
+      "importPath": "./src/components/AddItemForm/AddItemForm.stories.tsx",
+      "tags": ["story"]
+    },
+    "editablespan--docs": {
+      "id": "editablespan--docs",
+      "title": "EditableSpan",
+      "name": "Docs",
+      "importPath": "./src/components/EditableSpan/EditableSpan.stories.tsx",
+      "type": "docs",
+      "tags": ["docs", "autodocs"],
+      "storiesImports": []
+    },
+    "editablespan--editable-span-base": {
+      "type": "story",
+      "id": "editablespan--editable-span-base",
+      "name": "Editable Span Base",
+      "title": "EditableSpan",
+      "importPath": "./src/components/EditableSpan/EditableSpan.stories.tsx",
+      "tags": ["story"]
+    },
+    "additemform--task-for-map-base": {
+      "type": "story",
+      "id": "additemform--task-for-map-base",
+      "name": "Task For Map Base",
+      "title": "AddItemForm",
+      "importPath": "./src/components/TaskForMap/TaskForMap.stories.tsx",
+      "tags": ["story"]
+    }
+  }
+}

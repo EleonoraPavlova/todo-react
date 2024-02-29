@@ -1,15 +1,15 @@
-import React from 'react';
-import AppRedux from "./AppRedux";
-import { ReduxStoreProviderDecorator } from "../../stories/decorators/ReduxStoreProviderDecorator";
+import React from 'react'
+import AppRedux from './AppRedux'
+import { ReduxStoreProviderDecorator } from '../../stories/decorators/ReduxStoreProviderDecorator'
 
 export default {
-  title: "AppReduxBase",
+  title: 'AppReduxBase',
   component: AppRedux,
-  decorators: [ReduxStoreProviderDecorator]
+  decorators: [ReduxStoreProviderDecorator],
 }
 
 // const onChange = action("onChanges")
 
 export const AppReduxBase = () => {
-  return (<AppRedux demo={false} />)
+  return <AppRedux demo={false} />
 }

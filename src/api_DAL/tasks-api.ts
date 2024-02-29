@@ -1,10 +1,10 @@
-import { instanse, settings } from "./todolists-api"
+import { instanse, settings } from './todolists-api'
 
 export enum TaskStatuses {
-  New = 0,        //false
+  New = 0, //false
   InProgress = 1,
-  Completed = 2,  //true
-  Draft = 3
+  Completed = 2, //true
+  Draft = 3,
 }
 
 export enum TaskPriorities {
@@ -12,9 +12,8 @@ export enum TaskPriorities {
   Middle = 1,
   Hi = 2,
   Urgently = 3,
-  Later = 4
+  Later = 4,
 }
-
 
 export type TaskTypeApi = {
   description: string
@@ -52,8 +51,8 @@ export type ResponseType<Data = {}> = {
   data: Data
 }
 
-
-export type UpdateTaskModel = { //какие поля можно обновить в tasks
+export type UpdateTaskModel = {
+  //какие поля можно обновить в tasks
   title: string
   description: string
   status: number
@@ -68,9 +67,13 @@ export const tasksApi = {
   },
 
   createTasks(title: string, todoListId: string) {
-    return instanse.post<ResponseType<{ item: TaskTypeApi }>>(`todo-lists/${todoListId}/tasks`, {
-      title: title
-    }, settings)
+    return instanse.post<ResponseType<{ item: TaskTypeApi }>>(
+      `todo-lists/${todoListId}/tasks`,
+      {
+        title: title,
+      },
+      settings
+    )
   },
 
   deleteTask(todoListId: string, taskId: string) {
@@ -83,5 +86,5 @@ export const tasksApi = {
 
   updateTaskAtAll(todoListId: string, taskId: string, payload: UpdateTaskModel) {
     return instanse.put<ResponseType>(`/todo-lists/${todoListId}/tasks/${taskId}`, payload)
-  }
+  },
 }

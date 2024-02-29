@@ -1,30 +1,32 @@
-import React from 'react';
-import { Provider } from "react-redux";
-import { AppRootState, RootReducerType } from "../../state/storeBLL";
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import { todolistsReducer } from "../../state/todoList-reducers/todolists-reducer";
-import { tasksReducer } from "../../state/tasks-reducers/tasks-reducer";
-import { startStateTodolists } from "../../state/initialState/todolistsStartState";
-import { startStateTasks } from "../../state/initialState/tasksStartState";
-import { appReducer, appStartState } from "../../state/app-reducer/app-reducer";
-import thunk from "redux-thunk";
-import { authReducer, initialAuthState } from "../../state/auth-reducers/auth-reducer";
-import { MemoryRouter } from "react-router-dom";
-import { configureStore } from "@reduxjs/toolkit";
-
+import React from 'react'
+import { Provider } from 'react-redux'
+import { AppRootState, RootReducerType } from '../../state/storeBLL'
+import { applyMiddleware, combineReducers, createStore } from 'redux'
+import { todolistsReducer } from '../../state/todolists/todolistsSlice'
+import { tasksReducer } from '../../state/tasks-reducers/tasks-reducer'
+import { startStateTodolists } from '../../state/initialState/todolistsStartState'
+import { startStateTasks } from '../../state/initialState/tasksStartState'
+import { appReducer, appStartState } from '../../reducers/app-reducer/appSlice'
+import thunk from 'redux-thunk'
+import {
+  authReducer,
+  initialAuthState,
+} from '../../reducers/app-reducer/auth-reducers/auth-reducer'
+import { MemoryRouter } from 'react-router-dom'
+import { configureStore } from '@reduxjs/toolkit'
 
 const rootReducer = combineReducers({
   todolist: todolistsReducer,
   tasks: tasksReducer,
   app: appReducer,
-  auth: authReducer
+  auth: authReducer,
 })
 
 export const initialGlobalState: AppRootState = {
   todolist: startStateTodolists,
   tasks: startStateTasks,
   app: appStartState,
-  auth: initialAuthState
+  auth: initialAuthState,
 }
 
 export const storyBookStore = configureStore({
@@ -33,7 +35,9 @@ export const storyBookStore = configureStore({
 })
 
 export const ReduxStoreProviderDecorator = (story: any) => {
-  return <MemoryRouter>
-    <Provider store={storyBookStore}>{story()}</Provider>
-  </MemoryRouter>
+  return (
+    <MemoryRouter>
+      <Provider store={storyBookStore}>{story()}</Provider>
+    </MemoryRouter>
+  )
 }

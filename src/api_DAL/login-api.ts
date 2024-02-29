@@ -1,5 +1,5 @@
-import { instanse } from "./todolists-api"
-import { ResponseType } from "./tasks-api"
+import { instanse } from './todolists-api'
+import { ResponseType } from './tasks-api'
 
 export type LoginParamsTypeApi = {
   email: string
@@ -14,17 +14,16 @@ export type CheckAuthResponse = {
   login: string
 }
 
-
 export const authApi = {
   login(params: LoginParamsTypeApi) {
-    return instanse.post<ResponseType<{ userId?: number }>>("auth/login", params)
+    return instanse.post<ResponseType<{ userId?: number }>>('auth/login', params)
   },
 
   checkAuthMe() {
-    return instanse.get<ResponseType<CheckAuthResponse>>("/auth/me")
+    return instanse.get<ResponseType<CheckAuthResponse>>('/auth/me')
   },
 
   logOut() {
-    return instanse.delete<ResponseType>("/auth/login")
-  }
+    return instanse.delete<ResponseType>('/auth/login')
+  },
 }

@@ -9,7 +9,24 @@
   margin: 20px 0;
   justify-content: center;
 }
-.AddItemForm_addItemForm__bETvz{display:flex;gap:10px;align-items:center;margin:20px 0;align-items:baseline}.AddItemForm_error__oLyz2{border:1px solid red}
-.TodoList_done__K7PV0{opacity:.5}.TodoList_list__aQpmq{padding:10px}.TodoList_button__ZNswx{margin-right:10px}
+.AddItemForm_addItemForm__bETvz {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 20px 0;
+  align-items: baseline;
+}
+.AddItemForm_error__oLyz2 {
+  border: 1px solid red;
+}
+.TodoList_done__K7PV0 {
+  opacity: 0.5;
+}
+.TodoList_list__aQpmq {
+  padding: 10px;
+}
+.TodoList_button__ZNswx {
+  margin-right: 10px;
+}
 
 /*# sourceMappingURL=apps-AppRedux-AppRedux-stories.c12c637c.chunk.css.map*/

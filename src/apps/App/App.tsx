@@ -1,11 +1,11 @@
-import React from 'react';
-import "../../style/App.css";
-import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
-import { AppBar, Container, Grid, IconButton, Toolbar, Typography } from "@mui/material";
-import { Menu } from "@mui/icons-material";
-import { useTasks } from "./hooks/useTasks";
-import { useTodolists } from "./hooks/useTodolists";
-import { TodolistRender } from "../../components/TodolistRender/TodolistRender";
+import React from 'react'
+import '../../style/App.css'
+import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
+import { AppBar, Container, Grid, IconButton, Toolbar, Typography } from '@mui/material'
+import { Menu } from '@mui/icons-material'
+import { useTasks } from './hooks/useTasks'
+import { useTodolists } from './hooks/useTodolists'
+import { TodolistRender } from '../../components/TodolistRender/TodolistRender'
 
 type AppProps = {
   demo: boolean //загрузка мокового state
@@ -30,16 +30,16 @@ export const App: React.FC<AppProps> = ({ demo = false }) => {
         </Toolbar>
       </AppBar>
       <Container>
-        <Container maxWidth="sm" >
-          <div className="container" >
+        <Container maxWidth="sm">
+          <div className="container">
             <AddItemForm addTask={addTodoList} />
           </div>
         </Container>
         <Grid container spacing={7} className="grid">
-          < TodolistRender demo={demo} />
+          <TodolistRender demo={demo} />
         </Grid>
-      </Container >
-    </div >
-  );
+      </Container>
+    </div>
+  )
 }
-export default App;
+export default App

@@ -1,42 +1,49 @@
-import React from 'react';
-import "../../style/App.css";
-import TodoList from '../../page/TodoList/TodoList';
-import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
-import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
-import { Menu } from "@mui/icons-material";
-import { useAppRedux } from "./hooks/useAppRedux";
-import { TodolistDomainType } from "../../state/todoList-reducers/todolists-reducer";
-
+import React from 'react'
+import '../../style/App.css'
+import TodoList from '../../page/TodoList/TodoList'
+import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
+import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material'
+import { Menu } from '@mui/icons-material'
+import { useAppRedux } from './hooks/useAppRedux'
+import { TodolistDomainType } from '../../state/todolists/todolistsSlice'
 
 function AppReduxHooks() {
-  console.log("AppRedux has been called")
+  console.log('AppRedux has been called')
 
-  const { todolists, tasks,
-    removeTask, addTask, changeStatus,
-    changeTaskTitle, changeFilterHandler, removeTodolist,
-    addTodoList, changeTodolistTitle
+  const {
+    todolists,
+    tasks,
+    removeTask,
+    addTask,
+    changeStatus,
+    changeTaskTitle,
+    changeFilterHandler,
+    removeTodolist,
+    addTodoList,
+    changeTodolistTitle,
   } = useAppRedux()
 
   const mappedList = () => {
     return todolists.map((l: TodolistDomainType) => {
       let tasksForTodolist = tasks[l.id]
-      return (<Grid item key={l.id}>
-        <Paper sx={{ padding: "20px" }} elevation={3}>
-          <TodoList
-            tasks={tasksForTodolist} //передаю все tasks массив
-            title={l.title}
-            todoListId={l.id}
-            filter={l.filter}
-            removeTask={removeTask}
-            addTask={addTask}
-            changeStatus={changeStatus}
-            changeFilterHandler={changeFilterHandler}
-            removeTodolist={removeTodolist}
-            changeTaskTitle={changeTaskTitle}
-            changeTodolistTitle={changeTodolistTitle}
-          />
-        </Paper>
-      </Grid>
+      return (
+        <Grid item key={l.id}>
+          <Paper sx={{ padding: '20px' }} elevation={3}>
+            <TodoList
+              tasks={tasksForTodolist} //передаю все tasks массив
+              title={l.title}
+              todoListId={l.id}
+              filter={l.filter}
+              removeTask={removeTask}
+              addTask={addTask}
+              changeStatus={changeStatus}
+              changeFilterHandler={changeFilterHandler}
+              removeTodolist={removeTodolist}
+              changeTaskTitle={changeTaskTitle}
+              changeTodolistTitle={changeTodolistTitle}
+            />
+          </Paper>
+        </Grid>
       )
     })
   }
@@ -54,16 +61,16 @@ function AppReduxHooks() {
         </Toolbar>
       </AppBar>
       <Container>
-        <Container maxWidth="sm" >
-          <div className="container" >
+        <Container maxWidth="sm">
+          <div className="container">
             <AddItemForm addTask={addTodoList} />
           </div>
         </Container>
         <Grid container spacing={7} className="grid">
           {mappedList()}
         </Grid>
-      </Container >
-    </div >
-  );
+      </Container>
+    </div>
+  )
 }
 export default AppReduxHooks

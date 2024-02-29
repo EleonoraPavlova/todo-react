@@ -1,4 +1,4 @@
-import { userReducer } from './user-reducer'
+import { userReducer } from './userSlice'
 
 test('user reducer should increment only age', () => {
   const startState = { age: 20, childrenCount: 2, name: 'Dimych' }
@@ -9,7 +9,6 @@ test('user reducer should increment only age', () => {
   expect(endState.childrenCount).toBe(2)
 })
 
-
 test('user reducer should increment only childrenCount', () => {
   const startState = { age: 20, childrenCount: 2, name: 'Dimych' }
   const endState = userReducer(startState, { type: 'INCREMENT-CHILDREN-COUNT' })
@@ -17,7 +16,6 @@ test('user reducer should increment only childrenCount', () => {
   expect(endState.age).toBe(20)
   expect(endState.childrenCount).toBe(3)
 })
-
 
 test('user reducer should change name of user', () => {
   const startState = { name: 'Dimych', age: 20, childrenCount: 2 }
