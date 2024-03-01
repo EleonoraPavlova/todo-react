@@ -1,29 +1,26 @@
 import { Container, Grid, Paper } from '@mui/material'
-import { TaskStatuses } from '../../api_DAL/tasks-api'
+import { TaskStatuses, TaskTypeApi } from '../../api_DAL/tasks-api'
 import { memo, useCallback, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../state/hooks/hooks-selectors'
 import { TodoListRedux } from '../../page/TodoList/TodoListRedux'
 import { AddItemForm } from '../AddItemForm/AddItemForm'
 import { useNavigate } from 'react-router-dom'
-import {
-  TodolistDomainType,
-  addTodolistTC,
-  getTodolistTC,
-  todolistsSelectors,
-} from 'reducers/todolistsSlice/todolistsSlice'
+import { addTodolistTC, getTodolistTC, selectTodolists } from 'reducers/todolistsSlice/todolistsSlice'
 import { TodolistTypeApi } from 'api_DAL/todolists-api'
 import { getTasksTC, tasksSelector } from 'reducers/tasksSlice/tasksSlice'
 import { useSelector } from 'react-redux'
+import { selectIsLoggedIn } from 'reducers/authSlice/authSlice'
 
 type TodolistRenderProps = {
   demo: boolean //загрузка мокового state
 }
 
 export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = false }) => {
-  const todolists = useSelector(todolistsSelectors.selectAppTodolists) //выбираем todolist из стора state
+  const todolists = useSelector(selectTodolists) //выбираем todolist из стора state
+  console.log('todolists', todolists)
   //TodoListsType[]> означает хотим достать массив todolists из этого типа
   const tasks = useAppSelector(tasksSelector)
-  let isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn) //не залогинены
+  let isLoggedIn = useAppSelector(selectIsLoggedIn) //не залогинены
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -36,9 +33,7 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
   )
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      navigate('/login')
-    }
+    if (!isLoggedIn) navigate('/login')
   }, [isLoggedIn])
 
   useEffect(() => {
@@ -61,13 +56,13 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
           <AddItemForm addTask={addTodoList} />
         </div>
       </Container>
-      {todolists.map((l: TodolistDomainType) => {
-        let tasksForTodolist = tasks[l.id]
+      {todolists.map((l) => {
+        let tasksForTodolist = tasks[l.id] as TaskTypeApi[]
         if (l.filter === 'completed') {
-          tasksForTodolist = tasks[l.id].filter((t) => t.status === TaskStatuses.Completed)
+          tasksForTodolist = tasks[l.id].filter((t: TaskTypeApi) => t.status === TaskStatuses.Completed)
         }
         if (l.filter === 'active') {
-          tasksForTodolist = tasks[l.id].filter((t) => t.status === TaskStatuses.New)
+          tasksForTodolist = tasks[l.id].filter((t: TaskTypeApi) => t.status === TaskStatuses.New)
         }
 
         return (

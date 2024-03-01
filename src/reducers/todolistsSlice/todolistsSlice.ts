@@ -211,6 +211,9 @@ const todolistsSlice = createSlice({
 
 export const todolistsReducer = todolistsSlice.reducer
 export const { changeStatusTodolistAC } = todolistsSlice.actions
-export const todolistsSelectors = todolistsSlice.getSelectors(
-  (state: AppRootState) => state.todolists
-)
+
+export const { selectTodolists } = todolistsSlice.selectors
+
+//export const todolistsSelectors = todolistsSlice.getSelectors(
+  //(state: AppRootState) => state.todolists
+//)

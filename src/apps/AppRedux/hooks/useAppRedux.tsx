@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
 import { TaskStatuses } from '../../../api_DAL/tasks-api'
-import {  FilterValuesType, addTodolistTC, todolistsSelectors } from 'reducers/todolistsSlice/todolistsSlice'
+import {  FilterValuesType, addTodolistTC, selectTodolists } from 'reducers/todolistsSlice/todolistsSlice'
 import { addTaskTC, changeTaskStatusAC, changeTaskTitleAC, tasksSelector } from 'reducers/tasksSlice/tasksSlice'
 
 export function useAppRedux() {
   const dispatch = useDispatch()
-  const todolists = useSelector(todolistsSelectors.selectAppTodolists)//выбираем todolist из стора state
+  const todolists = useSelector(selectTodolists)//выбираем todolist из стора state
   //<AppRootState, TodolistDomainType[]> означает хотим достать массив todolists из этого типа
   const tasks = useSelector(tasksSelector)
 

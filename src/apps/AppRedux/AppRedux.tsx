@@ -44,6 +44,7 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
   useEffect(() => {
     //download all todolists from api when loading the component
     if (!initialized) {
+      debugger
       dispatch(setAppInitializeTC())
     }
   }, [])

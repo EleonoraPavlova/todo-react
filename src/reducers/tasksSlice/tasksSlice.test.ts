@@ -11,11 +11,7 @@ import { TaskPriorities, TaskStatuses } from '../../api_DAL/tasks-api'
 import { v1 } from 'uuid'
 import { TodolistTypeApi } from 'api_DAL/todolists-api'
 import { startStateTasks } from 'state/initialState/tasksStartState'
-import {
-  addTodolistTC,
-  getTodolistTC,
-  removeTodolistTC,
-} from 'reducers/todolistsSlice/todolistsSlice'
+import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice/todolistsSlice'
 import { startStateTodolists } from 'state/initialState/todolistsStartState'
 
 const todoListId1 = v1()
@@ -146,10 +142,7 @@ test('new array should be added when new todolist is added', () => {
     },
   }
 
-  const endState = tasksReducer(
-    startStateTasks,
-    addTodolistTC.fulfilled(payload, 'requestId', payload.todolist.title)
-  )
+  const endState = tasksReducer(startStateTasks, addTodolistTC.fulfilled(payload, 'requestId', payload.todolist.title))
 
   const keys = Object.keys(endState)
   const newKey = keys.find((k) => k != 'todoListId1' && k != 'todoListId2')
@@ -273,7 +266,7 @@ test('property with todoListId should be deleted', () => {
 })
 
 test('empty array should be added when we set todolists', () => {
-  const payload = { todolists: startStateTodolists }
+  const payload = startStateTodolists
   const action = getTodolistTC.fulfilled(payload, 'requestId')
 
   const endState = tasksReducer({}, action) //потому что начальный state пустой объект in reducer

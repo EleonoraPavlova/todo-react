@@ -1,6 +1,6 @@
+import { TodolistDomainType, addTodolistTC, todolistsReducer } from 'reducers/todolistsSlice/todolistsSlice'
 import { TasksObjType } from '../api_DAL/tasks-api'
-import { tasksReducer } from './tasks-reducers/tasks-reducer'
-import { TodolistDomainType, addTodolistTC, todolistsReducer } from './todolists/todolistsSlice'
+import { tasksReducer } from 'reducers/tasksSlice/tasksSlice'
 
 //общий редьюсер для tasks / todolists,
 //если нужно генерировать общие значения для state
@@ -18,11 +18,11 @@ test('ids should be equals', () => {
   const action = addTodolistTC.fulfilled({ todolist: newTodolist }, 'requestId', newTodolist.title)
 
   const endTasksState = tasksReducer(startTasksState, action)
-  const endTodolistsState = todolistsReducer(startTodolistsState, action)
+  const endTodolistsState = todolistsReducer({todolists:  startTodolistsState }, action)
 
   const keys = Object.keys(endTasksState)
   const idFromTasks = keys[0]
-  const idFromTodolists = endTodolistsState[0].id
+  const idFromTodolists = endTodolistsState.todolists[0].id
 
   expect(idFromTasks).toBe(action.payload.todolist.id)
   expect(idFromTodolists).toBe(action.payload.todolist.id)

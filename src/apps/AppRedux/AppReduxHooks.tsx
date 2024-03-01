@@ -5,11 +5,9 @@ import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material'
 import { Menu } from '@mui/icons-material'
 import { useAppRedux } from './hooks/useAppRedux'
-import { TodolistDomainType } from '../../state/todolists/todolistsSlice'
+
 
 function AppReduxHooks() {
-  console.log('AppRedux has been called')
-
   const {
     todolists,
     tasks,
@@ -24,7 +22,7 @@ function AppReduxHooks() {
   } = useAppRedux()
 
   const mappedList = () => {
-    return todolists.map((l: TodolistDomainType) => {
+    return todolists.map((l) => {
       let tasksForTodolist = tasks[l.id]
       return (
         <Grid item key={l.id}>

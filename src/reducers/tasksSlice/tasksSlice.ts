@@ -13,11 +13,7 @@ import { AxiosError } from 'axios'
 import { clearTasksTodolists } from 'actions/actions'
 import { setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
 import { AppRootState, AppThunkType } from 'state/storeBLL'
-import {
-  addTodolistTC,
-  getTodolistTC,
-  removeTodolistTC,
-} from 'reducers/todolistsSlice/todolistsSlice'
+import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice/todolistsSlice'
 
 export enum ResultCode { //enum  ONLY for reading, cannot be overwritten!!
   SUCCEEDED = 0,
@@ -224,10 +220,7 @@ const tasksSlice = createSlice({
     //     tasks[index] = { ...tasks[index], ...action.payload.model }
     //   }
     // },
-    changeTaskTitleAC(
-      state,
-      action: PayloadAction<{ id: string; title: string; todoListId: string }>
-    ) {
+    changeTaskTitleAC(state, action: PayloadAction<{ id: string; title: string; todoListId: string }>) {
       //
       const tasks = state[action.payload.todoListId]
       const index = tasks.findIndex((t) => t.id === action.payload.id)
@@ -235,10 +228,7 @@ const tasksSlice = createSlice({
         tasks[index] = { ...tasks[index], title: action.payload.title }
       }
     },
-    changeTaskStatusAC(
-      state,
-      action: PayloadAction<{ todoListId: string; id: string; status: TaskStatuses }>
-    ) {
+    changeTaskStatusAC(state, action: PayloadAction<{ todoListId: string; id: string; status: TaskStatuses }>) {
       //
       const tasks = state[action.payload.todoListId]
       const index = tasks.findIndex((t) => t.id === action.payload.id)
@@ -289,7 +279,7 @@ const tasksSlice = createSlice({
       })
   },
   selectors: {
-    tasksSelector: (slice) => slice.tasks,
+    tasksSelector: (slice) => slice,
   },
 })
 

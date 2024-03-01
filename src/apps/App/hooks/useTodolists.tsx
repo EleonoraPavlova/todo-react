@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { FilterValuesType, TodolistDomainType } from '../../../state/todolists/todolistsSlice'
 import { startStateTodolists } from '../../../state/initialState/todolistsStartState'
 import { v1 } from 'uuid'
+import { FilterValuesType, TodolistDomainType } from 'reducers/todolistsSlice/todolistsSlice'
 
 export function useTodolists(
   removeTodolistsSetTasks: (todoListId: string) => void,
@@ -9,7 +9,7 @@ export function useTodolists(
 ) {
   //внутри кастомных хуков можно использовать другие хуки!
   //хуки не должны быть в if
-  let [todoLists, setTodoLists] = useState<TodolistDomainType[]>(startStateTodolists)
+  let [todoLists, setTodoLists] = useState<TodolistDomainType[]>(startStateTodolists.todolists)
   //этот стейт для управления  map отрисовки TodoList
 
   function changeFilter(value: FilterValuesType, todoListId: string) {

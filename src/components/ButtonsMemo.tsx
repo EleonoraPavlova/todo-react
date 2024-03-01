@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { Button } from '@mui/material'
-import { FilterValuesType } from '../state/todolists/todolistsSlice'
+import { FilterValuesType } from 'reducers/todolistsSlice/todolistsSlice'
 
 type ButtonsMemoType = {
   filter: FilterValuesType
@@ -10,7 +10,6 @@ type ButtonsMemoType = {
 
 export const ButtonsMemo: React.FC<ButtonsMemoType> = memo(
   ({ changeFilterHandler, filter, id }: ButtonsMemoType) => {
-    console.log('ButtonsMemo has been called')
 
     return (
       <div>

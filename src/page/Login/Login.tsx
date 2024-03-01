@@ -8,17 +8,17 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useFormik } from 'formik'
-import { useAppDispatch, useAppSelector } from '../../state/hooks/hooks-selectors'
-import { loginTC } from '../../reducers/app-reducer/auth-reducers/auth-reducer'
+import { useAppDispatch } from '../../state/hooks/hooks-selectors'
 import { LoginParamsTypeApi } from '../../api_DAL/login-api'
 import { handleServerNetworkError } from '../../utils/error-utils'
 import { useNavigate } from 'react-router-dom'
-import { setAppInitializeTC } from 'reducers/app-reducer/appSlice'
+import { useSelector } from 'react-redux'
+import { loginTC, selectIsLoggedIn } from 'reducers/authSlice/authSlice'
 
 export const Login = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  let isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn) //не залогинены
+  let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены
 
   const formik = useFormik({
     validate: (values) => {
