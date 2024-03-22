@@ -6,9 +6,9 @@ import Delete from '@mui/icons-material/Delete'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
 import styled from '../../page/TodoList/TodoList.module.scss'
 import { TaskStatuses, Task } from '../../api_DAL/tasks-api'
-import { useAppDispatch } from '../../state/hooks/hooks'
 import s from './TaskMap.module.scss'
 import { tasksThunks } from 'reducers/tasksSlice/tasksSlice'
+import { useAppDispatch } from 'common/hooks'
 
 type TaskProps = {
   task: Task

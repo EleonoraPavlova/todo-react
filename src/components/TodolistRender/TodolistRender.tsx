@@ -1,7 +1,6 @@
 import { Container, Grid, Paper } from '@mui/material'
 import { TaskStatuses, Task } from '../../api_DAL/tasks-api'
 import { memo, useCallback, useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../state/hooks/hooks'
 import { TodoListRedux } from '../../page/TodoList/TodoListRedux'
 import { AddItemForm } from '../AddItemForm/AddItemForm'
 import { useNavigate } from 'react-router-dom'
@@ -10,6 +9,7 @@ import { Todolist } from 'api_DAL/todolists-api'
 import { tasksSelector, tasksThunks } from 'reducers/tasksSlice/tasksSlice'
 import { useSelector } from 'react-redux'
 import { selectIsLoggedIn } from 'reducers/authSlice/authSlice'
+import { useAppDispatch } from 'common/hooks'
 
 type TodolistRenderProps = {
   demo: boolean //загрузка мокового state
@@ -18,8 +18,8 @@ type TodolistRenderProps = {
 export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = false }) => {
   const todolists = useSelector(selectTodolists) //выбираем todolist из стора state
   //TodoListsType[]> означает хотим достать массив todolists из этого типа
-  const tasks = useAppSelector(tasksSelector)
-  let isLoggedIn = useAppSelector(selectIsLoggedIn) //не залогинены
+  const tasks = useSelector(tasksSelector)
+  let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 

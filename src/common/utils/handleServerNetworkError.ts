@@ -1,5 +1,5 @@
 import axios, { isAxiosError } from 'axios'
-import { AppDispatch } from '../app/storeBLL'
+import { AppDispatch } from '../../app/storeBLL'
 import { setAppErrorAC, setAppStatusAC } from 'reducers/appSlice/appSlice'
 
 export const handleServerNetworkError = (err: unknown, dispatch: AppDispatch): void => {

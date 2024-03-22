@@ -1,5 +1,4 @@
 import React, { memo, useCallback } from 'react'
-import { useAppDispatch } from '../../state/hooks/hooks'
 import { Box, Button, IconButton, List } from '@mui/material'
 import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
 import { Delete } from '@mui/icons-material'
@@ -14,6 +13,7 @@ import {
 } from 'reducers/todolistsSlice/todolistsSlice'
 import { tasksThunks } from 'reducers/tasksSlice/tasksSlice'
 import { TaskMap } from 'components/TaskMap/TaskMap'
+import { useAppDispatch } from 'common/hooks/hooks'
 
 type TodoListReduxProps = {
   todolist: TodolistDomain

@@ -19,12 +19,12 @@ import { useSelector } from 'react-redux'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { selectAppInitialized, selectAppStatus, setAppInitializeTC } from 'reducers/appSlice/appSlice'
 import { logOutTC, selectIsLoggedIn } from 'reducers/authSlice/authSlice'
-import '../style/App.css'
-import { useAppDispatch } from 'state/hooks/hooks'
+import './App.css'
 import { Task } from 'api_DAL/tasks-api'
 import { TodolistRender } from 'components/TodolistRender/TodolistRender'
 import { Login } from 'page/Login/Login'
 import { SnackbarComponent } from 'components/SnackbarComponent/SnackbarComponent'
+import { useAppDispatch } from 'common/hooks'
 
 type AppProps = {
   demo: boolean //загрузка мокового state

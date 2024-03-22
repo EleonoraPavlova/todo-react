@@ -6,7 +6,7 @@ import { clearTasksTodolists } from 'actions/actions'
 import { LoginParams, authApi } from 'api_DAL/login-api'
 import { setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
 import { ResultCode } from 'reducers/tasksSlice/tasksSlice'
-import { handleServerAppError, handleServerNetworkError } from 'utils'
+import { handleServerAppError, handleServerNetworkError } from 'common/utils'
 
 export const initialAuthState = {
   email: '',

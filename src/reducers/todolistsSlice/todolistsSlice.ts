@@ -1,6 +1,6 @@
 //BLL
 import { Todolist, todolistsApi } from '../../api_DAL/todolists-api'
-import { handleServerNetworkError } from '../../utils'
+import { handleServerNetworkError } from '../../common/utils'
 import { PayloadAction, createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 import { AsyncThunkConfig } from '@reduxjs/toolkit/dist/createAsyncThunk'
@@ -8,7 +8,7 @@ import { clearTasksTodolists } from 'actions/actions'
 import { FieldError } from 'api_DAL/tasks-api'
 import { RequestStatus, setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
 import { ResultCode } from 'reducers/tasksSlice/tasksSlice'
-import { handleServerAppError } from 'utils/handleServerAppError'
+import { handleServerAppError } from 'common/utils/handleServerAppError'
 
 export type FilterValues = 'all' | 'completed' | 'active'
 

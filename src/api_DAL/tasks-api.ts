@@ -45,7 +45,7 @@ export type FieldError = {
   error: string
 }
 
-export type ResponseType<Data = {}> = {
+export type Response<Data = {}> = {
   resultCode: number
   messages: string[]
   fieldsErrors?: FieldError[]
@@ -84,7 +84,7 @@ export const tasksApi = {
   },
 
   createTask(params: AddTaskParams) {
-    return instanse.post<ResponseType<{ item: Task }>>(
+    return instanse.post<Response<{ item: Task }>>(
       `todo-lists/${params.todoListId}/tasks`,
       { title: params.title },
       settings
@@ -92,14 +92,14 @@ export const tasksApi = {
   },
 
   deleteTask(params: DeleteTaskParams) {
-    return instanse.delete<ResponseType>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`)
+    return instanse.delete<Response>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`)
   },
 
   updateTaskTitle(todoListId: string, taskId: string, title: string) {
-    return instanse.put<ResponseType>(`/todo-lists/${todoListId}/tasks/${taskId}`, { title: title })
+    return instanse.put<Response>(`/todo-lists/${todoListId}/tasks/${taskId}`, { title: title })
   },
 
   updateTaskAtAll(params: UpdateTaskParams) {
-    return instanse.put<ResponseType>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`, params.domainModel)
+    return instanse.put<Response>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`, params.domainModel)
   },
 }

@@ -3,8 +3,8 @@ import { authApi } from '../../api_DAL/login-api'
 import { AxiosError } from 'axios'
 import { ResultCode } from 'reducers/tasksSlice/tasksSlice'
 import { setIsLoggedInAC } from 'reducers/authSlice/authSlice'
-import { handleServerAppError } from 'utils/handleServerAppError'
-import { handleServerNetworkError } from 'utils'
+import { handleServerAppError } from 'common/utils/handleServerAppError'
+import { handleServerNetworkError } from 'common/utils'
 
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
 

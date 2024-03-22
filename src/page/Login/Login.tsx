@@ -8,12 +8,12 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useFormik } from 'formik'
-import { useAppDispatch } from '../../state/hooks/hooks'
 import { LoginParams } from '../../api_DAL/login-api'
-import { handleServerNetworkError } from '../../utils'
+import { handleServerNetworkError } from '../../common/utils'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { loginTC, selectIsLoggedIn } from 'reducers/authSlice/authSlice'
+import { useAppDispatch } from 'common/hooks'
 
 export const Login = () => {
   const dispatch = useAppDispatch()

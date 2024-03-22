@@ -11,12 +11,12 @@ import {
   DeleteTaskParams,
   UpdateTaskParams,
 } from '../../api_DAL/tasks-api'
-import { handleServerNetworkError } from '../../utils'
+import { handleServerNetworkError } from '../../common/utils'
 import { clearTasksTodolists } from 'actions/actions'
 import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
 import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice/todolistsSlice'
-import { createAppAsyncThunk } from 'utils/createAppAsyncThunk'
-import { handleServerAppError } from 'utils/handleServerAppError'
+import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
+import { handleServerAppError } from 'common/utils/handleServerAppError'
 
 export enum ResultCode { //enum  ONLY for reading, cannot be overwritten!! OR {} as const - the same
   SUCCEEDED = 0,
