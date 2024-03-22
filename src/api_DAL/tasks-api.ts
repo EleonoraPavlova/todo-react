@@ -1,3 +1,4 @@
+import { UpdateTaskModelForReducerFn } from 'reducers/tasksSlice/tasksSlice'
 import { instanse, settings } from './todolists-api'
 
 export enum TaskStatuses {
@@ -15,7 +16,7 @@ export enum TaskPriorities {
   Later = 4,
 }
 
-export type TaskTypeApi = {
+export type Task = {
   description: string
   title: string
   completed: boolean
@@ -30,13 +31,13 @@ export type TaskTypeApi = {
 }
 
 export type TasksObjType = {
-  [key: string]: TaskTypeApi[]
+  [key: string]: Task[]
 }
 
 export type GetTaskResponse = {
   error: string
   totalCount: number
-  items: TaskTypeApi[]
+  items: Task[]
 }
 
 export type FieldErrorType = {
@@ -61,30 +62,44 @@ export type UpdateTaskModel = {
   deadline: string
 }
 
+export type AddTaskParams = {
+  title: string
+  todoListId: string
+}
+
+export type DeleteTaskParams = {
+  todoListId: string
+  taskId: string
+}
+
+export type UpdateTaskParams = {
+  todoListId: string
+  taskId: string
+  domainModel: UpdateTaskModelForReducerFn
+}
+
 export const tasksApi = {
   getTasks(todoListId: string) {
     return instanse.get<GetTaskResponse>(`todo-lists/${todoListId}/tasks`)
   },
 
-  createTasks(title: string, todoListId: string) {
-    return instanse.post<ResponseType<{ item: TaskTypeApi }>>(
-      `todo-lists/${todoListId}/tasks`,
-      {
-        title: title,
-      },
+  createTask(params: AddTaskParams) {
+    return instanse.post<ResponseType<{ item: Task }>>(
+      `todo-lists/${params.todoListId}/tasks`,
+      { title: params.title },
       settings
     )
   },
 
-  deleteTask(todoListId: string, taskId: string) {
-    return instanse.delete<ResponseType>(`/todo-lists/${todoListId}/tasks/${taskId}`)
+  deleteTask(params: DeleteTaskParams) {
+    return instanse.delete<ResponseType>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`)
   },
 
   updateTaskTitle(todoListId: string, taskId: string, title: string) {
     return instanse.put<ResponseType>(`/todo-lists/${todoListId}/tasks/${taskId}`, { title: title })
   },
 
-  updateTaskAtAll(todoListId: string, taskId: string, payload: UpdateTaskModel) {
-    return instanse.put<ResponseType>(`/todo-lists/${todoListId}/tasks/${taskId}`, payload)
+  updateTaskAtAll(params: UpdateTaskParams) {
+    return instanse.put<ResponseType>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`, params.domainModel)
   },
 }

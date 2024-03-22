@@ -8,7 +8,7 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useFormik } from 'formik'
-import { useAppDispatch } from '../../state/hooks/hooks-selectors'
+import { useAppDispatch } from '../../state/hooks/hooks'
 import { LoginParamsTypeApi } from '../../api_DAL/login-api'
 import { handleServerNetworkError } from '../../utils/error-utils'
 import { useNavigate } from 'react-router-dom'
@@ -98,12 +98,7 @@ export const Login = () => {
 
               <FormControlLabel
                 label={'Remember me'}
-                control={
-                  <Checkbox
-                    {...formik.getFieldProps('rememberMe')}
-                    checked={formik.values.rememberMe}
-                  />
-                }
+                control={<Checkbox {...formik.getFieldProps('rememberMe')} checked={formik.values.rememberMe} />}
                 sx={{ marginBottom: '15px' }}
               />
 

@@ -3,7 +3,7 @@ import axios from 'axios'
 //один файл должен отвечать за что то одно!!!!! принцип единой ответсвенности - single responsibility
 
 export const settings = {
-  withCredentials: true, //есть валидац токен
+  withCredentials: true, //есть валидац токен, цепляю куку!
   headers: {
     'API-KEY': 'da75ba21-ff7d-45de-8bae-e8c163a0a2e8',
   },

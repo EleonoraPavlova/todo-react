@@ -5,12 +5,12 @@ import { Button, IconButton, List } from '@mui/material'
 import { Box } from '@mui/system'
 import { Delete } from '@mui/icons-material'
 import { TaskForMap } from '../../components/TaskForMap/TaskForMap'
-import { TaskStatuses, TaskTypeApi } from '../../api_DAL/tasks-api'
+import { TaskStatuses, Task } from '../../api_DAL/tasks-api'
 import { FilterValuesType } from 'reducers/todolistsSlice/todolistsSlice'
 
 type TodoListProps = {
   title: string
-  tasks: TaskTypeApi[]
+  tasks: Task[]
   todoListId: string // id из конкретно каждого массива, который лежит в объекте
   filter: FilterValuesType
   removeTask: (id: string, togoListId: string) => void
@@ -42,17 +42,21 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
     removeTodolist(todoListId)
   }, [props])
 
-  const addTasks = useCallback((input: string) => {
+  const addTasks = useCallback(
+    (input: string) => {
       const { addTask, todoListId } = props
       addTask(input, todoListId)
     },
     [props]
   ) //пропсы добавляем в зависомость!
 
-  const EditableSpanTitleHandler = useCallback((title: string) => {
+  const EditableSpanTitleHandler = useCallback(
+    (title: string) => {
       const { changeTodolistTitle, todoListId } = props
       changeTodolistTitle(title, todoListId)
-    },[props])
+    },
+    [props]
+  )
 
   return (
     <div>

@@ -40,10 +40,7 @@ todolists = [
 
 test('correct todolist should be removed', () => {
   const payload = { todoListId: todoListId2 }
-  const endState = todolistsReducer(
-    { todolists },
-    removeTodolistTC.fulfilled(payload, 'requestId', todoListId2)
-  )
+  const endState = todolistsReducer({ todolists }, removeTodolistTC.fulfilled(payload, 'requestId', todoListId2))
 
   expect(endState.todolists.length).toBe(1)
   expect(endState.todolists[0].id).toBe(todoListId1)
@@ -79,8 +76,8 @@ test('todolist should be updated', () => {
 })
 
 test('todolist should be set to the state', () => {
-  const action = getTodolistTC.fulfilled( startStateTodolists, 'requestId') //тудолисты брать с сервера!
-  const endState = todolistsReducer({todolists: []}, action)
+  const action = getTodolistTC.fulfilled(startStateTodolists, 'requestId') //тудолисты брать с сервера!
+  const endState = todolistsReducer({ todolists: [] }, action)
 
   expect(endState.todolists[0].filter).toBe('all')
   expect(endState.todolists.length).toBe(2)

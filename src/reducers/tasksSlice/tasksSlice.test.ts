@@ -1,13 +1,5 @@
-import {
-  addTaskTC,
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  getTasksTC,
-  removeTaskTC,
-  tasksReducer,
-  updateTaskTC,
-} from './tasksSlice'
-import { TaskPriorities, TaskStatuses } from '../../api_DAL/tasks-api'
+import { changeTaskStatusAC, changeTaskTitleAC, tasksReducer, tasksThunks } from './tasksSlice'
+import { TaskPriorities, TaskStatuses, UpdateTaskParams } from '../../api_DAL/tasks-api'
 import { v1 } from 'uuid'
 import { TodolistTypeApi } from 'api_DAL/todolists-api'
 import { startStateTasks } from 'state/initialState/tasksStartState'
@@ -162,7 +154,7 @@ test('new array should be added when new todolist is added', () => {
 test('correct task should be removed', () => {
   const id = startStateTasks[todoListId1][0].id
   let param = { todoListId: id, taskId: todoListId1 }
-  const endState = tasksReducer(startStateTasks, removeTaskTC.fulfilled(param, '', param))
+  const endState = tasksReducer(startStateTasks, tasksThunks.removeTaskTC.fulfilled(param, '', param))
 
   expect(endState[todoListId1].length).toBe(3)
   expect(endState[todoListId2].length).toBe(4)
@@ -186,7 +178,7 @@ test('correct task should be added', () => {
   }
   const endState = tasksReducer(
     startStateTasks,
-    addTaskTC.fulfilled(
+    tasksThunks.addTaskTC.fulfilled(
       { task: newTask },
       todoListId1,
       { title: newTask.title, todoListId: newTask.todoListId },
@@ -231,15 +223,15 @@ test('correct status of task should be changed', () => {
   expect(endState[todoListId2][0].title).toBe('Milk')
 })
 
-const updateModel = {
+const updateModel: UpdateTaskParams = {
   //какие поля можно обновить в tasks
   todoListId: 'todoListId1',
-  id: 'todoListId1',
-  apiModal: { title: 'Wow' },
+  taskId: 'todoListId1',
+  domainModel: { title: 'Wow' },
 }
 
 test('task should be updated for todolists', () => {
-  const action = updateTaskTC.fulfilled(updateModel, 'requestId', updateModel)
+  const action = tasksThunks.updateTaskTC.fulfilled(updateModel, 'requestId', updateModel)
   const endState = tasksReducer(
     {
       todoListId2: [],
@@ -279,7 +271,7 @@ test('empty array should be added when we set todolists', () => {
 })
 
 test('tasks should be added for todolists', () => {
-  const action = getTasksTC.fulfilled(
+  const action = tasksThunks.getTasksTC.fulfilled(
     { tasks: startStateTasks['todoListId1'], todoListId: 'todoListId1' },
     'requestId',
     'todoListId1'

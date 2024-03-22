@@ -5,7 +5,7 @@ import { v1 } from 'uuid'
 import { AddItemForm } from '../components/AddItemForm/AddItemForm'
 import { AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material'
 import { Menu } from '@mui/icons-material'
-import { TaskPriorities, TaskStatuses, TaskTypeApi } from '../api_DAL/tasks-api'
+import { TaskPriorities, TaskStatuses, Task } from '../api_DAL/tasks-api'
 import { changeTaskStatusAC, changeTaskTitleAC, tasksReducer } from 'reducers/tasksSlice/tasksSlice'
 import { FilterValuesType, todolistsReducer } from 'reducers/todolistsSlice/todolistsSlice'
 
@@ -99,7 +99,6 @@ function AppReducer() {
   //     },
   //   ],
   // })
-
   // let [todoLists, dispatchTodoLists] = useReducer(todolistsReducer, [
   //   //этот стейт для управления  map отрисовки TodoList
   //   {
@@ -119,64 +118,54 @@ function AppReducer() {
   //     entityStatus: 'idle',
   //   },
   // ])
-
   // //tasks action creators
   // function removeTask(id: string, todoListId: string) {
   //   // const action = removeTaskAC({ taskId: id, todoListId }) here is redux toolkit now
   //   // dispatchTasks(action)
   // }
-
   // function addTask(inputValue: string, todoListId: string) {
   //   // const action = addTaskAC(inputValue, todoListId)
   //   // dispatchTasks(action)
   // }
-
   // function changeStatus(todoListId: string, id: string, status: TaskStatuses) {
   //   const action = changeTaskStatusAC({ todoListId, id, status })
   //   dispatchTasks(action)
   // }
-
   // function changeTaskTitle(id: string, title: string, todoListId: string) {
   //   const action = changeTaskTitleAC({ id, title, todoListId })
   //   dispatchTasks(action)
   // }
-
   // // todolists action creators
   // function changeFilterHandler(value: FilterValuesType, todoListId: string) {
   //   // const action = changeFilterTodolistAC({ filter: value, todoListId: todoListId })
   //   // dispatchTodoLists(action)
   // }
-
   // function removeTodolist(todoListId: string) {
   //   // const action = removeTodolistAC({ todoListId })
   //   // dispatchTodoLists(action)
   //   // dispatchTasks(action)
   // }
-
   // function addTodoList(input: string) {
   //   //добавление новой колонки списка задач
   //   // const action = addTodolistAC(input)
   //   // dispatchTodoLists(action)
   //   // dispatchTasks(action)
   // }
-
   // function changeTodolistTitle(title: string, todoListId: string) {
   //   // const action = changeTitleTodolistAC({ title, todoListId })
   //   // dispatchTodoLists(action)
   // }
-
   // const mappedList = () => {
   //   return todoLists.map((l) => {
   //     let tasksForTodolist = tasks[l.id]
   //     if (l.filter === 'completed') {
   //       tasksForTodolist = tasks[l.id].filter(
-  //         (t: TaskTypeApi) => t.status === TaskStatuses.Completed
+  //         (t: Task) => t.status === TaskStatuses.Completed
   //       )
   //     }
   //     if (l.filter === 'active') {
-  //       tasksForTodolist = tasks[l.id].filter((t: TaskTypeApi) => t.status === TaskStatuses.New)
+  //       tasksForTodolist = tasks[l.id].filter((t: Task) => t.status === TaskStatuses.New)
   //     }
-
   //     return (
   //       <Grid item key={l.id}>
   //         <Paper sx={{ padding: '20px' }} elevation={3}>
@@ -198,7 +187,6 @@ function AppReducer() {
   //     )
   //   })
   // }
-
   // return (
   //   <div className="App">
   //     <AppBar position="static">

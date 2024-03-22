@@ -15,10 +15,10 @@ import {
   styled,
 } from '@mui/material'
 import { Menu } from '@mui/icons-material'
-import { TaskTypeApi } from '../../api_DAL/tasks-api'
+import { Task } from '../../api_DAL/tasks-api'
 import { TodolistRender } from '../../components/TodolistRender/TodolistRender'
 import { SnackbarComponent } from '../../components/SnackbarComponent/SnackbarComponent'
-import { useAppDispatch } from '../../state/hooks/hooks-selectors'
+import { useAppDispatch } from '../../state/hooks/hooks'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { Login } from '../../page/Login/Login'
 import { blue, purple } from '@mui/material/colors'
@@ -31,7 +31,7 @@ type AppReduxProps = {
 }
 
 export type TasksObjType = {
-  [key: string]: TaskTypeApi[]
+  [key: string]: Task[]
 }
 
 export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
@@ -43,10 +43,7 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
 
   useEffect(() => {
     //download all todolists from api when loading the component
-    if (!initialized) {
-      debugger
-      dispatch(setAppInitializeTC())
-    }
+    if (!initialized) dispatch(setAppInitializeTC())
   }, [])
 
   let [lightMode, setLightMode] = useState<boolean>(true) // для изменения темы стейт
