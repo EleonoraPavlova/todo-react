@@ -8,12 +8,7 @@ type ButtonProps = {
   additionalClass?: string
 }
 
-export const ButtonComponent: React.FC<ButtonProps> = ({
-  active,
-  name,
-  callBack,
-  additionalClass,
-}: ButtonProps) => {
+export const ButtonComponent: React.FC<ButtonProps> = ({ active, name, callBack, additionalClass }: ButtonProps) => {
   const onClickHandler = () => {
     return callBack()
   }
@@ -25,7 +20,6 @@ export const ButtonComponent: React.FC<ButtonProps> = ({
   )
 }
 
-// const Button = styled.button<Pick<ButtonProps, 'active'>>`
 const Button = style.button<{ $active?: boolean }>`
 background-color: inherit;
 cursor: pointer;

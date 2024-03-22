@@ -11,12 +11,7 @@
     if (void 0 !== cachedModule) return cachedModule.exports
     var module = (__webpack_module_cache__[moduleId] = { id: moduleId, loaded: !1, exports: {} })
     return (
-      __webpack_modules__[moduleId].call(
-        module.exports,
-        module,
-        module.exports,
-        __webpack_require__
-      ),
+      __webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__),
       (module.loaded = !0),
       module.exports
     )
@@ -45,8 +40,7 @@
         return result
       }
       priority = priority || 0
-      for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--)
-        deferred[i] = deferred[i - 1]
+      for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1]
       deferred[i] = [chunkIds, fn, priority]
     }),
     (__webpack_require__.n = function (module) {
@@ -114,7 +108,7 @@
         ({
           298: 'components-EditableSpan-EditableSpan-stories',
           369: 'components-AddItemForm-AddItemForm-stories',
-          646: 'components-TaskForMap-TaskForMap-stories',
+          646: 'components-Task-Task-stories',
           683: 'apps-AppRedux-AppRedux-stories',
         }[chunkId] || chunkId) +
         '.' +
@@ -144,7 +138,7 @@
         'static/css/' +
         {
           369: 'components-AddItemForm-AddItemForm-stories',
-          646: 'components-TaskForMap-TaskForMap-stories',
+          646: 'components-Task-Task-stories',
           683: 'apps-AppRedux-AppRedux-stories',
         }[chunkId] +
         '.' +
@@ -169,16 +163,9 @@
       else {
         var script, needAttach
         if (void 0 !== key)
-          for (
-            var scripts = document.getElementsByTagName('script'), i = 0;
-            i < scripts.length;
-            i++
-          ) {
+          for (var scripts = document.getElementsByTagName('script'), i = 0; i < scripts.length; i++) {
             var s = scripts[i]
-            if (
-              s.getAttribute('src') == url ||
-              s.getAttribute('data-webpack') == 'todo-react:' + key
-            ) {
+            if (s.getAttribute('src') == url || s.getAttribute('data-webpack') == 'todo-react:' + key) {
               script = s
               break
             }
@@ -205,10 +192,7 @@
             )
               return prev(event)
           },
-          timeout = setTimeout(
-            onScriptComplete.bind(null, void 0, { type: 'timeout', target: script }),
-            12e4
-          )
+          timeout = setTimeout(onScriptComplete.bind(null, void 0, { type: 'timeout', target: script }), 12e4)
         ;(script.onerror = onScriptComplete.bind(null, script.onerror)),
           (script.onload = onScriptComplete.bind(null, script.onload)),
           needAttach && document.head.appendChild(script)
@@ -237,18 +221,14 @@
                     i < existingLinkTags.length;
                     i++
                   ) {
-                    var dataHref =
-                      (tag = existingLinkTags[i]).getAttribute('data-href') ||
-                      tag.getAttribute('href')
-                    if ('stylesheet' === tag.rel && (dataHref === href || dataHref === fullhref))
-                      return tag
+                    var dataHref = (tag = existingLinkTags[i]).getAttribute('data-href') || tag.getAttribute('href')
+                    if ('stylesheet' === tag.rel && (dataHref === href || dataHref === fullhref)) return tag
                   }
                   var existingStyleTags = document.getElementsByTagName('style')
                   for (i = 0; i < existingStyleTags.length; i++) {
                     var tag
                     if (
-                      (dataHref = (tag = existingStyleTags[i]).getAttribute('data-href')) ===
-                        href ||
+                      (dataHref = (tag = existingStyleTags[i]).getAttribute('data-href')) === href ||
                       dataHref === fullhref
                     )
                       return tag
@@ -262,14 +242,11 @@
                   (linkTag.type = 'text/css'),
                   (linkTag.onerror = linkTag.onload =
                     function (event) {
-                      if (((linkTag.onerror = linkTag.onload = null), 'load' === event.type))
-                        resolve()
+                      if (((linkTag.onerror = linkTag.onload = null), 'load' === event.type)) resolve()
                       else {
                         var errorType = event && ('load' === event.type ? 'missing' : event.type),
                           realHref = (event && event.target && event.target.href) || fullhref,
-                          err = new Error(
-                            'Loading CSS chunk ' + chunkId + ' failed.\n(' + realHref + ')'
-                          )
+                          err = new Error('Loading CSS chunk ' + chunkId + ' failed.\n(' + realHref + ')')
                         ;(err.code = 'CSS_CHUNK_LOAD_FAILED'),
                           (err.type = errorType),
                           (err.request = realHref),
@@ -306,9 +283,7 @@
     (function () {
       var installedChunks = { 303: 0 }
       ;(__webpack_require__.f.j = function (chunkId, promises) {
-        var installedChunkData = __webpack_require__.o(installedChunks, chunkId)
-          ? installedChunks[chunkId]
-          : void 0
+        var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : void 0
         if (0 !== installedChunkData)
           if (installedChunkData) promises.push(installedChunkData[2])
           else if (303 != chunkId) {
@@ -323,14 +298,12 @@
               function (event) {
                 if (
                   __webpack_require__.o(installedChunks, chunkId) &&
-                  (0 !== (installedChunkData = installedChunks[chunkId]) &&
-                    (installedChunks[chunkId] = void 0),
+                  (0 !== (installedChunkData = installedChunks[chunkId]) && (installedChunks[chunkId] = void 0),
                   installedChunkData)
                 ) {
                   var errorType = event && ('load' === event.type ? 'missing' : event.type),
                     realSrc = event && event.target && event.target.src
-                  ;(error.message =
-                    'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')'),
+                  ;(error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')'),
                     (error.name = 'ChunkLoadError'),
                     (error.type = errorType),
                     (error.request = realSrc),
@@ -358,15 +331,10 @@
             })
           ) {
             for (moduleId in moreModules)
-              __webpack_require__.o(moreModules, moduleId) &&
-                (__webpack_require__.m[moduleId] = moreModules[moduleId])
+              __webpack_require__.o(moreModules, moduleId) && (__webpack_require__.m[moduleId] = moreModules[moduleId])
             if (runtime) var result = runtime(__webpack_require__)
           }
-          for (
-            parentChunkLoadingFunction && parentChunkLoadingFunction(data);
-            i < chunkIds.length;
-            i++
-          )
+          for (parentChunkLoadingFunction && parentChunkLoadingFunction(data); i < chunkIds.length; i++)
             (chunkId = chunkIds[i]),
               __webpack_require__.o(installedChunks, chunkId) &&
                 installedChunks[chunkId] &&
@@ -376,10 +344,7 @@
         },
         chunkLoadingGlobal = (self.webpackChunktodo_react = self.webpackChunktodo_react || [])
       chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0)),
-        (chunkLoadingGlobal.push = webpackJsonpCallback.bind(
-          null,
-          chunkLoadingGlobal.push.bind(chunkLoadingGlobal)
-        ))
+        (chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal)))
     })(),
     (__webpack_require__.nc = void 0)
 })()

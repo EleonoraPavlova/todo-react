@@ -1,7 +1,7 @@
 import { changeTaskStatusAC, changeTaskTitleAC, tasksReducer, tasksThunks } from './tasksSlice'
 import { TaskPriorities, TaskStatuses, UpdateTaskParams } from '../../api_DAL/tasks-api'
 import { v1 } from 'uuid'
-import { TodolistTypeApi } from 'api_DAL/todolists-api'
+import { Todolist } from 'api_DAL/todolists-api'
 import { startStateTasks } from 'state/initialState/tasksStartState'
 import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice/todolistsSlice'
 import { startStateTodolists } from 'state/initialState/todolistsStartState'
@@ -125,7 +125,7 @@ beforeEach(() => {
 })
 
 test('new array should be added when new todolist is added', () => {
-  const payload: { todolist: TodolistTypeApi } = {
+  const payload: { todolist: Todolist } = {
     todolist: {
       id: todoListId1,
       title: 'New',

@@ -12,28 +12,26 @@
           return chunk_AY7I2SME.aD
         },
       })
-      var chunk_AY7I2SME = __webpack_require__(
-        './node_modules/@storybook/addon-actions/dist/chunk-AY7I2SME.mjs'
-      )
+      var chunk_AY7I2SME = __webpack_require__('./node_modules/@storybook/addon-actions/dist/chunk-AY7I2SME.mjs')
     },
-    './src/components/TaskForMap/TaskForMap.stories.tsx': function (
+    './src/components/Task/Task.stories.tsx': function (
       __unused_webpack_module,
       __webpack_exports__,
       __webpack_require__
     ) {
       __webpack_require__.r(__webpack_exports__),
         __webpack_require__.d(__webpack_exports__, {
-          TaskForMapBase: function () {
-            return TaskForMapBase
+          TaskBase: function () {
+            return TaskBase
           },
           __namedExportsOrder: function () {
             return __namedExportsOrder
           },
         })
       var _tasks,
-        _TaskForMapBase$param,
-        _TaskForMapBase$param2,
-        _TaskForMapBase$param3,
+        _TaskBase$param,
+        _TaskBase$param2,
+        _TaskBase$param3,
         _Users_Eleonora_Desktop_education_I_todo_react_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_objectSpread2_js__WEBPACK_IMPORTED_MODULE_8__ =
           __webpack_require__(
             './node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectSpread2.js'
@@ -42,28 +40,22 @@
           __webpack_require__(
             './node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/defineProperty.js'
           ),
-        _TaskForMap__WEBPACK_IMPORTED_MODULE_1__ =
-          (__webpack_require__('./node_modules/react/index.js'),
-          __webpack_require__('./src/components/TaskForMap/TaskForMap.tsx')),
+        _Task__WEBPACK_IMPORTED_MODULE_1__ =
+          (__webpack_require__('./node_modules/react/index.js'), __webpack_require__('./src/components/Task/Task.tsx')),
         _storybook_addon_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
           './node_modules/@storybook/addon-actions/dist/index.mjs'
         ),
-        uuid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
-          './node_modules/uuid/dist/esm-browser/v1.js'
+        uuid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__('./node_modules/uuid/dist/esm-browser/v1.js'),
+        _state_todoList_reducers_todolists_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+          './src/state/todoList-reducers/todolists-reducer.ts'
         ),
-        _state_todoList_reducers_todolists_reducer__WEBPACK_IMPORTED_MODULE_3__ =
-          __webpack_require__('./src/state/todoList-reducers/todolists-reducer.ts'),
-        _mui_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
-          './node_modules/@mui/material/Box/Box.js'
-        ),
-        react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
-          './node_modules/react/jsx-runtime.js'
-        )
+        _mui_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__('./node_modules/@mui/material/Box/Box.js'),
+        react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__('./node_modules/react/jsx-runtime.js')
       __webpack_exports__.default = {
         parameters: {
           storySource: {
             source:
-              'import React from \'react\';\nimport { TaskForMap } from "./TaskForMap";\nimport { action } from "@storybook/addon-actions";\nimport { v1 } from "uuid";\nimport { todoListId1, todoListId2 } from "../../state/todoList-reducers/todolists-reducer";\nimport { Box } from "@mui/material";\nexport default {\n  title: "AddItemForm",\n  component: TaskForMap\n};\nconst removeTask = action("removeTask"); // обязательно для тестирования приходящих колбеков\n//покажет содержимое строки\n\nconst changeStatus = action("changeStatus"); // обязательно для тестирования приходящих колбеков\n//покажет содержимое строки\n\nconst changeEditableSpan = action("changeEditableSpan"); // обязательно для тестирования приходящих колбеков\n//покажет содержимое строки\n\nconst tasks = {\n  [todoListId1]: [\n  //id этот передала пропсами id={l.id}  в  TodoList\n  {\n    id: v1(),\n    title: "HTML&CSS",\n    isDone: true\n  }, {\n    id: v1(),\n    title: "JS",\n    isDone: true\n  }, {\n    id: v1(),\n    title: "ReactJS",\n    isDone: false\n  }, {\n    id: v1(),\n    title: "Redax",\n    isDone: false\n  }],\n  [todoListId2]: [{\n    id: v1(),\n    title: "Milk",\n    isDone: true\n  }, {\n    id: v1(),\n    title: "Juice",\n    isDone: true\n  }, {\n    id: v1(),\n    title: "Meat",\n    isDone: false\n  }, {\n    id: v1(),\n    title: "Bread",\n    isDone: false\n  }]\n};\nexport const TaskForMapBase = () => {\n  return <Box sx={{\n    width: "200px"\n  }}>\n    <TaskForMap task={tasks[todoListId2][1]} todoListId={"todoListId"} removeTask={removeTask} changeStatus={changeStatus} changeEditableSpan={changeEditableSpan} />\n  </Box>;\n};\nTaskForMapBase.parameters = {\n  ...TaskForMapBase.parameters,\n  docs: {\n    ...TaskForMapBase.parameters?.docs,\n    source: {\n      originalSource: "() => {\\n  return <Box sx={{\\n    width: \\"200px\\"\\n  }}>\\n    <TaskForMap task={tasks[todoListId2][1]} todoListId={\\"todoListId\\"} removeTask={removeTask} changeStatus={changeStatus} changeEditableSpan={changeEditableSpan} />\\n  </Box>;\\n}",\n      ...TaskForMapBase.parameters?.docs?.source\n    }\n  }\n};',
+              'import React from \'react\';\nimport { Task } from "./Task";\nimport { action } from "@storybook/addon-actions";\nimport { v1 } from "uuid";\nimport { todoListId1, todoListId2 } from "../../state/todoList-reducers/todolists-reducer";\nimport { Box } from "@mui/material";\nexport default {\n  title: "AddItemForm",\n  component: Task\n};\nconst removeTask = action("removeTask"); // обязательно для тестирования приходящих колбеков\n//покажет содержимое строки\n\nconst changeStatus = action("changeStatus"); // обязательно для тестирования приходящих колбеков\n//покажет содержимое строки\n\nconst changeEditableSpan = action("changeEditableSpan"); // обязательно для тестирования приходящих колбеков\n//покажет содержимое строки\n\nconst tasks = {\n  [todoListId1]: [\n  //id этот передала пропсами id={l.id}  в  TodoList\n  {\n    id: v1(),\n    title: "HTML&CSS",\n    isDone: true\n  }, {\n    id: v1(),\n    title: "JS",\n    isDone: true\n  }, {\n    id: v1(),\n    title: "ReactJS",\n    isDone: false\n  }, {\n    id: v1(),\n    title: "Redax",\n    isDone: false\n  }],\n  [todoListId2]: [{\n    id: v1(),\n    title: "Milk",\n    isDone: true\n  }, {\n    id: v1(),\n    title: "Juice",\n    isDone: true\n  }, {\n    id: v1(),\n    title: "Meat",\n    isDone: false\n  }, {\n    id: v1(),\n    title: "Bread",\n    isDone: false\n  }]\n};\nexport const TaskBase = () => {\n  return <Box sx={{\n    width: "200px"\n  }}>\n    <Task task={tasks[todoListId2][1]} todoListId={"todoListId"} removeTask={removeTask} changeStatus={changeStatus} changeEditableSpan={changeEditableSpan} />\n  </Box>;\n};\nTaskBase.parameters = {\n  ...TaskBase.parameters,\n  docs: {\n    ...TaskBase.parameters?.docs,\n    source: {\n      originalSource: "() => {\\n  return <Box sx={{\\n    width: \\"200px\\"\\n  }}>\\n    <Task task={tasks[todoListId2][1]} todoListId={\\"todoListId\\"} removeTask={removeTask} changeStatus={changeStatus} changeEditableSpan={changeEditableSpan} />\\n  </Box>;\\n}",\n      ...TaskBase.parameters?.docs?.source\n    }\n  }\n};',
             locationsMap: {
               'task-for-map-base': {
                 startLoc: { col: 30, line: 58 },
@@ -75,15 +67,11 @@
           },
         },
         title: 'AddItemForm',
-        component: _TaskForMap__WEBPACK_IMPORTED_MODULE_1__.s,
+        component: _Task__WEBPACK_IMPORTED_MODULE_1__.s,
       }
       var removeTask = (0, _storybook_addon_actions__WEBPACK_IMPORTED_MODULE_2__.aD)('removeTask'),
-        changeStatus = (0, _storybook_addon_actions__WEBPACK_IMPORTED_MODULE_2__.aD)(
-          'changeStatus'
-        ),
-        changeEditableSpan = (0, _storybook_addon_actions__WEBPACK_IMPORTED_MODULE_2__.aD)(
-          'changeEditableSpan'
-        ),
+        changeStatus = (0, _storybook_addon_actions__WEBPACK_IMPORTED_MODULE_2__.aD)('changeStatus'),
+        changeEditableSpan = (0, _storybook_addon_actions__WEBPACK_IMPORTED_MODULE_2__.aD)('changeEditableSpan'),
         tasks =
           ((_tasks = {}),
           (0,
@@ -109,33 +97,25 @@
             ]
           ),
           _tasks),
-        TaskForMapBase = function TaskForMapBase() {
-          return (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(
-            _mui_material__WEBPACK_IMPORTED_MODULE_7__.Z,
-            {
-              sx: { width: '200px' },
-              children: (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(
-                _TaskForMap__WEBPACK_IMPORTED_MODULE_1__.s,
-                {
-                  task: tasks[
-                    _state_todoList_reducers_todolists_reducer__WEBPACK_IMPORTED_MODULE_3__.ZZ
-                  ][1],
-                  todoListId: 'todoListId',
-                  removeTask: removeTask,
-                  changeStatus: changeStatus,
-                  changeEditableSpan: changeEditableSpan,
-                }
-              ),
-            }
-          )
+        TaskBase = function TaskBase() {
+          return (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material__WEBPACK_IMPORTED_MODULE_7__.Z, {
+            sx: { width: '200px' },
+            children: (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Task__WEBPACK_IMPORTED_MODULE_1__.s, {
+              task: tasks[_state_todoList_reducers_todolists_reducer__WEBPACK_IMPORTED_MODULE_3__.ZZ][1],
+              todoListId: 'todoListId',
+              removeTask: removeTask,
+              changeStatus: changeStatus,
+              changeEditableSpan: changeEditableSpan,
+            }),
+          })
         }
-      ;(TaskForMapBase.displayName = 'TaskForMapBase'),
-        (TaskForMapBase.parameters = (0,
+      ;(TaskBase.displayName = 'TaskBase'),
+        (TaskBase.parameters = (0,
         _Users_Eleonora_Desktop_education_I_todo_react_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_objectSpread2_js__WEBPACK_IMPORTED_MODULE_8__.Z)(
           (0,
           _Users_Eleonora_Desktop_education_I_todo_react_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_objectSpread2_js__WEBPACK_IMPORTED_MODULE_8__.Z)(
             {},
-            TaskForMapBase.parameters
+            TaskBase.parameters
           ),
           {},
           {
@@ -144,10 +124,9 @@
               (0,
               _Users_Eleonora_Desktop_education_I_todo_react_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_objectSpread2_js__WEBPACK_IMPORTED_MODULE_8__.Z)(
                 {},
-                null === (_TaskForMapBase$param = TaskForMapBase.parameters) ||
-                  void 0 === _TaskForMapBase$param
+                null === (_TaskBase$param = TaskBase.parameters) || void 0 === _TaskBase$param
                   ? void 0
-                  : _TaskForMapBase$param.docs
+                  : _TaskBase$param.docs
               ),
               {},
               {
@@ -155,20 +134,20 @@
                 _Users_Eleonora_Desktop_education_I_todo_react_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_objectSpread2_js__WEBPACK_IMPORTED_MODULE_8__.Z)(
                   {
                     originalSource:
-                      '() => {\n  return <Box sx={{\n    width: "200px"\n  }}>\n    <TaskForMap task={tasks[todoListId2][1]} todoListId={"todoListId"} removeTask={removeTask} changeStatus={changeStatus} changeEditableSpan={changeEditableSpan} />\n  </Box>;\n}',
+                      '() => {\n  return <Box sx={{\n    width: "200px"\n  }}>\n    <Task task={tasks[todoListId2][1]} todoListId={"todoListId"} removeTask={removeTask} changeStatus={changeStatus} changeEditableSpan={changeEditableSpan} />\n  </Box>;\n}',
                   },
-                  null === (_TaskForMapBase$param2 = TaskForMapBase.parameters) ||
-                    void 0 === _TaskForMapBase$param2 ||
-                    null === (_TaskForMapBase$param3 = _TaskForMapBase$param2.docs) ||
-                    void 0 === _TaskForMapBase$param3
+                  null === (_TaskBase$param2 = TaskBase.parameters) ||
+                    void 0 === _TaskBase$param2 ||
+                    null === (_TaskBase$param3 = _TaskBase$param2.docs) ||
+                    void 0 === _TaskBase$param3
                     ? void 0
-                    : _TaskForMapBase$param3.source
+                    : _TaskBase$param3.source
                 ),
               }
             ),
           }
         ))
-      var __namedExportsOrder = ['TaskForMapBase']
+      var __namedExportsOrder = ['TaskBase']
     },
     './src/components/EditableSpan/EditableSpan.tsx': function (
       __unused_webpack_module,
@@ -187,13 +166,9 @@
         _mui_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
           './node_modules/@mui/material/TextField/TextField.js'
         ),
-        _mui_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
-          './node_modules/@mui/material/Box/Box.js'
-        ),
+        _mui_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__('./node_modules/@mui/material/Box/Box.js'),
         react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__('./node_modules/react/index.js'),
-        react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-          './node_modules/react/jsx-runtime.js'
-        ),
+        react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__('./node_modules/react/jsx-runtime.js'),
         EditableSpan = (0, react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (_ref) {
           var value = _ref.value,
             onChange = _ref.onChange
@@ -215,34 +190,27 @@
             input = _useState4[0],
             setInput = _useState4[1]
           return editMode
-            ? (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
-                _mui_material__WEBPACK_IMPORTED_MODULE_3__.Z,
-                {
-                  value: input,
-                  onChange: function onChangeTitleHandler(e) {
-                    setInput(e.currentTarget.value)
-                  },
-                  onBlur: function activateViewMode() {
-                    setEditMode(!1), onChange(input)
-                  },
-                  onKeyDown: function onKeyDownHandler(e) {
-                    'Enter' === e.key &&
-                      (setInput(e.currentTarget.value), setEditMode(!1), onChange(input))
-                  },
-                  autoFocus: !0,
-                  variant: 'standard',
-                }
-              )
-            : (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
-                _mui_material__WEBPACK_IMPORTED_MODULE_4__.Z,
-                {
-                  component: 'span',
-                  onDoubleClick: function activateEditMode() {
-                    setEditMode(!0), setInput(value)
-                  },
-                  children: value,
-                }
-              )
+            ? (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Z, {
+                value: input,
+                onChange: function onChangeTitleHandler(e) {
+                  setInput(e.currentTarget.value)
+                },
+                onBlur: function activateViewMode() {
+                  setEditMode(!1), onChange(input)
+                },
+                onKeyDown: function onKeyDownHandler(e) {
+                  'Enter' === e.key && (setInput(e.currentTarget.value), setEditMode(!1), onChange(input))
+                },
+                autoFocus: !0,
+                variant: 'standard',
+              })
+            : (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_mui_material__WEBPACK_IMPORTED_MODULE_4__.Z, {
+                component: 'span',
+                onDoubleClick: function activateEditMode() {
+                  setEditMode(!0), setInput(value)
+                },
+                children: value,
+              })
         })
       try {
         ;(EditableSpan.displayName = 'EditableSpan'),
@@ -267,12 +235,11 @@
             },
           }),
           'undefined' != typeof STORYBOOK_REACT_CLASSES &&
-            (STORYBOOK_REACT_CLASSES['src/components/EditableSpan/EditableSpan.tsx#EditableSpan'] =
-              {
-                docgenInfo: EditableSpan.__docgenInfo,
-                name: 'EditableSpan',
-                path: 'src/components/EditableSpan/EditableSpan.tsx#EditableSpan',
-              })
+            (STORYBOOK_REACT_CLASSES['src/components/EditableSpan/EditableSpan.tsx#EditableSpan'] = {
+              docgenInfo: EditableSpan.__docgenInfo,
+              name: 'EditableSpan',
+              path: 'src/components/EditableSpan/EditableSpan.tsx#EditableSpan',
+            })
       } catch (__react_docgen_typescript_loader_error) {}
       try {
         ;(EditableSpan.displayName = 'EditableSpan'),
@@ -297,39 +264,32 @@
             },
           }),
           'undefined' != typeof STORYBOOK_REACT_CLASSES &&
-            (STORYBOOK_REACT_CLASSES['src/components/EditableSpan/EditableSpan.tsx#EditableSpan'] =
-              {
-                docgenInfo: EditableSpan.__docgenInfo,
-                name: 'EditableSpan',
-                path: 'src/components/EditableSpan/EditableSpan.tsx#EditableSpan',
-              })
+            (STORYBOOK_REACT_CLASSES['src/components/EditableSpan/EditableSpan.tsx#EditableSpan'] = {
+              docgenInfo: EditableSpan.__docgenInfo,
+              name: 'EditableSpan',
+              path: 'src/components/EditableSpan/EditableSpan.tsx#EditableSpan',
+            })
       } catch (__react_docgen_typescript_loader_error) {}
     },
-    './src/components/TaskForMap/TaskForMap.tsx': function (
-      __unused_webpack_module,
-      __webpack_exports__,
-      __webpack_require__
-    ) {
+    './src/components/Task/Task.tsx': function (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
       __webpack_require__.d(__webpack_exports__, {
         s: function () {
-          return TaskForMap
+          return Task
         },
       })
       var react = __webpack_require__('./node_modules/react/index.js'),
         ListItem = __webpack_require__('./node_modules/@mui/material/ListItem/ListItem.js'),
         Checkbox = __webpack_require__('./node_modules/@mui/material/Checkbox/Checkbox.js'),
         IconButton = __webpack_require__('./node_modules/@mui/material/IconButton/IconButton.js'),
-        BookmarkBorder = __webpack_require__(
-          './node_modules/@mui/icons-material/BookmarkBorder.js'
-        ),
+        BookmarkBorder = __webpack_require__('./node_modules/@mui/icons-material/BookmarkBorder.js'),
         Bookmark = __webpack_require__('./node_modules/@mui/icons-material/Bookmark.js'),
         Delete = __webpack_require__('./node_modules/@mui/icons-material/Delete.js'),
         EditableSpan = __webpack_require__('./src/components/EditableSpan/EditableSpan.tsx'),
         TodoList_module_done = 'TodoList_done__K7PV0',
         TodoList_module_list = 'TodoList_list__aQpmq',
         jsx_runtime = __webpack_require__('./node_modules/react/jsx-runtime.js'),
-        TaskForMap = (0, react.memo)(function (props) {
-          console.log('TaskForMap')
+        Task = (0, react.memo)(function (props) {
+          console.log('Task')
           var EditableSpanHandler = (0, react.useCallback)(
             function (input) {
               props.changeEditableSpan(props.task.id, input, props.todoListId)
@@ -338,18 +298,12 @@
           )
           return (0, jsx_runtime.jsxs)(ListItem.ZP, {
             sx: { justifyContent: 'space-between' },
-            className: ''
-              .concat(TodoList_module_list, ' ')
-              .concat(props.task.isDone ? TodoList_module_done : ''),
+            className: ''.concat(TodoList_module_list, ' ').concat(props.task.isDone ? TodoList_module_done : ''),
             children: [
               (0, jsx_runtime.jsx)(Checkbox.Z, {
                 checked: props.task.isDone,
                 onChange: function onChangeHandler(e) {
-                  return props.changeStatus(
-                    props.todoListId,
-                    props.task.id,
-                    e.currentTarget.checked
-                  )
+                  return props.changeStatus(props.todoListId, props.task.id, e.currentTarget.checked)
                 },
                 icon: (0, jsx_runtime.jsx)(BookmarkBorder.Z, {}),
                 checkedIcon: (0, jsx_runtime.jsx)(Bookmark.Z, {}),
@@ -371,10 +325,10 @@
           })
         })
       try {
-        ;(TaskForMap.displayName = 'TaskForMap'),
-          (TaskForMap.__docgenInfo = {
+        ;(Task.displayName = 'Task'),
+          (Task.__docgenInfo = {
             description: '',
-            displayName: 'TaskForMap',
+            displayName: 'Task',
             props: {
               task: {
                 defaultValue: null,
@@ -414,17 +368,17 @@
             },
           }),
           'undefined' != typeof STORYBOOK_REACT_CLASSES &&
-            (STORYBOOK_REACT_CLASSES['src/components/TaskForMap/TaskForMap.tsx#TaskForMap'] = {
-              docgenInfo: TaskForMap.__docgenInfo,
-              name: 'TaskForMap',
-              path: 'src/components/TaskForMap/TaskForMap.tsx#TaskForMap',
+            (STORYBOOK_REACT_CLASSES['src/components/Task/Task.tsx#Task'] = {
+              docgenInfo: Task.__docgenInfo,
+              name: 'Task',
+              path: 'src/components/Task/Task.tsx#Task',
             })
       } catch (__react_docgen_typescript_loader_error) {}
       try {
-        ;(TaskForMap.displayName = 'TaskForMap'),
-          (TaskForMap.__docgenInfo = {
+        ;(Task.displayName = 'Task'),
+          (Task.__docgenInfo = {
             description: '',
-            displayName: 'TaskForMap',
+            displayName: 'Task',
             props: {
               task: {
                 defaultValue: null,
@@ -464,10 +418,10 @@
             },
           }),
           'undefined' != typeof STORYBOOK_REACT_CLASSES &&
-            (STORYBOOK_REACT_CLASSES['src/components/TaskForMap/TaskForMap.tsx#TaskForMap'] = {
-              docgenInfo: TaskForMap.__docgenInfo,
-              name: 'TaskForMap',
-              path: 'src/components/TaskForMap/TaskForMap.tsx#TaskForMap',
+            (STORYBOOK_REACT_CLASSES['src/components/Task/Task.tsx#Task'] = {
+              docgenInfo: Task.__docgenInfo,
+              name: 'Task',
+              path: 'src/components/Task/Task.tsx#Task',
             })
       } catch (__react_docgen_typescript_loader_error) {}
     },
@@ -507,9 +461,7 @@
           __webpack_require__(
             './node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js'
           ),
-        uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-          './node_modules/uuid/dist/esm-browser/v1.js'
-        ),
+        uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__('./node_modules/uuid/dist/esm-browser/v1.js'),
         todoListId1 = (0, uuid__WEBPACK_IMPORTED_MODULE_0__.Z)(),
         todoListId2 = (0, uuid__WEBPACK_IMPORTED_MODULE_0__.Z)(),
         initialState = [],

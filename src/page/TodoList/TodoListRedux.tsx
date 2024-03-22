@@ -1,5 +1,4 @@
 import React, { memo, useCallback } from 'react'
-import { TaskForMap } from '../../components/TaskForMap/TaskForMap'
 import { useAppDispatch } from '../../state/hooks/hooks'
 import { Box, Button, IconButton, List } from '@mui/material'
 import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
@@ -8,15 +7,16 @@ import { EditableSpan } from '../../components/EditableSpan/EditableSpan'
 import { Task } from '../../api_DAL/tasks-api'
 import s from './TodoList.module.scss'
 import {
-  FilterValuesType,
-  TodolistDomainType,
+  FilterValues,
+  TodolistDomain,
   removeTodolistTC,
   updateTodolistTC,
 } from 'reducers/todolistsSlice/todolistsSlice'
 import { tasksThunks } from 'reducers/tasksSlice/tasksSlice'
+import { TaskMap } from 'components/TaskMap/TaskMap'
 
 type TodoListReduxProps = {
-  todolist: TodolistDomainType
+  todolist: TodolistDomain
   tasksForTodolist: Task[]
   demo: boolean //загрузка мокового state
 }
@@ -24,7 +24,7 @@ type TodoListReduxProps = {
 export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false, todolist, tasksForTodolist }) => {
   let { id, filter, title, entityStatus } = todolist // что входит todoLists пропсы,
   // ПИСАТЬ НУЖНО ТО, ЧТО НУЖНО ВЫТЯНУТЬ ИЗ state - разворачивание объекта todoLists
-  //const tasks = useAppSelector<TasksObjType>(state => state.tasks)
+  //const tasks = useAppSelector<Tasks>(state => state.tasks)
   let disabledFor = entityStatus === 'loading'
 
   const dispatch = useAppDispatch()
@@ -32,10 +32,8 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
   //   if (demo) return
   // }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
-  // useActions()
-
   const mappedTasks = () => {
-    return tasksForTodolist?.map((task) => <TaskForMap key={task.id} task={task} />)
+    return tasksForTodolist?.map((task) => <TaskMap key={task.id} task={task} />)
   }
 
   const removeTodolist = useCallback(() => {
@@ -57,7 +55,7 @@ export const TodoListRedux: React.FC<TodoListReduxProps> = memo(({ demo = false,
   )
 
   const changeTodoListFilter = useCallback(
-    (todoListId: string, filter: FilterValuesType) => {
+    (todoListId: string, filter: FilterValues) => {
       dispatch(updateTodolistTC({ todoListId, title, filter }))
     },
     [dispatch, title]

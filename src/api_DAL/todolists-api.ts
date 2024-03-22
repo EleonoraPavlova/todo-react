@@ -14,7 +14,7 @@ export const instanse = axios.create({
   ...settings,
 })
 
-export type TodolistTypeApi = {
+export type Todolist = {
   id: string
   title: string
   addedDate: string
@@ -30,11 +30,11 @@ export type ResponseTodolistType<Data = {}> = {
 
 export const todolistsApi = {
   getTodoslists() {
-    return instanse.get<TodolistTypeApi[]>('todo-lists')
+    return instanse.get<Todolist[]>('todo-lists')
   },
 
   createTodoslist(title: string) {
-    return instanse.post<ResponseTodolistType<{ item: TodolistTypeApi }>>('/todo-lists', {
+    return instanse.post<ResponseTodolistType<{ item: Todolist }>>('/todo-lists', {
       title: title,
     })
   },

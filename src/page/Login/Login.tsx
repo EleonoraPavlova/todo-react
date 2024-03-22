@@ -9,8 +9,8 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useFormik } from 'formik'
 import { useAppDispatch } from '../../state/hooks/hooks'
-import { LoginParamsTypeApi } from '../../api_DAL/login-api'
-import { handleServerNetworkError } from '../../utils/error-utils'
+import { LoginParams } from '../../api_DAL/login-api'
+import { handleServerNetworkError } from '../../utils'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { loginTC, selectIsLoggedIn } from 'reducers/authSlice/authSlice'
@@ -22,7 +22,7 @@ export const Login = () => {
 
   const formik = useFormik({
     validate: (values) => {
-      const errors: Partial<LoginParamsTypeApi> = {}
+      const errors: Partial<LoginParams> = {}
 
       if (!values.email) {
         errors.email = 'Required'
@@ -47,7 +47,7 @@ export const Login = () => {
     onSubmit: async (values, { setFieldValue, setSubmitting }) => {
       setSubmitting(true)
       try {
-        const res = await dispatch(loginTC(values))
+        await dispatch(loginTC(values))
         setFieldValue('password', '')
         // if (loginTC.rejected.match(res)) {
         //   if (res.payload?.fieldsErrors?.length) {
@@ -56,8 +56,8 @@ export const Login = () => {
         //     // setFieldValue(error.field, error.error)
         //   }
         // }
-      } catch (err) {
-        handleServerNetworkError(err as { message: string }, dispatch)
+      } catch (e) {
+        handleServerNetworkError(e, dispatch)
       }
       setSubmitting(false)
     },

@@ -1,7 +1,7 @@
 import { instanse } from './todolists-api'
 import { ResponseType } from './tasks-api'
 
-export type LoginParamsTypeApi = {
+export type LoginParams = {
   email: string
   password: string
   rememberMe: boolean
@@ -15,7 +15,7 @@ export type CheckAuthResponse = {
 }
 
 export const authApi = {
-  login(params: LoginParamsTypeApi) {
+  login(params: LoginParams) {
     return instanse.post<ResponseType<{ userId?: number }>>('auth/login', params)
   },
 

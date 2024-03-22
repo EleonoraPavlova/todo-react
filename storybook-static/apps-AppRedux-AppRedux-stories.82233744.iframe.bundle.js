@@ -31,7 +31,7 @@
         Button = __webpack_require__('./node_modules/@mui/material/Button/Button.js'),
         Box = __webpack_require__('./node_modules/@mui/system/esm/Box/Box.js'),
         Delete = __webpack_require__('./node_modules/@mui/icons-material/esm/Delete.js'),
-        TaskForMap = __webpack_require__('./src/components/TaskForMap/TaskForMap.tsx'),
+        Task = __webpack_require__('./src/components/Task/Task.tsx'),
         jsx_runtime = __webpack_require__('./node_modules/react/jsx-runtime.js'),
         TodoList = (0, react.memo)(function (props) {
           console.log('TodoList has been called')
@@ -95,7 +95,7 @@
                 children: (function mappedTasks() {
                   return tasksForTodolist.map(function (task) {
                     return (0, jsx_runtime.jsx)(
-                      TaskForMap.s,
+                      Task.s,
                       {
                         task: task,
                         todoListId: props.todoListId,
@@ -350,9 +350,7 @@
         ),
         v1 = __webpack_require__('./node_modules/uuid/dist/esm-browser/v1.js'),
         initialStateTasks = { count: [] },
-        todolists_reducer = __webpack_require__(
-          './src/state/todoList-reducers/todolists-reducer.ts'
-        )
+        todolists_reducer = __webpack_require__('./src/state/todoList-reducers/todolists-reducer.ts')
       function AppRedux() {
         console.log('AppRedux has been called')
         var dispatch = (0, es.I0)(),
@@ -510,8 +508,7 @@
         rootReducer = (0, redux.UY)({
           todolist: todolists_reducer.pY,
           tasks: function tasksReducer() {
-            var state =
-                arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : initialStateTasks,
+            var state = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : initialStateTasks,
               action = arguments.length > 1 ? arguments[1] : void 0
             switch (action.type) {
               case 'REMOVE-TASK':
@@ -539,11 +536,7 @@
                     action.togoListId,
                     state[action.togoListId].map(function (t) {
                       return t.id === action.id
-                        ? (0, objectSpread2.Z)(
-                            (0, objectSpread2.Z)({}, t),
-                            {},
-                            { title: action.input }
-                          )
+                        ? (0, objectSpread2.Z)((0, objectSpread2.Z)({}, t), {}, { title: action.input })
                         : t
                     })
                   )
@@ -557,11 +550,7 @@
                     action.togoListId,
                     state[action.togoListId].map(function (t) {
                       return t.id === action.id
-                        ? (0, objectSpread2.Z)(
-                            (0, objectSpread2.Z)({}, t),
-                            {},
-                            { isDone: action.isDone }
-                          )
+                        ? (0, objectSpread2.Z)((0, objectSpread2.Z)({}, t), {}, { isDone: action.isDone })
                         : t
                     })
                   )
@@ -614,9 +603,7 @@
             props: {},
           }),
           'undefined' != typeof STORYBOOK_REACT_CLASSES &&
-            (STORYBOOK_REACT_CLASSES[
-              'src/stories/ReduxStoreProviderDecorator.tsx#ReduxStoreProviderDecorator'
-            ] = {
+            (STORYBOOK_REACT_CLASSES['src/stories/ReduxStoreProviderDecorator.tsx#ReduxStoreProviderDecorator'] = {
               docgenInfo: ReduxStoreProviderDecorator.__docgenInfo,
               name: 'ReduxStoreProviderDecorator',
               path: 'src/stories/ReduxStoreProviderDecorator.tsx#ReduxStoreProviderDecorator',
@@ -630,9 +617,7 @@
             props: {},
           }),
           'undefined' != typeof STORYBOOK_REACT_CLASSES &&
-            (STORYBOOK_REACT_CLASSES[
-              'src/stories/ReduxStoreProviderDecorator.tsx#ReduxStoreProviderDecorator'
-            ] = {
+            (STORYBOOK_REACT_CLASSES['src/stories/ReduxStoreProviderDecorator.tsx#ReduxStoreProviderDecorator'] = {
               docgenInfo: ReduxStoreProviderDecorator.__docgenInfo,
               name: 'ReduxStoreProviderDecorator',
               path: 'src/stories/ReduxStoreProviderDecorator.tsx#ReduxStoreProviderDecorator',
@@ -668,8 +653,7 @@
             docs: (0, objectSpread2.Z)(
               (0, objectSpread2.Z)(
                 {},
-                null === (_AppReduxBase$paramet = AppReduxBase.parameters) ||
-                  void 0 === _AppReduxBase$paramet
+                null === (_AppReduxBase$paramet = AppReduxBase.parameters) || void 0 === _AppReduxBase$paramet
                   ? void 0
                   : _AppReduxBase$paramet.docs
               ),
@@ -721,9 +705,7 @@
             inputValue = _useState4[0],
             setInputValue = _useState4[1],
             addItemHandler = function addItemHandler(taskName) {
-              ;/[a-zа-яё]/i.test(taskName)
-                ? (addTask(taskName), setInputValue(''))
-                : setError('Required')
+              ;/[a-zа-яё]/i.test(taskName) ? (addTask(taskName), setInputValue('')) : setError('Required')
             }
           return (0, jsx_runtime.jsxs)('div', {
             className: AddItemForm_module_addItemForm,
@@ -814,13 +796,9 @@
         _mui_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
           './node_modules/@mui/material/TextField/TextField.js'
         ),
-        _mui_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
-          './node_modules/@mui/material/Box/Box.js'
-        ),
+        _mui_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__('./node_modules/@mui/material/Box/Box.js'),
         react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__('./node_modules/react/index.js'),
-        react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-          './node_modules/react/jsx-runtime.js'
-        ),
+        react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__('./node_modules/react/jsx-runtime.js'),
         EditableSpan = (0, react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (_ref) {
           var value = _ref.value,
             onChange = _ref.onChange
@@ -842,34 +820,27 @@
             input = _useState4[0],
             setInput = _useState4[1]
           return editMode
-            ? (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
-                _mui_material__WEBPACK_IMPORTED_MODULE_3__.Z,
-                {
-                  value: input,
-                  onChange: function onChangeTitleHandler(e) {
-                    setInput(e.currentTarget.value)
-                  },
-                  onBlur: function activateViewMode() {
-                    setEditMode(!1), onChange(input)
-                  },
-                  onKeyDown: function onKeyDownHandler(e) {
-                    'Enter' === e.key &&
-                      (setInput(e.currentTarget.value), setEditMode(!1), onChange(input))
-                  },
-                  autoFocus: !0,
-                  variant: 'standard',
-                }
-              )
-            : (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
-                _mui_material__WEBPACK_IMPORTED_MODULE_4__.Z,
-                {
-                  component: 'span',
-                  onDoubleClick: function activateEditMode() {
-                    setEditMode(!0), setInput(value)
-                  },
-                  children: value,
-                }
-              )
+            ? (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Z, {
+                value: input,
+                onChange: function onChangeTitleHandler(e) {
+                  setInput(e.currentTarget.value)
+                },
+                onBlur: function activateViewMode() {
+                  setEditMode(!1), onChange(input)
+                },
+                onKeyDown: function onKeyDownHandler(e) {
+                  'Enter' === e.key && (setInput(e.currentTarget.value), setEditMode(!1), onChange(input))
+                },
+                autoFocus: !0,
+                variant: 'standard',
+              })
+            : (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_mui_material__WEBPACK_IMPORTED_MODULE_4__.Z, {
+                component: 'span',
+                onDoubleClick: function activateEditMode() {
+                  setEditMode(!0), setInput(value)
+                },
+                children: value,
+              })
         })
       try {
         ;(EditableSpan.displayName = 'EditableSpan'),
@@ -894,12 +865,11 @@
             },
           }),
           'undefined' != typeof STORYBOOK_REACT_CLASSES &&
-            (STORYBOOK_REACT_CLASSES['src/components/EditableSpan/EditableSpan.tsx#EditableSpan'] =
-              {
-                docgenInfo: EditableSpan.__docgenInfo,
-                name: 'EditableSpan',
-                path: 'src/components/EditableSpan/EditableSpan.tsx#EditableSpan',
-              })
+            (STORYBOOK_REACT_CLASSES['src/components/EditableSpan/EditableSpan.tsx#EditableSpan'] = {
+              docgenInfo: EditableSpan.__docgenInfo,
+              name: 'EditableSpan',
+              path: 'src/components/EditableSpan/EditableSpan.tsx#EditableSpan',
+            })
       } catch (__react_docgen_typescript_loader_error) {}
       try {
         ;(EditableSpan.displayName = 'EditableSpan'),
@@ -924,39 +894,32 @@
             },
           }),
           'undefined' != typeof STORYBOOK_REACT_CLASSES &&
-            (STORYBOOK_REACT_CLASSES['src/components/EditableSpan/EditableSpan.tsx#EditableSpan'] =
-              {
-                docgenInfo: EditableSpan.__docgenInfo,
-                name: 'EditableSpan',
-                path: 'src/components/EditableSpan/EditableSpan.tsx#EditableSpan',
-              })
+            (STORYBOOK_REACT_CLASSES['src/components/EditableSpan/EditableSpan.tsx#EditableSpan'] = {
+              docgenInfo: EditableSpan.__docgenInfo,
+              name: 'EditableSpan',
+              path: 'src/components/EditableSpan/EditableSpan.tsx#EditableSpan',
+            })
       } catch (__react_docgen_typescript_loader_error) {}
     },
-    './src/components/TaskForMap/TaskForMap.tsx': function (
-      __unused_webpack_module,
-      __webpack_exports__,
-      __webpack_require__
-    ) {
+    './src/components/Task/Task.tsx': function (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
       __webpack_require__.d(__webpack_exports__, {
         s: function () {
-          return TaskForMap
+          return Task
         },
       })
       var react = __webpack_require__('./node_modules/react/index.js'),
         ListItem = __webpack_require__('./node_modules/@mui/material/ListItem/ListItem.js'),
         Checkbox = __webpack_require__('./node_modules/@mui/material/Checkbox/Checkbox.js'),
         IconButton = __webpack_require__('./node_modules/@mui/material/IconButton/IconButton.js'),
-        BookmarkBorder = __webpack_require__(
-          './node_modules/@mui/icons-material/BookmarkBorder.js'
-        ),
+        BookmarkBorder = __webpack_require__('./node_modules/@mui/icons-material/BookmarkBorder.js'),
         Bookmark = __webpack_require__('./node_modules/@mui/icons-material/Bookmark.js'),
         Delete = __webpack_require__('./node_modules/@mui/icons-material/Delete.js'),
         EditableSpan = __webpack_require__('./src/components/EditableSpan/EditableSpan.tsx'),
         TodoList_module_done = 'TodoList_done__K7PV0',
         TodoList_module_list = 'TodoList_list__aQpmq',
         jsx_runtime = __webpack_require__('./node_modules/react/jsx-runtime.js'),
-        TaskForMap = (0, react.memo)(function (props) {
-          console.log('TaskForMap')
+        Task = (0, react.memo)(function (props) {
+          console.log('Task')
           var EditableSpanHandler = (0, react.useCallback)(
             function (input) {
               props.changeEditableSpan(props.task.id, input, props.todoListId)
@@ -965,18 +928,12 @@
           )
           return (0, jsx_runtime.jsxs)(ListItem.ZP, {
             sx: { justifyContent: 'space-between' },
-            className: ''
-              .concat(TodoList_module_list, ' ')
-              .concat(props.task.isDone ? TodoList_module_done : ''),
+            className: ''.concat(TodoList_module_list, ' ').concat(props.task.isDone ? TodoList_module_done : ''),
             children: [
               (0, jsx_runtime.jsx)(Checkbox.Z, {
                 checked: props.task.isDone,
                 onChange: function onChangeHandler(e) {
-                  return props.changeStatus(
-                    props.todoListId,
-                    props.task.id,
-                    e.currentTarget.checked
-                  )
+                  return props.changeStatus(props.todoListId, props.task.id, e.currentTarget.checked)
                 },
                 icon: (0, jsx_runtime.jsx)(BookmarkBorder.Z, {}),
                 checkedIcon: (0, jsx_runtime.jsx)(Bookmark.Z, {}),
@@ -998,10 +955,10 @@
           })
         })
       try {
-        ;(TaskForMap.displayName = 'TaskForMap'),
-          (TaskForMap.__docgenInfo = {
+        ;(Task.displayName = 'Task'),
+          (Task.__docgenInfo = {
             description: '',
-            displayName: 'TaskForMap',
+            displayName: 'Task',
             props: {
               task: {
                 defaultValue: null,
@@ -1041,17 +998,17 @@
             },
           }),
           'undefined' != typeof STORYBOOK_REACT_CLASSES &&
-            (STORYBOOK_REACT_CLASSES['src/components/TaskForMap/TaskForMap.tsx#TaskForMap'] = {
-              docgenInfo: TaskForMap.__docgenInfo,
-              name: 'TaskForMap',
-              path: 'src/components/TaskForMap/TaskForMap.tsx#TaskForMap',
+            (STORYBOOK_REACT_CLASSES['src/components/Task/Task.tsx#Task'] = {
+              docgenInfo: Task.__docgenInfo,
+              name: 'Task',
+              path: 'src/components/Task/Task.tsx#Task',
             })
       } catch (__react_docgen_typescript_loader_error) {}
       try {
-        ;(TaskForMap.displayName = 'TaskForMap'),
-          (TaskForMap.__docgenInfo = {
+        ;(Task.displayName = 'Task'),
+          (Task.__docgenInfo = {
             description: '',
-            displayName: 'TaskForMap',
+            displayName: 'Task',
             props: {
               task: {
                 defaultValue: null,
@@ -1091,10 +1048,10 @@
             },
           }),
           'undefined' != typeof STORYBOOK_REACT_CLASSES &&
-            (STORYBOOK_REACT_CLASSES['src/components/TaskForMap/TaskForMap.tsx#TaskForMap'] = {
-              docgenInfo: TaskForMap.__docgenInfo,
-              name: 'TaskForMap',
-              path: 'src/components/TaskForMap/TaskForMap.tsx#TaskForMap',
+            (STORYBOOK_REACT_CLASSES['src/components/Task/Task.tsx#Task'] = {
+              docgenInfo: Task.__docgenInfo,
+              name: 'Task',
+              path: 'src/components/Task/Task.tsx#Task',
             })
       } catch (__react_docgen_typescript_loader_error) {}
     },
@@ -1134,9 +1091,7 @@
           __webpack_require__(
             './node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js'
           ),
-        uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-          './node_modules/uuid/dist/esm-browser/v1.js'
-        ),
+        uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__('./node_modules/uuid/dist/esm-browser/v1.js'),
         todoListId1 = (0, uuid__WEBPACK_IMPORTED_MODULE_0__.Z)(),
         todoListId2 = (0, uuid__WEBPACK_IMPORTED_MODULE_0__.Z)(),
         initialState = [],

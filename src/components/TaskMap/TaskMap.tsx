@@ -7,14 +7,14 @@ import { EditableSpan } from '../EditableSpan/EditableSpan'
 import styled from '../../page/TodoList/TodoList.module.scss'
 import { TaskStatuses, Task } from '../../api_DAL/tasks-api'
 import { useAppDispatch } from '../../state/hooks/hooks'
-import s from './TaskForMap.module.scss'
+import s from './TaskMap.module.scss'
 import { tasksThunks } from 'reducers/tasksSlice/tasksSlice'
 
-type TaskForMapType = {
+type TaskProps = {
   task: Task
 }
 
-export const TaskForMap: React.FC<TaskForMapType> = memo(({ task }) => {
+export const TaskMap: React.FC<TaskProps> = memo(({ task }) => {
   let { todoListId, id, status, title } = task
   const dispatch = useAppDispatch()
 

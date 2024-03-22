@@ -4,19 +4,19 @@ import { EditableSpan } from '../../components/EditableSpan/EditableSpan'
 import { Button, IconButton, List } from '@mui/material'
 import { Box } from '@mui/system'
 import { Delete } from '@mui/icons-material'
-import { TaskForMap } from '../../components/TaskForMap/TaskForMap'
-import { TaskStatuses, Task } from '../../api_DAL/tasks-api'
-import { FilterValuesType } from 'reducers/todolistsSlice/todolistsSlice'
+import { FilterValues } from 'reducers/todolistsSlice/todolistsSlice'
+import { Task, TaskStatuses } from 'api_DAL/tasks-api'
+import { TaskMap } from 'components/TaskMap/TaskMap'
 
 type TodoListProps = {
   title: string
   tasks: Task[]
   todoListId: string // id из конкретно каждого массива, который лежит в объекте
-  filter: FilterValuesType
+  filter: FilterValues
   removeTask: (id: string, togoListId: string) => void
   addTask: (inputValue: string, togoListId: string) => void
   changeStatus: (togoListId: string, taskId: string, status: TaskStatuses) => void
-  changeFilterHandler: (value: FilterValuesType, id: string) => void
+  changeFilterHandler: (value: FilterValues, id: string) => void
   removeTodolist: (togoListId: string) => void
   changeTaskTitle: (id: string, input: string, togoListId: string) => void
   changeTodolistTitle: (input: string, togoListId: string) => void
@@ -34,7 +34,7 @@ export const TodoList: React.FC<TodoListProps> = memo((props: TodoListProps) => 
   }, [props.filter, props.tasks])
 
   const mappedTasks = () => {
-    return tasksForTodolist.map((task) => <TaskForMap key={task.id} task={task} />)
+    return tasksForTodolist.map((task) => <TaskMap key={task.id} task={task} />)
   }
 
   const removeTodolistHandler = useCallback(() => {

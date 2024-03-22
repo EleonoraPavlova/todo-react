@@ -1,12 +1,11 @@
-
-import { TodolistDomainType } from 'reducers/todolistsSlice/todolistsSlice'
+import { TodolistDomain } from 'reducers/todolistsSlice/todolistsSlice'
 import { v1 } from 'uuid'
 
 const todoListId1 = v1()
 const todoListId2 = v1()
 
 export const startStateTodolists = {
-  todolists:  [
+  todolists: [
     {
       id: todoListId1,
       title: 'What to learn',
@@ -23,5 +22,5 @@ export const startStateTodolists = {
       order: 0,
       entityStatus: 'loading', //status сущности
     },
-  ] as TodolistDomainType[]
+  ] as TodolistDomain[],
 }

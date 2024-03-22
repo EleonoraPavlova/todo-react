@@ -1,9 +1,9 @@
-import { TodolistTypeApi } from 'api_DAL/todolists-api'
+import { Todolist } from 'api_DAL/todolists-api'
 import {
   todolistsReducer,
-  FilterValuesType,
+  FilterValues,
   changeStatusTodolistAC,
-  TodolistDomainType,
+  TodolistDomain,
   getTodolistTC,
   removeTodolistTC,
   addTodolistTC,
@@ -11,12 +11,12 @@ import {
 } from './todolistsSlice'
 import { v1 } from 'uuid'
 import { startStateTodolists } from 'state/initialState/todolistsStartState'
-import { RequestStatusType } from 'reducers/appSlice/appSlice'
+import { RequestStatus } from 'reducers/appSlice/appSlice'
 
 const todoListId1 = v1()
 const todoListId2 = v1()
 
-let todolists: TodolistDomainType[]
+let todolists: TodolistDomain[]
 
 beforeEach(() => {})
 todolists = [
@@ -47,7 +47,7 @@ test('correct todolist should be removed', () => {
 })
 
 test('correct todolist should be added', () => {
-  const payload: { todolist: TodolistTypeApi } = {
+  const payload: { todolist: Todolist } = {
     todolist: {
       id: todoListId1,
       title: 'New',
@@ -64,7 +64,7 @@ test('correct todolist should be added', () => {
 })
 
 test('todolist should be updated', () => {
-  let newFilter: FilterValuesType = 'completed'
+  let newFilter: FilterValues = 'completed'
 
   const payload = { filter: newFilter, todoListId: todoListId2, title: 'What to buy' }
 
@@ -84,7 +84,7 @@ test('todolist should be set to the state', () => {
 })
 
 test('todolist should be set to the entityStatus', () => {
-  let newStatus: RequestStatusType = 'succeeded'
+  let newStatus: RequestStatus = 'succeeded'
   const action = changeStatusTodolistAC({ entityStatus: newStatus, todoListId: todoListId1 })
   const endState = todolistsReducer({ todolists: todolists }, action)
 

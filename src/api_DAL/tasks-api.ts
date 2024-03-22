@@ -30,7 +30,7 @@ export type Task = {
   addedDate: string
 }
 
-export type TasksObjType = {
+export type Tasks = {
   [key: string]: Task[]
 }
 
@@ -40,7 +40,7 @@ export type GetTaskResponse = {
   items: Task[]
 }
 
-export type FieldErrorType = {
+export type FieldError = {
   field: string
   error: string
 }
@@ -48,7 +48,7 @@ export type FieldErrorType = {
 export type ResponseType<Data = {}> = {
   resultCode: number
   messages: string[]
-  fieldsErrors?: FieldErrorType[]
+  fieldsErrors?: FieldError[]
   data: Data
 }
 

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { UpdateTaskParams, tasksApi } from '../../api_DAL/tasks-api'
-import { TaskForMap } from './TaskForMap'
+import { TaskMap } from './TaskMap'
 
 export default {
   title: 'API/tasks',
-  component: TaskForMap,
+  component: TaskMap,
   decorators: [
     (Story: any) => (
       <div style={{ padding: '20px' }}>
@@ -138,11 +138,6 @@ export const UpdateTaskAtAll = () => {
   const [description, setDescription] = useState<string>('')
   const [startDate, setStartDate] = useState<string>('')
   const [deadline, setDeadline] = useState<string>('')
-
-  //{ "id": "58352dcc-39e0-4495-b506-0ed0223801ae",
-  //"title": "RRRRRRRRR", "description": null,
-  //"todoListId": "2ab7ab1a-cc3c-40eb-8af4-f12f55bc4db1",
-  //"order": -2, "status": 0, "priority": 1, "startDate": null, "deadline": null, "addedDate": "2023-11-07T16:29:48.5120773Z"
 
   const updateTask = () => {
     const model: UpdateTaskParams = {

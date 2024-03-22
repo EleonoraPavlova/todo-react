@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import '../../style/App.css'
+import { Menu } from '@mui/icons-material'
 import {
   AppBar,
   Box,
@@ -14,27 +13,28 @@ import {
   createTheme,
   styled,
 } from '@mui/material'
-import { Menu } from '@mui/icons-material'
-import { Task } from '../../api_DAL/tasks-api'
-import { TodolistRender } from '../../components/TodolistRender/TodolistRender'
-import { SnackbarComponent } from '../../components/SnackbarComponent/SnackbarComponent'
-import { useAppDispatch } from '../../state/hooks/hooks'
-import { NavLink, Route, Routes } from 'react-router-dom'
-import { Login } from '../../page/Login/Login'
 import { blue, purple } from '@mui/material/colors'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { NavLink, Route, Routes } from 'react-router-dom'
 import { selectAppInitialized, selectAppStatus, setAppInitializeTC } from 'reducers/appSlice/appSlice'
 import { logOutTC, selectIsLoggedIn } from 'reducers/authSlice/authSlice'
-import { useSelector } from 'react-redux'
+import '../style/App.css'
+import { useAppDispatch } from 'state/hooks/hooks'
+import { Task } from 'api_DAL/tasks-api'
+import { TodolistRender } from 'components/TodolistRender/TodolistRender'
+import { Login } from 'page/Login/Login'
+import { SnackbarComponent } from 'components/SnackbarComponent/SnackbarComponent'
 
-type AppReduxProps = {
+type AppProps = {
   demo: boolean //загрузка мокового state
 }
 
-export type TasksObjType = {
+export type Tasks = {
   [key: string]: Task[]
 }
 
-export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
+export const App: React.FC<AppProps> = ({ demo = false }) => {
   let status = useSelector(selectAppStatus)
   let initialized = useSelector(selectAppInitialized) //first initialization
   let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены
@@ -62,7 +62,6 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
 
   const logOutHandler = useCallback(() => {
     dispatch(logOutTC())
-    ///
   }, [dispatch])
 
   const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
@@ -114,4 +113,4 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
     </ThemeProvider>
   )
 }
-export default AppRedux
+export default App

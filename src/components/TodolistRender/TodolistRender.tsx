@@ -6,7 +6,7 @@ import { TodoListRedux } from '../../page/TodoList/TodoListRedux'
 import { AddItemForm } from '../AddItemForm/AddItemForm'
 import { useNavigate } from 'react-router-dom'
 import { addTodolistTC, getTodolistTC, selectTodolists } from 'reducers/todolistsSlice/todolistsSlice'
-import { TodolistTypeApi } from 'api_DAL/todolists-api'
+import { Todolist } from 'api_DAL/todolists-api'
 import { tasksSelector, tasksThunks } from 'reducers/tasksSlice/tasksSlice'
 import { useSelector } from 'react-redux'
 import { selectIsLoggedIn } from 'reducers/authSlice/authSlice'
@@ -39,8 +39,8 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
     const getTodos = async () => {
       const res = await dispatch(getTodolistTC())
       if (getTodolistTC.fulfilled.match(res)) {
-        const todolists = res.payload.todolists as TodolistTypeApi[]
-        todolists.forEach((t: TodolistTypeApi) => {
+        const todolists = res.payload.todolists as Todolist[]
+        todolists.forEach((t: Todolist) => {
           dispatch(tasksThunks.getTasksTC(t.id))
         })
       }

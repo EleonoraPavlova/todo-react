@@ -1,8 +1,8 @@
 import { createAction } from '@reduxjs/toolkit'
 
 // export type ClearTasksTodolistsType = {
-//   tasks: TasksObjType
-//   todolists: TodolistDomainType[]
+//   tasks: Tasks
+//   todolists: TodolistDomain[]
 // }
 
 export const clearTasksTodolists = createAction('actions/clear-tasks-todolists')

@@ -1,11 +1,7 @@
 ;(self.webpackChunktodo_react = self.webpackChunktodo_react || []).push([
   [179],
   {
-    './.storybook/preview.ts': function (
-      __unused_webpack_module,
-      __webpack_exports__,
-      __webpack_require__
-    ) {
+    './.storybook/preview.ts': function (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
       'use strict'
       __webpack_require__.r(__webpack_exports__)
       __webpack_exports__.default = {
@@ -34,22 +30,8 @@
     './src lazy recursive ^\\.\\/.*$ include: (?:\\/src(?:\\/(?%21\\.)(?:(?:(?%21(?:^%7C\\/)\\.).)*?)\\/%7C\\/%7C$)(?%21\\.)(?=.)[^/]*?\\.stories\\.tsx)$':
       function (module, __unused_webpack_exports, __webpack_require__) {
         var map = {
-          './apps/AppRedux/AppRedux.stories': [
-            './src/apps/AppRedux/AppRedux.stories.tsx',
-            766,
-            516,
-            786,
-            659,
-            683,
-          ],
-          './apps/AppRedux/AppRedux.stories.tsx': [
-            './src/apps/AppRedux/AppRedux.stories.tsx',
-            766,
-            516,
-            786,
-            659,
-            683,
-          ],
+          './apps/AppRedux/AppRedux.stories': ['./src/apps/AppRedux/AppRedux.stories.tsx', 766, 516, 786, 659, 683],
+          './apps/AppRedux/AppRedux.stories.tsx': ['./src/apps/AppRedux/AppRedux.stories.tsx', 766, 516, 786, 659, 683],
           './components/AddItemForm/AddItemForm.stories': [
             './src/components/AddItemForm/AddItemForm.stories.tsx',
             766,
@@ -72,20 +54,8 @@
             766,
             298,
           ],
-          './components/TaskForMap/TaskForMap.stories': [
-            './src/components/TaskForMap/TaskForMap.stories.tsx',
-            766,
-            516,
-            786,
-            646,
-          ],
-          './components/TaskForMap/TaskForMap.stories.tsx': [
-            './src/components/TaskForMap/TaskForMap.stories.tsx',
-            766,
-            516,
-            786,
-            646,
-          ],
+          './components/Task/Task.stories': ['./src/components/Task/Task.stories.tsx', 766, 516, 786, 646],
+          './components/Task/Task.stories.tsx': ['./src/components/Task/Task.stories.tsx', 766, 516, 786, 646],
         }
         function webpackAsyncContext(req) {
           if (!__webpack_require__.o(map, req))
@@ -117,23 +87,14 @@
         external_STORYBOOK_MODULE_CHANNELS_ = __webpack_require__('@storybook/channels')
       const importers = [
         async (path) => {
-          if (
-            !/^\.[\\/](?:src(?:\/(?!\.)(?:(?:(?!(?:^|\/)\.).)*?)\/|\/|$)(?!\.)(?=.)[^/]*?\.mdx)$/.exec(
-              path
-            )
-          )
-            return
+          if (!/^\.[\\/](?:src(?:\/(?!\.)(?:(?:(?!(?:^|\/)\.).)*?)\/|\/|$)(?!\.)(?=.)[^/]*?\.mdx)$/.exec(path)) return
           const pathRemainder = path.substring(6)
           return __webpack_require__(
             './src lazy recursive ^\\.\\/.*$ include: (?:\\/src(?:\\/(?%21\\.)(?:(?:(?%21(?:^%7C\\/)\\.).)*?)\\/%7C\\/%7C$)(?%21\\.)(?=.)[^/]*?\\.mdx)$'
           )('./' + pathRemainder)
         },
         async (path) => {
-          if (
-            !/^\.[\\/](?:src(?:\/(?!\.)(?:(?:(?!(?:^|\/)\.).)*?)\/|\/|$)(?!\.)(?=.)[^/]*?\.stories\.tsx)$/.exec(
-              path
-            )
-          )
+          if (!/^\.[\\/](?:src(?:\/(?!\.)(?:(?:(?!(?:^|\/)\.).)*?)\/|\/|$)(?!\.)(?=.)[^/]*?\.stories\.tsx)$/.exec(path))
             return
           const pathRemainder = path.substring(6)
           return __webpack_require__(
@@ -166,21 +127,11 @@
             (0, external_STORYBOOK_MODULE_PREVIEW_API_.composeConfigs)([
               __webpack_require__('./node_modules/@storybook/react/preview.js'),
               __webpack_require__('./node_modules/@storybook/addon-links/dist/preview.mjs'),
-              __webpack_require__(
-                './node_modules/@storybook/addon-essentials/dist/docs/preview.mjs'
-              ),
-              __webpack_require__(
-                './node_modules/@storybook/addon-essentials/dist/backgrounds/preview.mjs'
-              ),
-              __webpack_require__(
-                './node_modules/@storybook/addon-essentials/dist/measure/preview.mjs'
-              ),
-              __webpack_require__(
-                './node_modules/@storybook/addon-essentials/dist/outline/preview.mjs'
-              ),
-              __webpack_require__(
-                './node_modules/@storybook/addon-essentials/dist/highlight/preview.mjs'
-              ),
+              __webpack_require__('./node_modules/@storybook/addon-essentials/dist/docs/preview.mjs'),
+              __webpack_require__('./node_modules/@storybook/addon-essentials/dist/backgrounds/preview.mjs'),
+              __webpack_require__('./node_modules/@storybook/addon-essentials/dist/measure/preview.mjs'),
+              __webpack_require__('./node_modules/@storybook/addon-essentials/dist/outline/preview.mjs'),
+              __webpack_require__('./node_modules/@storybook/addon-essentials/dist/highlight/preview.mjs'),
               __webpack_require__('./node_modules/@storybook/addon-interactions/dist/preview.mjs'),
               __webpack_require__('./node_modules/@storybook/addon-actions/dist/preview.mjs'),
               __webpack_require__('./.storybook/preview.ts'),
@@ -210,10 +161,7 @@
   },
   function (__webpack_require__) {
     __webpack_require__.O(0, [994], function () {
-      return (
-        (moduleId = './storybook-config-entry.js'),
-        __webpack_require__((__webpack_require__.s = moduleId))
-      )
+      return (moduleId = './storybook-config-entry.js'), __webpack_require__((__webpack_require__.s = moduleId))
       var moduleId
     })
     __webpack_require__.O()

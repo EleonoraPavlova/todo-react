@@ -1,17 +1,17 @@
 import React from 'react'
 import '../../style/App.css'
-import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
+import { AddItemForm } from '../components/AddItemForm/AddItemForm'
 import { AppBar, Container, Grid, IconButton, Toolbar, Typography } from '@mui/material'
 import { Menu } from '@mui/icons-material'
 import { useTasks } from './hooks/useTasks'
 import { useTodolists } from './hooks/useTodolists'
-import { TodolistRender } from '../../components/TodolistRender/TodolistRender'
+import { TodolistRender } from '../components/TodolistRender/TodolistRender'
 
 type AppProps = {
   demo: boolean //загрузка мокового state
 }
 
-export const App: React.FC<AppProps> = ({ demo = false }) => {
+export const MarksApp: React.FC<AppProps> = ({ demo = false }) => {
   //using hooks
   const { removeTodolistsSetTasks, addTodoListSetTasks } = useTasks()
   //connected 2 hooks together
@@ -42,4 +42,4 @@ export const App: React.FC<AppProps> = ({ demo = false }) => {
     </div>
   )
 }
-export default App
+export default MarksApp

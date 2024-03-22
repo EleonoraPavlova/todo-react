@@ -36,7 +36,7 @@
       "name": "Docs",
       "importPath": "./src/components/AddItemForm/AddItemForm.stories.tsx",
       "tags": ["docs", "autodocs"],
-      "storiesImports": ["./src/components/TaskForMap/TaskForMap.stories.tsx"],
+      "storiesImports": ["./src/components/Task/Task.stories.tsx"],
       "kind": "AddItemForm",
       "story": "Docs",
       "parameters": {
@@ -92,14 +92,14 @@
       "id": "additemform--task-for-map-base",
       "name": "Task For Map Base",
       "title": "AddItemForm",
-      "importPath": "./src/components/TaskForMap/TaskForMap.stories.tsx",
+      "importPath": "./src/components/Task/Task.stories.tsx",
       "tags": ["story"],
       "kind": "AddItemForm",
       "story": "Task For Map Base",
       "parameters": {
         "__id": "additemform--task-for-map-base",
         "docsOnly": false,
-        "fileName": "./src/components/TaskForMap/TaskForMap.stories.tsx"
+        "fileName": "./src/components/Task/Task.stories.tsx"
       }
     }
   }

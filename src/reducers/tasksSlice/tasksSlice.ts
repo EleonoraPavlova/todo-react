@@ -4,32 +4,27 @@ import {
   TaskPriorities,
   TaskStatuses,
   Task,
-  TasksObjType,
+  Tasks,
   UpdateTaskModel,
   tasksApi,
   AddTaskParams,
   DeleteTaskParams,
   UpdateTaskParams,
 } from '../../api_DAL/tasks-api'
-import { handleServerAppError, handleServerNetworkError } from '../../utils/error-utils'
+import { handleServerNetworkError } from '../../utils'
 import { clearTasksTodolists } from 'actions/actions'
 import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
 import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice/todolistsSlice'
-import { createAppAsyncThunk } from 'utils/app-async-thunk'
+import { createAppAsyncThunk } from 'utils/createAppAsyncThunk'
+import { handleServerAppError } from 'utils/handleServerAppError'
 
-export enum ResultCode { //enum  ONLY for reading, cannot be overwritten!!
+export enum ResultCode { //enum  ONLY for reading, cannot be overwritten!! OR {} as const - the same
   SUCCEEDED = 0,
   ERROR = 1,
   ERROR_CAPTCHA = 10,
 }
 
-type Params = {
-  todoListId: string
-  id: string
-  apiModal: UpdateTaskModelForReducerFn
-}
-
-export const initialStateTasks: TasksObjType = {
+export const initialStateTasks: Tasks = {
   todoListId1: [
     {
       description: '',

@@ -1,20 +1,21 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { authApi } from '../../api_DAL/login-api'
-import { handleServerAppError, handleServerNetworkError } from '../../utils/error-utils'
 import { AxiosError } from 'axios'
 import { ResultCode } from 'reducers/tasksSlice/tasksSlice'
 import { setIsLoggedInAC } from 'reducers/authSlice/authSlice'
+import { handleServerAppError } from 'utils/handleServerAppError'
+import { handleServerNetworkError } from 'utils'
 
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
 
-type appStartStateType = {
-  status: RequestStatusType
+type AppStartState = {
+  status: RequestStatus
   error: string | null
   success: string | null
   initialized: boolean
 }
 
-export const appStartState: appStartStateType = {
+export const appStartState: AppStartState = {
   status: 'idle', //without load
   error: null,
   success: null,
@@ -33,8 +34,8 @@ export const setAppInitializeTC = createAsyncThunk(
         // dispatch(setAppInitializedAC({ initialized: true }))
         // return { initialized: true }
       } else {
-        return handleServerAppError(res.data.messages, dispatch)
-        // rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
+        handleServerAppError(res.data.messages, dispatch)
+        return rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
       }
       return { initialized: true }
     } catch (err: unknown) {
@@ -52,7 +53,7 @@ const appSlice = createSlice({
     setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
       state.error = action.payload.error
     },
-    setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
+    setAppStatusAC(state, action: PayloadAction<{ status: RequestStatus }>) {
       state.status = action.payload.status
     },
     setAppSuccessAC(state, action: PayloadAction<{ success: string | null }>) {
@@ -75,5 +76,4 @@ const appSlice = createSlice({
 
 export const appReducer = appSlice.reducer
 export const { setAppErrorAC, setAppStatusAC, setAppSuccessAC } = appSlice.actions
-export const { selectAppStatus, selectAppError, selectAppSuccess, selectAppInitialized } =
-  appSlice.selectors
+export const { selectAppStatus, selectAppError, selectAppSuccess, selectAppInitialized } = appSlice.selectors

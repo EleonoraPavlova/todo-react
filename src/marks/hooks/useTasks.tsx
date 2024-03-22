@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { v1 } from 'uuid'
-import { TaskPriorities, TaskStatuses, TasksObjType } from '../../../api_DAL/tasks-api'
-import { startStateTasks } from '../../../state/initialState/tasksStartState'
+import { TaskPriorities, TaskStatuses, Tasks } from '../../api_DAL/tasks-api'
+import { startStateTasks } from '../../state/initialState/tasksStartState'
 
 export function useTasks() {
-  let [tasks, setTasks] = useState<TasksObjType>(startStateTasks)
+  let [tasks, setTasks] = useState<Tasks>(startStateTasks)
 
   function removeTask(id: string, todoListId: string) {
     let tasksArr = startStateTasks[todoListId] //достала нужный массив сначала
