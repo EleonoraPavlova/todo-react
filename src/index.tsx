@@ -9,11 +9,11 @@ import AppRedux from './apps/AppRedux/AppRedux'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-  <HashRouter>
-    <Provider store={store}>
+  <Provider store={store}>
+    <HashRouter>
       <AppRedux demo={true} />
-    </Provider>
-  </HashRouter>
+    </HashRouter>
+  </Provider>
 )
 
 reportWebVitals()
