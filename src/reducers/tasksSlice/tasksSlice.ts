@@ -1,5 +1,5 @@
 //BLL
-import { PayloadAction, createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice, current } from '@reduxjs/toolkit'
 import {
   TaskPriorities,
   TaskStatuses,
@@ -13,7 +13,7 @@ import {
 } from '../../api_DAL/tasks-api'
 import { handleServerAppError, handleServerNetworkError } from '../../utils/error-utils'
 import { clearTasksTodolists } from 'actions/actions'
-import { setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
+import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
 import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice/todolistsSlice'
 import { createAppAsyncThunk } from 'utils/app-async-thunk'
 
@@ -219,6 +219,7 @@ const updateTaskTC = createAppAsyncThunk<UpdateTaskParams, UpdateTaskParams>(
     const { todoListId, taskId, domainModel } = params
     const task = getState().tasks[todoListId].find((t: Task) => t.id === taskId) //вытянула rootReducer с тасками и нашла нужную
     if (!task) {
+      dispatch(setAppErrorAC({ error: 'task was not found' }))
       return rejectWithValue(null)
     }
     const model: UpdateTaskModel = {
