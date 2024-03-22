@@ -62,6 +62,7 @@ export const AppRedux: React.FC<AppReduxProps> = ({ demo = false }) => {
 
   const logOutHandler = useCallback(() => {
     dispatch(logOutTC())
+    ///
   }, [dispatch])
 
   const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
