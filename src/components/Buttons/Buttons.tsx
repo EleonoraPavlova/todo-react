@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { Button } from '@mui/material'
-import { FilterValues } from 'reducers/todolistsSlice/todolistsSlice'
+import { FilterValues } from 'reducers/todolistsSlice'
 
 type ButtonsProps = {
   filter: FilterValues

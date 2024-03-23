@@ -11,7 +11,7 @@ import {
 } from './todolistsSlice'
 import { v1 } from 'uuid'
 import { startStateTodolists } from 'state/initialState/todolistsStartState'
-import { RequestStatus } from 'reducers/appSlice/appSlice'
+import { RequestStatus } from 'reducers/appSlice'
 
 const todoListId1 = v1()
 const todoListId2 = v1()

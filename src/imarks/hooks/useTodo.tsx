@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { startStateTodolists } from '../../state/initialState/todolistsStartState'
 import { v1 } from 'uuid'
-import { FilterValues, TodolistDomain } from 'reducers/todolistsSlice/todolistsSlice'
+import { FilterValues, TodolistDomain } from 'reducers/todolistsSlice'
 
-export function useTodolists(
+export function useTodo(
   removeTodolistsSetTasks: (todoListId: string) => void,
   addTodoListSetTasks: (newTodolist: string) => void
 ) {

@@ -1,4 +1,4 @@
-import { instanse } from './todolists-api'
+import { instance } from 'api_DAL'
 import { Response } from './tasks-api'
 
 export type LoginParams = {
@@ -16,14 +16,14 @@ export type CheckAuthResponse = {
 
 export const authApi = {
   login(params: LoginParams) {
-    return instanse.post<Response<{ userId?: number }>>('auth/login', params)
+    return instance.post<Response<{ userId?: number }>>('auth/login', params)
   },
 
   checkAuthMe() {
-    return instanse.get<Response<CheckAuthResponse>>('/auth/me')
+    return instance.get<Response<CheckAuthResponse>>('/auth/me')
   },
 
   logOut() {
-    return instanse.delete<Response>('/auth/login')
+    return instance.delete<Response>('/auth/login')
   },
 }

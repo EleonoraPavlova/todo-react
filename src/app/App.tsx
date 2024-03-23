@@ -22,7 +22,7 @@ import { logOutTC, selectIsLoggedIn } from 'reducers/authSlice/authSlice'
 import './App.css'
 import { Task } from 'api_DAL/tasks-api'
 import { TodolistRender } from 'components/TodolistRender/TodolistRender'
-import { Login } from 'page/Login/Login'
+import { Login } from 'features/page/Login/Login'
 import { SnackbarComponent } from 'components/SnackbarComponent/SnackbarComponent'
 import { useAppDispatch } from 'common/hooks'
 

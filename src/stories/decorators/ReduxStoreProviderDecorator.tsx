@@ -3,10 +3,10 @@ import { Provider } from 'react-redux'
 import { startStateTasks } from '../../state/initialState/tasksStartState'
 import { MemoryRouter } from 'react-router-dom'
 import { configureStore } from '@reduxjs/toolkit'
-import { TodolistDomain, todolistsReducer } from 'reducers/todolistsSlice/todolistsSlice'
-import { tasksReducer } from 'reducers/tasksSlice/tasksSlice'
-import { appReducer, appStartState } from 'reducers/appSlice/appSlice'
-import { authReducer, initialAuthState } from 'reducers/authSlice/authSlice'
+import { TodolistDomain, todolistsReducer } from 'reducers/todolistsSlice'
+import { tasksReducer } from 'reducers/tasksSlice'
+import { appReducer, appStartState } from 'reducers/appSlice'
+import { authReducer, initialAuthState } from 'reducers/authSlice'
 
 export const initialGlobalState = {
   todolists: {

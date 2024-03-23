@@ -1,9 +1,9 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { configureStore, UnknownAction } from '@reduxjs/toolkit'
-import { todolistsReducer } from 'reducers/todolistsSlice/todolistsSlice'
-import { tasksReducer } from 'reducers/tasksSlice/tasksSlice'
-import { appReducer } from 'reducers/appSlice/appSlice'
-import { authReducer } from 'reducers/authSlice/authSlice'
+import { tasksReducer } from 'reducers/tasksSlice'
+import { authReducer } from 'reducers/authSlice'
+import { appReducer } from 'reducers/appSlice'
+import { todolistsReducer } from 'reducers/todolistsSlice'
 
 //обязательно Provider в App
 //отдельный reducer отвечает за каждую ветку

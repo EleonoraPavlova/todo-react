@@ -4,7 +4,7 @@ import { AddItemForm } from '../components/AddItemForm/AddItemForm'
 import { AppBar, Container, Grid, IconButton, Toolbar, Typography } from '@mui/material'
 import { Menu } from '@mui/icons-material'
 import { useTasks } from './hooks/useTasks'
-import { useTodolists } from './hooks/useTodolists'
+import { useTodo } from './hooks/useTodo'
 import { TodolistRender } from '../components/TodolistRender/TodolistRender'
 
 type AppProps = {
@@ -15,7 +15,7 @@ export const MarksApp: React.FC<AppProps> = ({ demo = false }) => {
   //using hooks
   const { removeTodolistsSetTasks, addTodoListSetTasks } = useTasks()
   //connected 2 hooks together
-  const { addTodoList } = useTodolists(removeTodolistsSetTasks, addTodoListSetTasks)
+  const { addTodoList } = useTodo(removeTodolistsSetTasks, addTodoListSetTasks)
 
   return (
     <div className="App">

@@ -3,7 +3,7 @@ import { TaskPriorities, TaskStatuses, UpdateTaskParams } from '../../api_DAL/ta
 import { v1 } from 'uuid'
 import { Todolist } from 'api_DAL/todolists-api'
 import { startStateTasks } from 'state/initialState/tasksStartState'
-import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice/todolistsSlice'
+import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice'
 import { startStateTodolists } from 'state/initialState/todolistsStartState'
 
 const todoListId1 = v1()

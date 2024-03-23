@@ -1,5 +1,5 @@
+import { instance } from 'api_DAL'
 import { UpdateTaskModelForReducerFn } from 'reducers/tasksSlice/tasksSlice'
-import { instanse, settings } from './todolists-api'
 
 export enum TaskStatuses {
   New = 0, //false
@@ -80,26 +80,22 @@ export type UpdateTaskParams = {
 
 export const tasksApi = {
   getTasks(todoListId: string) {
-    return instanse.get<GetTaskResponse>(`todo-lists/${todoListId}/tasks`)
+    return instance.get<GetTaskResponse>(`todo-lists/${todoListId}/tasks`)
   },
 
   createTask(params: AddTaskParams) {
-    return instanse.post<Response<{ item: Task }>>(
-      `todo-lists/${params.todoListId}/tasks`,
-      { title: params.title },
-      settings
-    )
+    return instance.post<Response<{ item: Task }>>(`todo-lists/${params.todoListId}/tasks`, { title: params.title })
   },
 
   deleteTask(params: DeleteTaskParams) {
-    return instanse.delete<Response>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`)
+    return instance.delete<Response>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`)
   },
 
   updateTaskTitle(todoListId: string, taskId: string, title: string) {
-    return instanse.put<Response>(`/todo-lists/${todoListId}/tasks/${taskId}`, { title: title })
+    return instance.put<Response>(`/todo-lists/${todoListId}/tasks/${taskId}`, { title: title })
   },
 
   updateTaskAtAll(params: UpdateTaskParams) {
-    return instanse.put<Response>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`, params.domainModel)
+    return instance.put<Response>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`, params.domainModel)
   },
 }

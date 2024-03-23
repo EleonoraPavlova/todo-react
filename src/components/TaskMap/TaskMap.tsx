@@ -4,39 +4,21 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import Delete from '@mui/icons-material/Delete'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
-import styled from '../../page/TodoList/TodoList.module.scss'
+import styled from '../../features/page/TodoList/TodoList.module.scss'
 import { TaskStatuses, Task } from '../../api_DAL/tasks-api'
 import s from './TaskMap.module.scss'
 import { tasksThunks } from 'reducers/tasksSlice/tasksSlice'
 import { useAppDispatch } from 'common/hooks'
+import { useTask } from './hooks/useTask'
 
 type TaskProps = {
   task: Task
 }
 
 export const TaskMap: React.FC<TaskProps> = memo(({ task }) => {
-  let { todoListId, id, status, title } = task
-  const dispatch = useAppDispatch()
+  let { status, title } = task
 
-  const onRemoveHandler = useCallback(() => {
-    dispatch(tasksThunks.removeTaskTC({ todoListId, taskId: id }))
-  }, [dispatch, todoListId, id])
-
-  const changeTaskStatus = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      let currentStatus = e.currentTarget.checked
-      const newStatus = currentStatus ? TaskStatuses.Completed : TaskStatuses.New
-      dispatch(tasksThunks.updateTaskTC({ todoListId, taskId: id, domainModel: { status: newStatus } }))
-    },
-    [dispatch, todoListId, id]
-  )
-
-  const changeTaskTitle = useCallback(
-    (title: string) => {
-      dispatch(tasksThunks.updateTaskTC({ todoListId, taskId: id, domainModel: { title } }))
-    },
-    [dispatch, todoListId, id]
-  )
+  const { onRemoveHandler, changeTaskStatus, changeTaskTitle } = useTask(task)
 
   return (
     <ListItem

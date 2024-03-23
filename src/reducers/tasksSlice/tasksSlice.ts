@@ -13,8 +13,8 @@ import {
 } from '../../api_DAL/tasks-api'
 import { handleServerNetworkError } from '../../common/utils'
 import { clearTasksTodolists } from 'actions/actions'
-import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
-import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice/todolistsSlice'
+import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice'
+import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
 
@@ -89,7 +89,6 @@ const tasksSlice = createSlice({
       },
     },
     changeTaskTitleAC(state, action: PayloadAction<{ id: string; title: string; todoListId: string }>) {
-      //
       const tasks = state[action.payload.todoListId]
       const index = tasks.findIndex((t) => t.id === action.payload.id)
       if (index > -1) {

@@ -1,15 +1,15 @@
 import { Container, Grid, Paper } from '@mui/material'
 import { TaskStatuses, Task } from '../../api_DAL/tasks-api'
 import { memo, useCallback, useEffect } from 'react'
-import { TodoListRedux } from '../../page/TodoList/TodoListRedux'
 import { AddItemForm } from '../AddItemForm/AddItemForm'
 import { useNavigate } from 'react-router-dom'
-import { addTodolistTC, getTodolistTC, selectTodolists } from 'reducers/todolistsSlice/todolistsSlice'
+import { addTodolistTC, getTodolistTC, selectTodolists } from 'reducers/todolistsSlice'
 import { Todolist } from 'api_DAL/todolists-api'
 import { tasksSelector, tasksThunks } from 'reducers/tasksSlice/tasksSlice'
 import { useSelector } from 'react-redux'
 import { selectIsLoggedIn } from 'reducers/authSlice/authSlice'
 import { useAppDispatch } from 'common/hooks'
+import { TodoList } from 'features/page/TodoList/TodoList'
 
 type TodolistRenderProps = {
   demo: boolean //загрузка мокового state
@@ -67,7 +67,7 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
         return (
           <Grid item key={l.id}>
             <Paper sx={{ padding: '20px' }} elevation={3}>
-              <TodoListRedux todolist={l} demo={demo} tasksForTodolist={tasksForTodolist} />
+              <TodoList todolist={l} demo={demo} tasksForTodolist={tasksForTodolist} />
             </Paper>
           </Grid>
         )

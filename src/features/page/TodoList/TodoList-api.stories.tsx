@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { todolistsApi } from '../../api_DAL/todolists-api'
+import { todolistsApi } from '../../../api_DAL/todolists-api'
 
 export default {
   title: 'API/todolists',
@@ -58,10 +58,7 @@ export const DeleteTodolist = () => {
           onChange={(e) => setTodolistId(e.currentTarget.value)}
           placeholder="todoListId to be deleted"
         />
-        <button
-          style={{ width: '70px', padding: '6px' }}
-          onClick={deleteTodolist}
-          disabled={!todoListId}>
+        <button style={{ width: '70px', padding: '6px' }} onClick={deleteTodolist} disabled={!todoListId}>
           delete todolist
         </button>
       </div>
@@ -105,15 +102,8 @@ export const UpdateTodolistTitle = () => {
           onChange={(e) => setTodolistId(e.currentTarget.value)}
           placeholder="todoListId to be update"
         />
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.currentTarget.value)}
-          placeholder="new title"
-        />
-        <button
-          style={{ width: '70px', padding: '6px' }}
-          onClick={updateTodolist}
-          disabled={!todoListId}>
+        <input value={title} onChange={(e) => setTitle(e.currentTarget.value)} placeholder="new title" />
+        <button style={{ width: '70px', padding: '6px' }} onClick={updateTodolist} disabled={!todoListId}>
           update todolist title
         </button>
       </div>
