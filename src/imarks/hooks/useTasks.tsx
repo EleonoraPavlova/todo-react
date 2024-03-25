@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { v1 } from 'uuid'
-import { startStateTasks } from '../../state/initialState/tasksStartState'
+import { startStateTasks } from '../../moc/initialState/tasksStartState'
 import { Tasks } from 'common/types'
 import { TaskPriorities, TaskStatuses } from 'common/enums'
 

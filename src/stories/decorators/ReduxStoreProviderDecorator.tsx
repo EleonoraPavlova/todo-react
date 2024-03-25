@@ -1,12 +1,12 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { startStateTasks } from '../../state/initialState/tasksStartState'
+import { startStateTasks } from '../../moc/initialState/tasksStartState'
 import { MemoryRouter } from 'react-router-dom'
 import { configureStore } from '@reduxjs/toolkit'
-import { TodolistDomain, todolistsReducer } from 'reducers/todolistsSlice'
-import { tasksReducer } from 'reducers/tasksSlice'
-import { appReducer, appStartState } from 'reducers/appSlice'
-import { authReducer, initialAuthState } from 'reducers/authSlice'
+import { TodolistDomain, todolistsReducer } from 'BLL/reducers/todolistsSlice'
+import { tasksReducer } from 'BLL/reducers/tasksSlice'
+import { appReducer, appStartState } from 'BLL/reducers/appSlice'
+import { authReducer, initialAuthState } from 'BLL/reducers/authSlice'
 
 export const initialGlobalState = {
   todolists: {

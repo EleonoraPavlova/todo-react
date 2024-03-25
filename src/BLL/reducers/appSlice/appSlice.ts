@@ -1,12 +1,11 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { authApi } from '../../api_DAL/login-api'
 import { AxiosError } from 'axios'
-import { setIsLoggedInAC } from 'reducers/authSlice/authSlice'
+import { setIsLoggedInAC } from '../authSlice'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
 import { handleServerNetworkError } from 'common/utils'
 import { ResultCode } from 'common/enums'
-
-export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
+import { RequestStatus } from 'common/types'
+import { authApi } from 'api_DAL/login-api'
 
 type AppStartState = {
   status: RequestStatus
@@ -21,30 +20,6 @@ export const appStartState: AppStartState = {
   success: null,
   initialized: false, //when no auth (check user, settings, ect) // инициализ приложения, проверка отображать todolists or not
 }
-
-//thunk
-export const setAppInitializeTC = createAsyncThunk(
-  'app/appInitialize',
-  async (params, { dispatch, rejectWithValue }) => {
-    dispatch(setAppStatusAC({ status: 'loading' }))
-    try {
-      const res = await authApi.checkAuthMe()
-      if (res.data.resultCode === ResultCode.SUCCEEDED) {
-        dispatch(setIsLoggedInAC({ isLoggedIn: true })) // анонимный пользователь или авторизованный
-        // dispatch(setAppInitializedAC({ initialized: true }))
-        // return { initialized: true }
-      } else {
-        handleServerAppError(res.data.messages, dispatch)
-        return rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
-      }
-      return { initialized: true }
-    } catch (err: unknown) {
-      const error: AxiosError = err as AxiosError
-      handleServerNetworkError(error as { message: string }, dispatch)
-      return rejectWithValue(null)
-    }
-  }
-)
 
 const appSlice = createSlice({
   name: 'app',
@@ -74,6 +49,30 @@ const appSlice = createSlice({
   },
 })
 
+const setAppInitializeTC = createAsyncThunk(
+  `${appSlice.name}/appInitialize`,
+  async (params, { dispatch, rejectWithValue }) => {
+    dispatch(setAppStatusAC({ status: 'loading' }))
+    try {
+      const res = await authApi.checkAuthMe()
+      if (res.data.resultCode === ResultCode.SUCCEEDED) {
+        dispatch(setIsLoggedInAC({ isLoggedIn: true })) // анонимный пользователь или авторизованный
+        // dispatch(setAppInitializedAC({ initialized: true }))
+        // return { initialized: true }
+      } else {
+        handleServerAppError(res.data.messages, dispatch)
+        // return rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
+      }
+      return { initialized: true }
+    } catch (err: unknown) {
+      const error: AxiosError = err as AxiosError
+      handleServerNetworkError(error as { message: string }, dispatch)
+      return rejectWithValue(null)
+    }
+  }
+)
+
 export const appReducer = appSlice.reducer
+export const appThunks = { setAppInitializeTC }
 export const { setAppErrorAC, setAppStatusAC, setAppSuccessAC } = appSlice.actions
 export const { selectAppStatus, selectAppError, selectAppSuccess, selectAppInitialized } = appSlice.selectors

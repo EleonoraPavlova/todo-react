@@ -4,7 +4,7 @@ import './style/index.css'
 import reportWebVitals from './reportWebVitals'
 import { HashRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { store } from './app/storeBLL'
+import { store } from './BLL/store'
 import App from 'app/App'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)

@@ -17,12 +17,12 @@ import { blue, purple } from '@mui/material/colors'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink, Route, Routes } from 'react-router-dom'
-import { selectAppInitialized, selectAppStatus, setAppInitializeTC } from 'reducers/appSlice/appSlice'
-import { logOutTC, selectIsLoggedIn } from 'reducers/authSlice/authSlice'
+import { appThunks, selectAppInitialized, selectAppStatus } from 'BLL/reducers/appSlice'
+import { logOutTC, selectIsLoggedIn } from 'BLL/reducers/authSlice'
 import './App.css'
-import { TodolistRender } from 'components/TodolistRender/TodolistRender'
-import { Login } from 'features/page/Login/Login'
-import { SnackbarComponent } from 'components/SnackbarComponent/SnackbarComponent'
+import { TodolistRender } from 'components/TodolistRender'
+import { Login } from 'features/page/Login'
+import { SnackbarComponent } from 'components/SnackbarComponent'
 import { useAppDispatch } from 'common/hooks'
 import { Task } from 'common/types'
 
@@ -43,7 +43,9 @@ export const App: React.FC<AppProps> = ({ demo = false }) => {
 
   useEffect(() => {
     //download all todolists from api when loading the component
-    if (!initialized) dispatch(setAppInitializeTC())
+    if (!initialized) {
+      dispatch(appThunks.setAppInitializeTC())
+    }
   }, [])
 
   let [lightMode, setLightMode] = useState<boolean>(true) // для изменения темы стейт

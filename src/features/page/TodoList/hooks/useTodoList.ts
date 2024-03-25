@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react'
 import { useAppDispatch } from 'common/hooks'
-import { tasksThunks } from 'reducers/tasksSlice/tasksSlice'
-import { FilterValues, TodolistDomain, removeTodolistTC, updateTodolistTC } from 'reducers/todolistsSlice'
+import { tasksThunks } from 'BLL/reducers/tasksSlice'
+import { TodolistDomain, removeTodolistTC, updateTodolistTC } from 'BLL/reducers/todolistsSlice'
+import { FilterValues } from 'common/types'
 
 export function useTodoList(todolist: TodolistDomain) {
   const dispatch = useAppDispatch()

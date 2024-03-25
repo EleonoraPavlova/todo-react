@@ -1,4 +1,4 @@
-import { TodolistDomain } from 'reducers/todolistsSlice'
+import { TodolistDomain } from 'BLL/reducers/todolistsSlice'
 import { v1 } from 'uuid'
 
 const todoListId1 = v1()

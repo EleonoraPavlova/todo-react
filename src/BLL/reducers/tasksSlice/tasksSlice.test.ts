@@ -1,8 +1,8 @@
 import { changeTaskStatusAC, changeTaskTitleAC, tasksReducer, tasksThunks } from './tasksSlice'
 import { v1 } from 'uuid'
-import { startStateTasks } from 'state/initialState/tasksStartState'
-import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice'
-import { startStateTodolists } from 'state/initialState/todolistsStartState'
+import { startStateTasks } from 'moc/initialState/tasksStartState'
+import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'BLL/reducers/todolistsSlice'
+import { startStateTodolists } from 'moc/initialState/todolistsStartState'
 import { Todolist, UpdateTaskParams } from 'common/types'
 import { TaskPriorities, TaskStatuses } from 'common/enums'
 

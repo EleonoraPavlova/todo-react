@@ -1,15 +1,13 @@
 //BLL
-import { todolistsApi } from '../../api_DAL/todolists-api'
-import { handleServerAppError, handleServerNetworkError } from '../../common/utils'
+import { handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { PayloadAction, createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 import { AsyncThunkConfig } from '@reduxjs/toolkit/dist/createAsyncThunk'
-import { clearTasksTodolists } from 'actions/actions'
-import { RequestStatus, setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice'
-import { FieldError, Todolist } from 'common/types'
+import { clearTasksTodolists } from 'BLL/actions/actions'
+import { setAppStatusAC, setAppSuccessAC } from '../appSlice'
+import { FieldError, FilterValues, RequestStatus, Todolist } from 'common/types'
 import { ResultCode } from 'common/enums'
-
-export type FilterValues = 'all' | 'completed' | 'active'
+import { todolistsApi } from 'api_DAL/todolists-api'
 
 export type TodolistDomain = Todolist & {
   // расширяем типов, которые приходят с аpi c нужными нам фильтрами

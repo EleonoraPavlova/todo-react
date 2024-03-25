@@ -1,16 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useAppDispatch } from 'common/hooks'
 import { handleServerNetworkError } from 'common/utils'
 import { useFormik } from 'formik'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { loginTC, selectIsLoggedIn } from 'reducers/authSlice/authSlice'
+import { loginTC } from 'BLL/reducers/authSlice'
 import { LoginParams } from 'common/types'
 
 export function useLogin() {
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены
 
   const formik = useFormik({
     validate: (values) => {
@@ -24,7 +20,7 @@ export function useLogin() {
 
       if (!values.password) {
         errors.password = 'Required'
-      } else if (values.password.length < 5) {
+      } else if (values.password.length < 4) {
         errors.password = 'Must be more 5 symbols'
       }
 
@@ -55,10 +51,6 @@ export function useLogin() {
       setSubmitting(false)
     },
   })
-
-  useEffect(() => {
-    if (isLoggedIn) navigate('/')
-  }, [isLoggedIn])
 
   return { formik }
 }

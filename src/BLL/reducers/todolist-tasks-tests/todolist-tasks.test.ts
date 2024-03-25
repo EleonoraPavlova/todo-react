@@ -1,5 +1,5 @@
-import { TodolistDomain, addTodolistTC, todolistsReducer } from 'reducers/todolistsSlice'
-import { tasksReducer } from 'reducers/tasksSlice'
+import { TodolistDomain, addTodolistTC, todolistsReducer } from 'BLL/reducers/todolistsSlice'
+import { tasksReducer } from 'BLL/reducers/tasksSlice'
 import { Tasks } from 'common/types'
 
 //общий редьюсер для tasks / todolists,

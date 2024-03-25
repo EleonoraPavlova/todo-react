@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
-import { selectAppError, selectAppSuccess, setAppErrorAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
+import { selectAppError, selectAppSuccess, setAppErrorAC, setAppSuccessAC } from 'BLL/reducers/appSlice'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'common/hooks'
 

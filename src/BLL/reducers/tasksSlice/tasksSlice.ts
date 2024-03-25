@@ -1,14 +1,14 @@
 //BLL
 import { PayloadAction, createSlice, current } from '@reduxjs/toolkit'
-import { tasksApi } from '../../api_DAL/tasks-api'
-import { handleServerNetworkError } from '../../common/utils'
-import { clearTasksTodolists } from 'actions/actions'
-import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice'
-import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice'
+import { clearTasksTodolists } from 'BLL/actions/actions'
+import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from '../appSlice'
+import { addTodolistTC, getTodolistTC, removeTodolistTC } from '../todolistsSlice'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
 import { AddTaskParams, DeleteTaskParams, Task, Tasks, UpdateTaskModel, UpdateTaskParams } from 'common/types'
 import { ResultCode, TaskPriorities, TaskStatuses } from 'common/enums'
+import { tasksApi } from 'api_DAL/tasks-api'
+import { handleServerNetworkError } from 'common/utils'
 
 const initialStateTasks: Tasks = {
   todoListId1: [
@@ -72,7 +72,6 @@ const tasksSlice = createSlice({
       }
     },
     changeTaskStatusAC(state, action: PayloadAction<{ todoListId: string; id: string; status: TaskStatuses }>) {
-      //
       const tasks = state[action.payload.todoListId]
       const index = tasks.findIndex((t) => t.id === action.payload.id)
       if (index > -1) {

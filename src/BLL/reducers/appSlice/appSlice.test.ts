@@ -1,4 +1,5 @@
-import { RequestStatus, appReducer, setAppErrorAC, setAppStatusAC } from './appSlice'
+import { RequestStatus } from 'common/types'
+import { appReducer, setAppErrorAC, setAppStatusAC } from './appSlice'
 
 type initialStateType = {
   status: RequestStatus

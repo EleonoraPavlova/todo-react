@@ -1,9 +1,9 @@
 //BLL
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
-import { clearTasksTodolists } from 'actions/actions'
+import { clearTasksTodolists } from 'BLL/actions/actions'
 import { authApi } from 'api_DAL/login-api'
-import { setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
+import { setAppStatusAC, setAppSuccessAC } from '../appSlice'
 import { handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { FieldError, LoginParams } from 'common/types'
 import { ResultCode } from 'common/enums'
@@ -15,13 +15,35 @@ export const initialAuthState = {
   isLoggedIn: false,
 }
 
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: initialAuthState,
+  reducers: {
+    setIsLoggedInAC(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
+      state.isLoggedIn = action.payload.isLoggedIn
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginTC.fulfilled, (state) => {
+        state.isLoggedIn = true
+      })
+      .addCase(logOutTC.fulfilled, (state) => {
+        state.isLoggedIn = false
+      })
+  },
+  selectors: {
+    selectIsLoggedIn: (state) => state.isLoggedIn,
+  },
+})
+
 export const loginTC = createAsyncThunk<
   { isLoggedIn: boolean },
   LoginParams,
   {
     rejectValue: { errors: string[]; fieldsErrors?: FieldError[] }
   }
->('auth/login', async (params, { dispatch, rejectWithValue }) => {
+>(`${authSlice.name}/login`, async (params, { dispatch, rejectWithValue }) => {
   dispatch(setAppStatusAC({ status: 'loading' }))
   try {
     const res = await authApi.login(params)
@@ -44,7 +66,7 @@ export const loginTC = createAsyncThunk<
   }
 })
 
-export const logOutTC = createAsyncThunk('auth/logOut', async (param, { dispatch, rejectWithValue }) => {
+export const logOutTC = createAsyncThunk(`${authSlice.name}/logOut`, async (param, { dispatch, rejectWithValue }) => {
   dispatch(setAppStatusAC({ status: 'loading' }))
   try {
     const res = await authApi.logOut()
@@ -63,28 +85,6 @@ export const logOutTC = createAsyncThunk('auth/logOut', async (param, { dispatch
     handleServerNetworkError(error as { message: string }, dispatch)
     return rejectWithValue({})
   }
-})
-
-const authSlice = createSlice({
-  name: 'auth',
-  initialState: initialAuthState,
-  reducers: {
-    setIsLoggedInAC(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
-      state.isLoggedIn = action.payload.isLoggedIn
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(loginTC.fulfilled, (state) => {
-        state.isLoggedIn = true
-      })
-      .addCase(logOutTC.fulfilled, (state) => {
-        state.isLoggedIn = false
-      })
-  },
-  selectors: {
-    selectIsLoggedIn: (state) => state.isLoggedIn,
-  },
 })
 
 export const authReducer = authSlice.reducer

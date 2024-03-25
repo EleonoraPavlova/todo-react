@@ -82,3 +82,8 @@ export type FieldError = {
   field: string
   error: string
 }
+
+//
+export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
+
+export type FilterValues = 'all' | 'completed' | 'active'

@@ -2,7 +2,7 @@ import { TaskStatuses } from 'common/enums'
 import { useAppDispatch } from 'common/hooks'
 import { Task } from 'common/types'
 import { ChangeEvent, useCallback } from 'react'
-import { tasksThunks } from 'reducers/tasksSlice/tasksSlice'
+import { tasksThunks } from 'BLL/reducers/tasksSlice'
 
 export function useTask(task: Task) {
   let { todoListId, id } = task

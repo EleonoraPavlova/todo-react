@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from '@mui/material'
-import { startStateTasks, todoListId2 } from '../../state/initialState/tasksStartState'
+import { startStateTasks, todoListId2 } from '../../moc/initialState/tasksStartState'
 import { Provider } from 'react-redux'
 import { storyBookStore } from '../../stories/decorators/ReduxStoreProviderDecorator'
 import { TaskMap } from './TaskMap'

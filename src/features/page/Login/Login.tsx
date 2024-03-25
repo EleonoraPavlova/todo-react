@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
@@ -8,9 +8,20 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useLogin } from './hooks/useLogin'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectIsLoggedIn } from 'BLL/reducers/authSlice'
+import { Box } from '@mui/material'
 
 export const Login = () => {
   const { formik } = useLogin()
+
+  const navigate = useNavigate()
+  let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены
+
+  useEffect(() => {
+    if (isLoggedIn) navigate('/')
+  }, [isLoggedIn])
 
   return (
     <Grid container justifyContent={'center'}>
@@ -18,7 +29,12 @@ export const Login = () => {
         <form onSubmit={formik.handleSubmit}>
           <FormControl>
             <FormLabel sx={{ textAlign: 'center' }}>
-              <h4>To log in get registered</h4>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px', height: '45px' }}>
+                <span>Email:</span> <h6>free@samuraijs.com</h6>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', height: '30px' }}>
+                <span>Password:</span> <h6>free</h6>
+              </Box>
             </FormLabel>
             <FormGroup>
               <TextField
