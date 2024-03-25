@@ -1,10 +1,10 @@
 import { changeTaskStatusAC, changeTaskTitleAC, tasksReducer, tasksThunks } from './tasksSlice'
-import { TaskPriorities, TaskStatuses, UpdateTaskParams } from '../../api_DAL/tasks-api'
 import { v1 } from 'uuid'
-import { Todolist } from 'api_DAL/todolists-api'
 import { startStateTasks } from 'state/initialState/tasksStartState'
 import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice'
 import { startStateTodolists } from 'state/initialState/todolistsStartState'
+import { Todolist, UpdateTaskParams } from 'common/types'
+import { TaskPriorities, TaskStatuses } from 'common/enums'
 
 const todoListId1 = v1()
 const todoListId2 = v1()

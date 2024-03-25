@@ -19,7 +19,7 @@ export const MarksApp: React.FC<AppProps> = ({ demo = false }) => {
 
   return (
     <div className="App">
-      <AppBar position="static">
+      {/* <AppBar position="static">
         <Toolbar variant="dense">
           <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
             <Menu />
@@ -38,7 +38,7 @@ export const MarksApp: React.FC<AppProps> = ({ demo = false }) => {
         <Grid container spacing={7} className="grid">
           <TodolistRender demo={demo} />
         </Grid>
-      </Container>
+      </Container> */}
     </div>
   )
 }

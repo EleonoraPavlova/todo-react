@@ -1,15 +1,14 @@
-import React, { ChangeEvent, memo, useCallback } from 'react'
+import React, { memo } from 'react'
 import { ListItem, Checkbox, IconButton } from '@mui/material'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import Delete from '@mui/icons-material/Delete'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
 import styled from '../../features/page/TodoList/TodoList.module.scss'
-import { TaskStatuses, Task } from '../../api_DAL/tasks-api'
 import s from './TaskMap.module.scss'
-import { tasksThunks } from 'reducers/tasksSlice/tasksSlice'
-import { useAppDispatch } from 'common/hooks'
 import { useTask } from './hooks/useTask'
+import { Task } from 'common/types'
+import { TaskStatuses } from 'common/enums'
 
 type TaskProps = {
   task: Task

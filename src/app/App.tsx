@@ -20,11 +20,11 @@ import { NavLink, Route, Routes } from 'react-router-dom'
 import { selectAppInitialized, selectAppStatus, setAppInitializeTC } from 'reducers/appSlice/appSlice'
 import { logOutTC, selectIsLoggedIn } from 'reducers/authSlice/authSlice'
 import './App.css'
-import { Task } from 'api_DAL/tasks-api'
 import { TodolistRender } from 'components/TodolistRender/TodolistRender'
 import { Login } from 'features/page/Login/Login'
 import { SnackbarComponent } from 'components/SnackbarComponent/SnackbarComponent'
 import { useAppDispatch } from 'common/hooks'
+import { Task } from 'common/types'
 
 type AppProps = {
   demo: boolean //загрузка мокового state

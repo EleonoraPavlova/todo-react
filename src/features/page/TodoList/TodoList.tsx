@@ -1,13 +1,13 @@
 import React, { memo } from 'react'
 import { Box, Button, IconButton, List } from '@mui/material'
-import { AddItemForm } from '../../../components/AddItemForm/AddItemForm'
+import { AddItemForm } from '../../../components/AddItemForm'
 import { Delete } from '@mui/icons-material'
-import { EditableSpan } from '../../../components/EditableSpan/EditableSpan'
-import { Task } from '../../../api_DAL/tasks-api'
+import { EditableSpan } from '../../../components/EditableSpan'
 import s from './TodoList.module.scss'
 import { TodolistDomain } from 'reducers/todolistsSlice'
 import { useTodoList } from './hooks/useTodoList'
-import { TaskMap } from 'components/TaskMap/TaskMap'
+import { TaskMap } from 'components/TaskMap'
+import { Task } from 'common/types'
 
 type TodoListProps = {
   todolist: TodolistDomain

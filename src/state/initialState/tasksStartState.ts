@@ -1,4 +1,5 @@
-import { TaskPriorities, TaskStatuses, Tasks } from '../../api_DAL/tasks-api'
+import { TaskPriorities, TaskStatuses } from 'common/enums'
+import { Tasks } from 'common/types'
 import { v1 } from 'uuid'
 
 export const todoListId1 = v1()

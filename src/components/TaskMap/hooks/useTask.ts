@@ -1,5 +1,6 @@
-import { Task, TaskStatuses } from 'api_DAL/tasks-api'
+import { TaskStatuses } from 'common/enums'
 import { useAppDispatch } from 'common/hooks'
+import { Task } from 'common/types'
 import { ChangeEvent, useCallback } from 'react'
 import { tasksThunks } from 'reducers/tasksSlice/tasksSlice'
 

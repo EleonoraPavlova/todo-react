@@ -1,15 +1,15 @@
 import { Container, Grid, Paper } from '@mui/material'
-import { TaskStatuses, Task } from '../../api_DAL/tasks-api'
 import { memo, useCallback, useEffect } from 'react'
 import { AddItemForm } from '../AddItemForm/AddItemForm'
 import { useNavigate } from 'react-router-dom'
 import { addTodolistTC, getTodolistTC, selectTodolists } from 'reducers/todolistsSlice'
-import { Todolist } from 'api_DAL/todolists-api'
 import { tasksSelector, tasksThunks } from 'reducers/tasksSlice/tasksSlice'
 import { useSelector } from 'react-redux'
 import { selectIsLoggedIn } from 'reducers/authSlice/authSlice'
 import { useAppDispatch } from 'common/hooks'
 import { TodoList } from 'features/page/TodoList/TodoList'
+import { Task, Todolist } from 'common/types'
+import { TaskStatuses } from 'common/enums'
 
 type TodolistRenderProps = {
   demo: boolean //загрузка мокового state

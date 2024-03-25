@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import { LoginParams } from 'api_DAL/login-api'
 import { useAppDispatch } from 'common/hooks'
 import { handleServerNetworkError } from 'common/utils'
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { loginTC, selectIsLoggedIn } from 'reducers/authSlice/authSlice'
+import { LoginParams } from 'common/types'
 
 export function useLogin() {
   const dispatch = useAppDispatch()

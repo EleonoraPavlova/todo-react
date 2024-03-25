@@ -1,12 +1,12 @@
 //BLL
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
-import { FieldError } from 'api_DAL/tasks-api'
 import { clearTasksTodolists } from 'actions/actions'
-import { LoginParams, authApi } from 'api_DAL/login-api'
+import { authApi } from 'api_DAL/login-api'
 import { setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice/appSlice'
-import { ResultCode } from 'reducers/tasksSlice/tasksSlice'
 import { handleServerAppError, handleServerNetworkError } from 'common/utils'
+import { FieldError, LoginParams } from 'common/types'
+import { ResultCode } from 'common/enums'
 
 export const initialAuthState = {
   email: '',

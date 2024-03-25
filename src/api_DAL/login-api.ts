@@ -1,14 +1,7 @@
 import { instance } from 'api_DAL'
-import { Response } from './tasks-api'
+import { LoginParams, Response } from '../common/types'
 
-export type LoginParams = {
-  email: string
-  password: string
-  rememberMe: boolean
-  captcha?: boolean
-}
-
-export type CheckAuthResponse = {
+type CheckAuthResponse = {
   id: number
   email: string
   login: string

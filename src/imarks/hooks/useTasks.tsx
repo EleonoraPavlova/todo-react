@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { v1 } from 'uuid'
-import { TaskPriorities, TaskStatuses, Tasks } from '../../api_DAL/tasks-api'
 import { startStateTasks } from '../../state/initialState/tasksStartState'
+import { Tasks } from 'common/types'
+import { TaskPriorities, TaskStatuses } from 'common/enums'
 
 export function useTasks() {
   let [tasks, setTasks] = useState<Tasks>(startStateTasks)
@@ -38,13 +39,6 @@ export function useTasks() {
       ...tasks,
       [todoListId]: tasks[todoListId].map((t) => (t.id === id ? { ...t, status: status } : t)),
     })
-    // [togoListId]: это зашли в объект по id!!!
-    // let tasks = tasksObj[togoListId]//достала нужный массив сначала
-    // let task = tasks.find(t => t.id === taskId)
-    // if (task) {
-    //   task.isDone = isDone;
-    //   setTasks({ ...tasksObj }) //чтобы был перерендер изменения! обязательно!
-    // }
   }
 
   function changeTaskTitle(id: string, input: string, todoListId: string) {

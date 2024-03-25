@@ -1,10 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { authApi } from '../../api_DAL/login-api'
 import { AxiosError } from 'axios'
-import { ResultCode } from 'reducers/tasksSlice/tasksSlice'
 import { setIsLoggedInAC } from 'reducers/authSlice/authSlice'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
 import { handleServerNetworkError } from 'common/utils'
+import { ResultCode } from 'common/enums'
 
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
 

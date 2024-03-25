@@ -1,4 +1,3 @@
-import { Todolist } from 'api_DAL/todolists-api'
 import {
   todolistsReducer,
   FilterValues,
@@ -12,6 +11,7 @@ import {
 import { v1 } from 'uuid'
 import { startStateTodolists } from 'state/initialState/todolistsStartState'
 import { RequestStatus } from 'reducers/appSlice'
+import { Todolist } from 'common/types'
 
 const todoListId1 = v1()
 const todoListId2 = v1()

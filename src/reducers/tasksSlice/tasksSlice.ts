@@ -1,30 +1,16 @@
 //BLL
 import { PayloadAction, createSlice, current } from '@reduxjs/toolkit'
-import {
-  TaskPriorities,
-  TaskStatuses,
-  Task,
-  Tasks,
-  UpdateTaskModel,
-  tasksApi,
-  AddTaskParams,
-  DeleteTaskParams,
-  UpdateTaskParams,
-} from '../../api_DAL/tasks-api'
+import { tasksApi } from '../../api_DAL/tasks-api'
 import { handleServerNetworkError } from '../../common/utils'
 import { clearTasksTodolists } from 'actions/actions'
 import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from 'reducers/appSlice'
 import { addTodolistTC, getTodolistTC, removeTodolistTC } from 'reducers/todolistsSlice'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
+import { AddTaskParams, DeleteTaskParams, Task, Tasks, UpdateTaskModel, UpdateTaskParams } from 'common/types'
+import { ResultCode, TaskPriorities, TaskStatuses } from 'common/enums'
 
-export enum ResultCode { //enum  ONLY for reading, cannot be overwritten!! OR {} as const - the same
-  SUCCEEDED = 0,
-  ERROR = 1,
-  ERROR_CAPTCHA = 10,
-}
-
-export const initialStateTasks: Tasks = {
+const initialStateTasks: Tasks = {
   todoListId1: [
     {
       description: '',
@@ -55,16 +41,6 @@ export const initialStateTasks: Tasks = {
       addedDate: '',
     },
   ],
-}
-
-export type UpdateTaskModelForReducerFn = {
-  //какие поля можно обновить в tasks
-  title?: string
-  description?: string
-  status?: number
-  priority?: number
-  startDate?: string
-  deadline?: string
 }
 
 const tasksSlice = createSlice({
@@ -185,7 +161,7 @@ const removeTaskTC = createAppAsyncThunk<DeleteTaskParams, DeleteTaskParams>(
 )
 
 const addTaskTC = createAppAsyncThunk<{ task: Task }, AddTaskParams>(
-  'tasks/addTask',
+  `${tasksSlice.name}/addTask`,
   async (params, { dispatch, rejectWithValue }) => {
     dispatch(setAppStatusAC({ status: 'loading' }))
     try {

@@ -1,6 +1,6 @@
 import { TodolistDomain, addTodolistTC, todolistsReducer } from 'reducers/todolistsSlice'
-import { Tasks } from '../api_DAL/tasks-api'
 import { tasksReducer } from 'reducers/tasksSlice'
+import { Tasks } from 'common/types'
 
 //общий редьюсер для tasks / todolists,
 //если нужно генерировать общие значения для state
