@@ -2,7 +2,7 @@ import { Container, Grid, Paper } from '@mui/material'
 import { memo, useCallback, useEffect } from 'react'
 import { AddItemForm } from '../AddItemForm'
 import { useNavigate } from 'react-router-dom'
-import { addTodolistTC, getTodolistTC, selectTodolists } from 'BLL/reducers/todolistsSlice'
+import { selectTodolists, todolistsThunks } from 'BLL/reducers/todolistsSlice'
 import { tasksSelector, tasksThunks } from 'BLL/reducers/tasksSlice'
 import { useSelector } from 'react-redux'
 import { selectIsLoggedIn } from 'BLL/reducers/authSlice'
@@ -26,7 +26,7 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
   const addTodoList = useCallback(
     (input: string) => {
       //добавление новой колонки списка задач
-      dispatch(addTodolistTC(input))
+      dispatch(todolistsThunks.addTodolistTC(input))
     },
     [dispatch]
   )
@@ -37,8 +37,8 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
 
   useEffect(() => {
     const getTodos = async () => {
-      const res = await dispatch(getTodolistTC())
-      if (getTodolistTC.fulfilled.match(res)) {
+      const res = await dispatch(todolistsThunks.getTodolistTC())
+      if (todolistsThunks.getTodolistTC.fulfilled.match(res)) {
         const todolists = res.payload.todolists as Todolist[]
         todolists.forEach((t: Todolist) => {
           dispatch(tasksThunks.getTasksTC(t.id))

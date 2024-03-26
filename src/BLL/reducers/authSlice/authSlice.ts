@@ -4,7 +4,7 @@ import { AxiosError } from 'axios'
 import { clearTasksTodolists } from 'BLL/actions/actions'
 import { authApi } from 'api_DAL/login-api'
 import { setAppStatusAC, setAppSuccessAC } from '../appSlice'
-import { handleServerAppError, handleServerNetworkError } from 'common/utils'
+import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { FieldError, LoginParams } from 'common/types'
 import { ResultCode } from 'common/enums'
 
@@ -37,7 +37,7 @@ const authSlice = createSlice({
   },
 })
 
-export const loginTC = createAsyncThunk<
+const loginTC = createAppAsyncThunk<
   { isLoggedIn: boolean },
   LoginParams,
   {
@@ -66,27 +66,30 @@ export const loginTC = createAsyncThunk<
   }
 })
 
-export const logOutTC = createAsyncThunk(`${authSlice.name}/logOut`, async (param, { dispatch, rejectWithValue }) => {
-  dispatch(setAppStatusAC({ status: 'loading' }))
-  try {
-    const res = await authApi.logOut()
-    if (res.data.resultCode === ResultCode.SUCCEEDED) {
-      // dispatch(setIsLoggedInAC({ isLoggedIn: false }))
-      dispatch(setAppSuccessAC({ success: 'You have successfully logged out' }))
-      dispatch(setAppStatusAC({ status: 'succeeded' }))
-      dispatch(clearTasksTodolists())
-      return { isLoggedIn: false }
-    } else {
-      handleServerAppError(res.data.messages, dispatch)
-      return rejectWithValue({})
+const logOutTC = createAppAsyncThunk<{ isLoggedIn: boolean }>(
+  `${authSlice.name}/logOut`,
+  async (param, { dispatch, rejectWithValue }) => {
+    dispatch(setAppStatusAC({ status: 'loading' }))
+    try {
+      const res = await authApi.logOut()
+      if (res.data.resultCode === ResultCode.SUCCEEDED) {
+        // dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+        dispatch(setAppSuccessAC({ success: 'You have successfully logged out' }))
+        dispatch(setAppStatusAC({ status: 'succeeded' }))
+        dispatch(clearTasksTodolists())
+        return { isLoggedIn: false }
+      } else {
+        handleServerAppError(res.data.messages, dispatch)
+        return rejectWithValue(null)
+      }
+    } catch (e) {
+      handleServerNetworkError(e, dispatch)
+      return rejectWithValue(null)
     }
-  } catch (err: unknown) {
-    const error: AxiosError = err as AxiosError
-    handleServerNetworkError(error as { message: string }, dispatch)
-    return rejectWithValue({})
   }
-})
+)
 
 export const authReducer = authSlice.reducer
+export const authThunks = { loginTC, logOutTC }
 export const { setIsLoggedInAC } = authSlice.actions
 export const { selectIsLoggedIn } = authSlice.selectors

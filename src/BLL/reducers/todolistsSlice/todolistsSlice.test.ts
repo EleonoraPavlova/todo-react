@@ -1,12 +1,4 @@
-import {
-  todolistsReducer,
-  changeStatusTodolistAC,
-  TodolistDomain,
-  getTodolistTC,
-  removeTodolistTC,
-  addTodolistTC,
-  updateTodolistTC,
-} from './todolistsSlice'
+import { todolistsReducer, changeStatusTodolistAC, TodolistDomain, todolistsThunks } from './todolistsSlice'
 import { v1 } from 'uuid'
 import { startStateTodolists } from 'moc/initialState/todolistsStartState'
 import { FilterValues, RequestStatus, Todolist } from 'common/types'
@@ -38,7 +30,10 @@ todolists = [
 
 test('correct todolist should be removed', () => {
   const payload = { todoListId: todoListId2 }
-  const endState = todolistsReducer({ todolists }, removeTodolistTC.fulfilled(payload, 'requestId', todoListId2))
+  const endState = todolistsReducer(
+    { todolists },
+    todolistsThunks.removeTodolistTC.fulfilled(payload, 'requestId', todoListId2)
+  )
 
   expect(endState.todolists.length).toBe(1)
   expect(endState.todolists[0].id).toBe(todoListId1)
@@ -53,7 +48,7 @@ test('correct todolist should be added', () => {
       order: 0,
     },
   }
-  const action = addTodolistTC.fulfilled(payload, 'requestId', payload.todolist.title)
+  const action = todolistsThunks.addTodolistTC.fulfilled(payload, 'requestId', payload.todolist.title)
   const endState = todolistsReducer({ todolists }, action)
 
   expect(endState.todolists.length).toBe(3)
@@ -66,7 +61,7 @@ test('todolist should be updated', () => {
 
   const payload = { filter: newFilter, todoListId: todoListId2, title: 'What to buy' }
 
-  const action = updateTodolistTC.fulfilled({ param: payload }, 'requestId', payload)
+  const action = todolistsThunks.updateTodolistTC.fulfilled(payload, 'requestId', payload)
   const endState = todolistsReducer({ todolists }, action)
 
   expect(endState.todolists[0].filter).toBe('all')
@@ -74,7 +69,7 @@ test('todolist should be updated', () => {
 })
 
 test('todolist should be set to the state', () => {
-  const action = getTodolistTC.fulfilled(startStateTodolists, 'requestId') //тудолисты брать с сервера!
+  const action = todolistsThunks.getTodolistTC.fulfilled(startStateTodolists, 'requestId') //тудолисты брать с сервера!
   const endState = todolistsReducer({ todolists: [] }, action)
 
   expect(endState.todolists[0].filter).toBe('all')

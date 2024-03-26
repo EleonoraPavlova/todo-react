@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useAppDispatch } from 'common/hooks'
 import { tasksThunks } from 'BLL/reducers/tasksSlice'
-import { TodolistDomain, removeTodolistTC, updateTodolistTC } from 'BLL/reducers/todolistsSlice'
+import { TodolistDomain, todolistsThunks } from 'BLL/reducers/todolistsSlice'
 import { FilterValues } from 'common/types'
 
 export function useTodoList(todolist: TodolistDomain) {
@@ -16,7 +16,7 @@ export function useTodoList(todolist: TodolistDomain) {
   // }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
   const removeTodolist = useCallback(() => {
-    dispatch(removeTodolistTC(id))
+    dispatch(todolistsThunks.removeTodolistTC(id))
   }, [dispatch, id])
 
   const addTask = useCallback(
@@ -28,14 +28,14 @@ export function useTodoList(todolist: TodolistDomain) {
 
   const changeTodolistTitle = useCallback(
     (title: string) => {
-      dispatch(updateTodolistTC({ todoListId: id, title, filter }))
+      dispatch(todolistsThunks.updateTodolistTC({ todoListId: id, title, filter }))
     },
     [dispatch]
   )
 
   const changeTodoListFilter = useCallback(
     (todoListId: string, filter: FilterValues) => {
-      dispatch(updateTodolistTC({ todoListId, title, filter }))
+      dispatch(todolistsThunks.updateTodolistTC({ todoListId, title, filter }))
     },
     [dispatch, title]
   )

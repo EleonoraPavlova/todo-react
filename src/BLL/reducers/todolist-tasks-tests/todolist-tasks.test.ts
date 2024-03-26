@@ -1,4 +1,4 @@
-import { TodolistDomain, addTodolistTC, todolistsReducer } from 'BLL/reducers/todolistsSlice'
+import { TodolistDomain, todolistsReducer, todolistsThunks } from 'BLL/reducers/todolistsSlice'
 import { tasksReducer } from 'BLL/reducers/tasksSlice'
 import { Tasks } from 'common/types'
 
@@ -15,7 +15,7 @@ test('ids should be equals', () => {
     addedDate: '',
     order: 0,
   }
-  const action = addTodolistTC.fulfilled({ todolist: newTodolist }, 'requestId', newTodolist.title)
+  const action = todolistsThunks.addTodolistTC.fulfilled({ todolist: newTodolist }, 'requestId', newTodolist.title)
 
   const endTasksState = tasksReducer(startTasksState, action)
   const endTodolistsState = todolistsReducer({ todolists: startTodolistsState }, action)

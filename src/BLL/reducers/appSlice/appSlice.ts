@@ -1,8 +1,7 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { AxiosError } from 'axios'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { setIsLoggedInAC } from '../authSlice'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
-import { handleServerNetworkError } from 'common/utils'
+import { createAppAsyncThunk, handleServerNetworkError } from 'common/utils'
 import { ResultCode } from 'common/enums'
 import { RequestStatus } from 'common/types'
 import { authApi } from 'api_DAL/login-api'
@@ -49,7 +48,7 @@ const appSlice = createSlice({
   },
 })
 
-const setAppInitializeTC = createAsyncThunk(
+const setAppInitializeTC = createAppAsyncThunk<{ initialized: boolean }>(
   `${appSlice.name}/appInitialize`,
   async (params, { dispatch, rejectWithValue }) => {
     dispatch(setAppStatusAC({ status: 'loading' }))
@@ -64,9 +63,8 @@ const setAppInitializeTC = createAsyncThunk(
         // return rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
       }
       return { initialized: true }
-    } catch (err: unknown) {
-      const error: AxiosError = err as AxiosError
-      handleServerNetworkError(error as { message: string }, dispatch)
+    } catch (e) {
+      handleServerNetworkError(e, dispatch)
       return rejectWithValue(null)
     }
   }

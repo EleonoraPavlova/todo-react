@@ -2,13 +2,13 @@
 import { PayloadAction, createSlice, current } from '@reduxjs/toolkit'
 import { clearTasksTodolists } from 'BLL/actions/actions'
 import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from '../appSlice'
-import { addTodolistTC, getTodolistTC, removeTodolistTC } from '../todolistsSlice'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
 import { AddTaskParams, DeleteTaskParams, Task, Tasks, UpdateTaskModel, UpdateTaskParams } from 'common/types'
 import { ResultCode, TaskPriorities, TaskStatuses } from 'common/enums'
 import { tasksApi } from 'api_DAL/tasks-api'
 import { handleServerNetworkError } from 'common/utils'
+import { todolistsThunks } from '../todolistsSlice'
 
 const initialStateTasks: Tasks = {
   todoListId1: [
@@ -82,13 +82,13 @@ const tasksSlice = createSlice({
   extraReducers: (builder) => {
     //для обработки чужих редьюсеров и все по сути crud операции
     builder
-      .addCase(addTodolistTC.fulfilled, (state, action) => {
+      .addCase(todolistsThunks.addTodolistTC.fulfilled, (state, action) => {
         state[action.payload.todolist.id] = []
       })
-      .addCase(removeTodolistTC.fulfilled, (state, action) => {
+      .addCase(todolistsThunks.removeTodolistTC.fulfilled, (state, action) => {
         delete state[action.payload.todoListId]
       })
-      .addCase(getTodolistTC.fulfilled, (state, action) => {
+      .addCase(todolistsThunks.getTodolistTC.fulfilled, (state, action) => {
         action.payload.todolists.forEach((tl) => {
           state[tl.id] = []
         })
@@ -225,52 +225,3 @@ export const tasksReducer = tasksSlice.reducer
 export const tasksThunks = { getTasksTC, addTaskTC, removeTaskTC, updateTaskTC }
 export const { changeTaskTitleAC, changeTaskStatusAC } = tasksSlice.actions
 export const { tasksSelector } = tasksSlice.selectors
-
-// export const changeTaskTitleTC =
-//   (todoListId: string, id: string, title: string): AppThunkType =>
-//   async (dispatch) => {
-//     dispatch(setAppStatusAC({ status: 'loading' }))
-//     try {
-//       const res = await tasksApi.updateTaskTitle(todoListId, id, title)
-//       if (res.data.resultCode === ResultCode.SUCCEEDED) {
-//         dispatch(changeTaskTitleAC({ id, title, todoListId }))
-//         dispatch(setAppSuccessAC({ success: 'task title was successful changed' }))
-//         dispatch(setAppStatusAC({ status: 'succeeded' }))
-//       } else {
-//         handleServerAppError(res.data.messages, dispatch)
-//       }
-//     } catch (err) {
-//       handleServerNetworkError(err as { message: string }, dispatch)
-//     }
-//   }
-
-// export const changeTaskStatusTC =
-//   (todoListId: string, id: string, status: TaskStatuses): AppThunkType =>
-//   async (dispatch, getState: () => AppRootState) => {
-//     dispatch(setAppStatusAC({ status: 'loading' }))
-//     const task = getState().tasks[todoListId].find((t: Task) => t.id === id) //вытянула rootReducer с тасками и нашла нужную
-//     if (task) {
-//       const payload: UpdateTaskModel = {
-//         //модель самой таски, которую пишем вручную чтобы знать конкретные поля для изменения
-//         //сервер присылает отсылает больше полей
-//         title: task.title,
-//         description: task.description,
-//         priority: task.priority,
-//         startDate: task.startDate,
-//         deadline: task.deadline,
-//         status: status,
-//       }
-//       try {
-//         const res = await tasksApi.updateTaskAtAll(todoListId, id, payload)
-//         if (res.data.resultCode === ResultCode.SUCCEEDED) {
-//           dispatch(changeTaskStatusAC({ todoListId, id, status }))
-//           dispatch(setAppSuccessAC({ success: 'task status was successful changed' }))
-//           dispatch(setAppStatusAC({ status: 'succeeded' }))
-//         } else {
-//           handleServerAppError(res.data.messages, dispatch)
-//         }
-//       } catch (err) {
-//         handleServerNetworkError(err as { message: string }, dispatch)
-//       }
-//     }
-//   }

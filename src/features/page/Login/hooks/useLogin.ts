@@ -2,7 +2,7 @@ import React from 'react'
 import { useAppDispatch } from 'common/hooks'
 import { handleServerNetworkError } from 'common/utils'
 import { useFormik } from 'formik'
-import { loginTC } from 'BLL/reducers/authSlice'
+import { authThunks } from 'BLL/reducers/authSlice'
 import { LoginParams } from 'common/types'
 
 export function useLogin() {
@@ -36,7 +36,7 @@ export function useLogin() {
     onSubmit: async (values, { setFieldValue, setSubmitting }) => {
       setSubmitting(true)
       try {
-        await dispatch(loginTC(values))
+        await dispatch(authThunks.loginTC(values))
         setFieldValue('password', '')
         // if (loginTC.rejected.match(res)) {
         //   if (res.payload?.fieldsErrors?.length) {

@@ -18,13 +18,13 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { appThunks, selectAppInitialized, selectAppStatus } from 'BLL/reducers/appSlice'
-import { logOutTC, selectIsLoggedIn } from 'BLL/reducers/authSlice'
+import { authThunks, selectIsLoggedIn } from 'BLL/reducers/authSlice'
 import './App.css'
 import { TodolistRender } from 'components/TodolistRender'
 import { Login } from 'features/page/Login'
-import { SnackbarComponent } from 'components/SnackbarComponent'
 import { useAppDispatch } from 'common/hooks'
 import { Task } from 'common/types'
+import { SnackBar } from 'components/SnackBar'
 
 type AppProps = {
   demo: boolean //загрузка мокового state
@@ -63,7 +63,7 @@ export const App: React.FC<AppProps> = ({ demo = false }) => {
   }
 
   const logOutHandler = useCallback(() => {
-    dispatch(logOutTC())
+    dispatch(authThunks.logOutTC())
   }, [dispatch])
 
   const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
@@ -111,7 +111,7 @@ export const App: React.FC<AppProps> = ({ demo = false }) => {
           <Route path="/login" element={<Login />} />
         </Routes>
       </Container>
-      <SnackbarComponent />
+      <SnackBar />
     </ThemeProvider>
   )
 }
