@@ -6,7 +6,7 @@ import { selectTodolists, todolistsThunks } from 'BLL/reducers/todolistsSlice'
 import { tasksSelector, tasksThunks } from 'BLL/reducers/tasksSlice'
 import { useSelector } from 'react-redux'
 import { selectIsLoggedIn } from 'BLL/reducers/authSlice'
-import { useAppDispatch } from 'common/hooks'
+import { useActions } from 'common/hooks'
 import { TodoList } from 'features/page/TodoList'
 import { Task, Todolist } from 'common/types'
 import { TaskStatuses } from 'common/enums'
@@ -20,15 +20,17 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
   //TodoListsType[]> означает хотим достать массив todolists из этого типа
   const tasks = useSelector(tasksSelector)
   let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены
-  const dispatch = useAppDispatch()
+
+  const { addTodolistTC, getTodolistTC } = useActions(todolistsThunks)
+  const { getTasksTC } = useActions(tasksThunks)
+
   const navigate = useNavigate()
 
   const addTodoList = useCallback(
     (input: string) => {
-      //добавление новой колонки списка задач
-      dispatch(todolistsThunks.addTodolistTC(input))
+      addTodolistTC(input)
     },
-    [dispatch]
+    [addTodolistTC]
   )
 
   useEffect(() => {
@@ -37,11 +39,11 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
 
   useEffect(() => {
     const getTodos = async () => {
-      const res = await dispatch(todolistsThunks.getTodolistTC())
+      const res = await getTodolistTC()
       if (todolistsThunks.getTodolistTC.fulfilled.match(res)) {
         const todolists = res.payload.todolists as Todolist[]
         todolists.forEach((t: Todolist) => {
-          dispatch(tasksThunks.getTasksTC(t.id))
+          getTasksTC(t.id)
         })
       }
     }

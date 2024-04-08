@@ -9,6 +9,7 @@ import { ResultCode, TaskPriorities, TaskStatuses } from 'common/enums'
 import { tasksApi } from 'api_DAL/tasks-api'
 import { handleServerNetworkError } from 'common/utils'
 import { todolistsThunks } from '../todolistsSlice'
+import { AppRootState } from 'BLL/store'
 
 const initialStateTasks: Tasks = {
   todoListId1: [
@@ -54,7 +55,7 @@ const tasksSlice = createSlice({
         if (index > -1) tasks.splice(index, 1)
       },
       prepare: (todoListId: string, taskId: string) => {
-        //полготов расчеты actions
+        //подготов расчеты actions
         //ДО редьюсера выполняется
         return {
           payload: {
@@ -186,7 +187,8 @@ const updateTaskTC = createAppAsyncThunk<UpdateTaskParams, UpdateTaskParams>(
   `${tasksSlice.name}/updateTask`,
   async (params, { dispatch, rejectWithValue, getState }) => {
     const { todoListId, taskId, domainModel } = params
-    const task = getState().tasks[todoListId].find((t: Task) => t.id === taskId) //вытянула rootReducer с тасками и нашла нужную
+    let state = getState() as AppRootState
+    const task = state.tasks[todoListId].find((t: Task) => t.id === taskId) //вытянула rootReducer с тасками и нашла нужную
     if (!task) {
       dispatch(setAppErrorAC({ error: 'task was not found' }))
       return rejectWithValue(null)

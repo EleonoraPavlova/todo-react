@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react'
-import { useAppDispatch } from 'common/hooks'
+import { useActions } from 'common/hooks'
 import { tasksThunks } from 'BLL/reducers/tasksSlice'
 import { TodolistDomain, todolistsThunks } from 'BLL/reducers/todolistsSlice'
 import { FilterValues } from 'common/types'
 
 export function useTodoList(todolist: TodolistDomain) {
-  const dispatch = useAppDispatch()
+  const { removeTodolistTC, updateTodolistTC } = useActions(todolistsThunks)
+  const { addTaskTC } = useActions(tasksThunks)
 
   let { id, filter, title } = todolist // что входит todoLists пропсы,
   // ПИСАТЬ НУЖНО ТО, ЧТО НУЖНО ВЫТЯНУТЬ ИЗ state - разворачивание объекта todoLists
@@ -16,28 +17,28 @@ export function useTodoList(todolist: TodolistDomain) {
   // }, []) //пустой [] - отрабатывает один раз при загрузке страницы!
 
   const removeTodolist = useCallback(() => {
-    dispatch(todolistsThunks.removeTodolistTC(id))
-  }, [dispatch, id])
+    removeTodolistTC(id)
+  }, [removeTodolistTC, id])
 
   const addTask = useCallback(
     (title: string) => {
-      dispatch(tasksThunks.addTaskTC({ title, todoListId: id }))
+      addTaskTC({ title, todoListId: id })
     },
-    [dispatch, id]
+    [addTaskTC, id]
   )
 
   const changeTodolistTitle = useCallback(
     (title: string) => {
-      dispatch(todolistsThunks.updateTodolistTC({ todoListId: id, title, filter }))
+      updateTodolistTC({ todoListId: id, title, filter })
     },
-    [dispatch]
+    [updateTodolistTC]
   )
 
   const changeTodoListFilter = useCallback(
     (todoListId: string, filter: FilterValues) => {
-      dispatch(todolistsThunks.updateTodolistTC({ todoListId, title, filter }))
+      updateTodolistTC({ todoListId, title, filter })
     },
-    [dispatch, title]
+    [updateTodolistTC, title]
   )
 
   const changeFilterAll = useCallback(() => {

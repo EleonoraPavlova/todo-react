@@ -22,12 +22,12 @@ import { authThunks, selectIsLoggedIn } from 'BLL/reducers/authSlice'
 import './App.css'
 import { TodolistRender } from 'components/TodolistRender'
 import { Login } from 'features/page/Login'
-import { useAppDispatch } from 'common/hooks'
+import { useActions } from 'common/hooks'
 import { Task } from 'common/types'
 import { SnackBar } from 'components/SnackBar'
 
 type AppProps = {
-  demo: boolean //загрузка мокового state
+  demo: boolean //download moc state
 }
 
 export type Tasks = {
@@ -39,12 +39,13 @@ export const App: React.FC<AppProps> = ({ demo = false }) => {
   let initialized = useSelector(selectAppInitialized) //first initialization
   let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены
 
-  const dispatch = useAppDispatch()
+  const { setAppInitializeTC } = useActions(appThunks)
+  const { logOutTC } = useActions(authThunks)
 
   useEffect(() => {
     //download all todolists from api when loading the component
     if (!initialized) {
-      dispatch(appThunks.setAppInitializeTC())
+      setAppInitializeTC()
     }
   }, [])
 
@@ -63,8 +64,8 @@ export const App: React.FC<AppProps> = ({ demo = false }) => {
   }
 
   const logOutHandler = useCallback(() => {
-    dispatch(authThunks.logOutTC())
-  }, [dispatch])
+    logOutTC()
+  }, [logOutTC])
 
   const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
     '& circle': {
