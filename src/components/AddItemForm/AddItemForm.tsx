@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { IconButton, TextField } from '@mui/material'
 import styled from './AddItemForm.module.scss'
 import AddTaskIcon from '@mui/icons-material/AddTask'
@@ -10,9 +10,13 @@ type AddItemFormProps = {
   //в данном случае в 2 местах
 }
 
-//вся мемоизация работает в паре с React.memo(давать просто каждой компрненте)
-export const AddItemForm: React.FC<AddItemFormProps> = memo(({ disabled = false, addTask }: AddItemFormProps) => {
-  const { error, inputValue, onChangeHandler, onKeyDownHandler, addItemHandler } = useAddItemForm(addTask)
+//вся мемоизация работает в паре с React.memo(давать просто каждой компрненте, если есть callback)
+export const AddItemForm: React.FC<AddItemFormProps> = memo(({ disabled = false, addTask }) => {
+  const { error, inputValue, onChangeHandler, onKeyDownHandler, addItemHandler, setError } = useAddItemForm(addTask)
+
+  const onBlurHandler = useCallback(() => {
+    setError(null)
+  }, [inputValue])
 
   return (
     <div className={styled.addItemForm}>
@@ -21,6 +25,7 @@ export const AddItemForm: React.FC<AddItemFormProps> = memo(({ disabled = false,
         label="Type here...."
         value={inputValue}
         onChange={onChangeHandler}
+        onBlur={onBlurHandler}
         onKeyDown={onKeyDownHandler}
         variant={'outlined'}
         error={!!error}

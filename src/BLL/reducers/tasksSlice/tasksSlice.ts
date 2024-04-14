@@ -205,6 +205,7 @@ const updateTaskTC = createAppAsyncThunk<UpdateTaskParams, UpdateTaskParams>(
       ...domainModel,
     }
     dispatch(setAppStatusAC({ status: 'loading' }))
+    dispatch(changeTaskStatusAC({ todoListId, id: taskId, status: TaskStatuses.InProgress }))
     try {
       const res = await tasksApi.updateTaskAtAll({ todoListId, taskId, domainModel: model })
       if (res.data.resultCode === ResultCode.SUCCEEDED) {

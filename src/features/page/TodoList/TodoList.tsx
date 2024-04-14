@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Box, Button, IconButton, List } from '@mui/material'
+import { Box, IconButton, List } from '@mui/material'
 import { AddItemForm } from '../../../components/AddItemForm'
 import { Delete } from '@mui/icons-material'
 import { EditableSpan } from '../../../components/EditableSpan'
@@ -8,6 +8,7 @@ import { TodolistDomain } from 'BLL/reducers/todolistsSlice'
 import { useTodoList } from './hooks/useTodoList'
 import { TaskMap } from 'components/TaskMap'
 import { Task } from 'common/types'
+import { Buttons } from 'components/Buttons'
 
 type TodoListProps = {
   todolist: TodolistDomain
@@ -57,31 +58,11 @@ export const TodoList: React.FC<TodoListProps> = memo(({ demo = false, todolist,
       <AddItemForm addTask={addTask} disabled={disabledFor} />
       <List>{mappedTasks()}</List>
       <div style={{ display: 'flex', gap: '15px' }}>
-        <Button
-          size="small"
-          variant={filter === 'all' ? 'contained' : 'text'}
-          children={'All'}
-          disabled={disabledFor}
-          onClick={changeFilterAll}
-          className="button"
-        />
-        <Button
-          size="small"
-          color={'success'}
-          variant={filter === 'active' ? 'contained' : 'text'}
-          children={'Active'}
-          disabled={disabledFor}
-          onClick={changeFilterActive}
-          className="button"
-        />
-        <Button
-          size="small"
-          color={'secondary'}
-          variant={filter === 'completed' ? 'contained' : 'text'}
-          disabled={disabledFor}
-          children={'Completed'}
-          onClick={changeFilterCompleted}
-          className="button"
+        <Buttons
+          filter={filter}
+          changeFilterAll={changeFilterAll}
+          changeFilterActive={changeFilterActive}
+          changeFilterCompleted={changeFilterCompleted}
         />
       </div>
     </div>

@@ -19,6 +19,8 @@ export const TaskMap: React.FC<TaskProps> = memo(({ task }) => {
 
   const { onRemoveHandler, changeTaskStatus, changeTaskTitle } = useTask(task)
 
+  console.log('status', status === TaskStatuses.InProgress)
+
   return (
     <ListItem
       sx={{ justifyContent: 'space-between' }}
@@ -35,14 +37,14 @@ export const TaskMap: React.FC<TaskProps> = memo(({ task }) => {
         value={title}
         additionalClass={s.additionalClassTask}
         onChange={changeTaskTitle}
-        isDone={status === TaskStatuses.Completed}
         disabled={status === TaskStatuses.InProgress}
+        isDone={status === TaskStatuses.Completed}
       />
       <IconButton
         aria-label="delete"
         onClick={onRemoveHandler}
         size="small"
-        disabled={status === TaskStatuses.InProgress}>
+        disabled={status === TaskStatuses.InProgress || status === TaskStatuses.Completed}>
         <Delete fontSize="inherit" />
       </IconButton>
     </ListItem>

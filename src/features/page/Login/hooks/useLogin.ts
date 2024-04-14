@@ -21,7 +21,7 @@ export function useLogin() {
       if (!values.password) {
         errors.password = 'Required'
       } else if (values.password.length < 4) {
-        errors.password = 'Must be more 5 symbols'
+        errors.password = 'Must be more 4 symbols'
       }
 
       return errors
