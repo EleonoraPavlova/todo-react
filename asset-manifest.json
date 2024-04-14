@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/todo-react/static/css/main.a4a6e619.css",
-    "main.js": "/todo-react/static/js/main.949a839b.js",
+    "main.js": "/todo-react/static/js/main.b2748fcc.js",
     "static/js/945.6a2bc5c8.chunk.js": "/todo-react/static/js/945.6a2bc5c8.chunk.js",
     "index.html": "/todo-react/index.html"
   },
   "entrypoints": [
     "static/css/main.a4a6e619.css",
-    "static/js/main.949a839b.js"
+    "static/js/main.b2748fcc.js"
   ]
 }
