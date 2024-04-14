@@ -212,6 +212,7 @@ const updateTaskTC = createAppAsyncThunk<UpdateTaskParams, UpdateTaskParams>(
         // dispatch(updateTaskAC({ todoListId, id, model }))
         dispatch(setAppSuccessAC({ success: 'task was successful updated' }))
         dispatch(setAppStatusAC({ status: 'succeeded' }))
+        dispatch(changeTaskStatusAC({ todoListId, id: taskId, status: TaskStatuses.New }))
         return params //возвращает updateTaskAC action creator
       } else {
         handleServerAppError(res.data.messages, dispatch)

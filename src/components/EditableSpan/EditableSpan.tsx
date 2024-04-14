@@ -52,7 +52,7 @@ export const EditableSpan: React.FC<EditableSpan> = memo(({ value, isDone, disab
     <Box
       component="span"
       onDoubleClick={activateEditMode}
-      sx={{ textTransform: 'capitalize' }}
+      sx={{ textTransform: 'capitalize', wordBreak: 'break-all', lineHeight: '1.5' }}
       className={additionalClass}>
       {value}
     </Box>

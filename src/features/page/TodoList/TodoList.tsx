@@ -32,7 +32,11 @@ export const TodoList: React.FC<TodoListProps> = memo(({ demo = false, todolist,
   let disabledFor = entityStatus === 'loading'
 
   const mappedTasks = () => {
-    return tasksForTodolist.map((task) => <TaskMap key={task.id} task={task} />)
+    if (tasksForTodolist.length) {
+      return tasksForTodolist.map((task) => <TaskMap key={task.id} task={task} />)
+    } else {
+      return <h5 style={{ textAlign: 'center' }}>No tasks yet</h5>
+    }
   }
 
   return (
@@ -44,6 +48,8 @@ export const TodoList: React.FC<TodoListProps> = memo(({ demo = false, todolist,
           gap: '10px',
           alignItems: 'center',
           justifyContent: 'space-between',
+          width: '100%',
+          padding: '0px',
         }}>
         <EditableSpan
           value={title}
@@ -55,16 +61,18 @@ export const TodoList: React.FC<TodoListProps> = memo(({ demo = false, todolist,
           <Delete />
         </IconButton>
       </Box>
-      <AddItemForm addTask={addTask} disabled={disabledFor} />
-      <List>{mappedTasks()}</List>
-      <div style={{ display: 'flex', gap: '15px' }}>
-        <Buttons
-          filter={filter}
-          changeFilterAll={changeFilterAll}
-          changeFilterActive={changeFilterActive}
-          changeFilterCompleted={changeFilterCompleted}
-        />
-      </div>
+      <Box sx={{ margin: '0 auto' }}>
+        <AddItemForm addTask={addTask} disabled={disabledFor} />
+        <List>{mappedTasks()}</List>
+        <div style={{ display: 'flex', gap: '15px' }}>
+          <Buttons
+            filter={filter}
+            changeFilterAll={changeFilterAll}
+            changeFilterActive={changeFilterActive}
+            changeFilterCompleted={changeFilterCompleted}
+          />
+        </div>
+      </Box>
     </div>
   )
 })

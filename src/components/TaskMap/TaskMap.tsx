@@ -19,8 +19,6 @@ export const TaskMap: React.FC<TaskProps> = memo(({ task }) => {
 
   const { onRemoveHandler, changeTaskStatus, changeTaskTitle } = useTask(task)
 
-  console.log('status', status === TaskStatuses.InProgress)
-
   return (
     <ListItem
       sx={{ justifyContent: 'space-between' }}

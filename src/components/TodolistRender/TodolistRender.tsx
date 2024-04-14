@@ -1,4 +1,4 @@
-import { Container, Grid, Paper } from '@mui/material'
+import { Box, Container, Grid, Paper } from '@mui/material'
 import { memo, useCallback, useEffect } from 'react'
 import { AddItemForm } from '../AddItemForm'
 import { useNavigate } from 'react-router-dom'
@@ -51,29 +51,40 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
   }, [])
 
   return (
-    <Grid container spacing={7} className="grid">
+    <>
       <Container>
-        <div className="container">
+        <Box sx={{ padding: '45px 10px 5px 0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <AddItemForm addTask={addTodoList} />
-        </div>
+        </Box>
       </Container>
-      {todolists.map((l) => {
-        let tasksForTodolist = tasks[l.id] as Task[]
-        if (l.filter === 'completed') {
-          tasksForTodolist = tasks[l.id].filter((t: Task) => t.status === TaskStatuses.Completed)
-        }
-        if (l.filter === 'active') {
-          tasksForTodolist = tasks[l.id].filter((t: Task) => t.status === TaskStatuses.New)
-        }
+      <Grid
+        container
+        sx={{
+          margin: '10px 0',
+          justifyContent: 'center',
+          flexWrap: 'nowrap',
+          overflowX: 'scroll',
+          paddingLeft: '102%',
+          height: '70vh',
+        }}>
+        {todolists.map((l) => {
+          let tasksForTodolist = tasks[l.id] as Task[]
+          if (l.filter === 'completed') {
+            tasksForTodolist = tasks[l.id].filter((t: Task) => t.status === TaskStatuses.Completed)
+          }
+          if (l.filter === 'active') {
+            tasksForTodolist = tasks[l.id].filter((t: Task) => t.status === TaskStatuses.New)
+          }
 
-        return (
-          <Grid item key={l.id}>
-            <Paper sx={{ padding: '20px' }} elevation={3}>
-              <TodoList todolist={l} demo={demo} tasksForTodolist={tasksForTodolist} />
-            </Paper>
-          </Grid>
-        )
-      })}
-    </Grid>
+          return (
+            <Grid item key={l.id} sx={{ padding: '19px 15px 0 0' }}>
+              <Paper sx={{ padding: '18px', width: '240px' }} elevation={1}>
+                <TodoList todolist={l} demo={demo} tasksForTodolist={tasksForTodolist} />
+              </Paper>
+            </Grid>
+          )
+        })}
+      </Grid>
+    </>
   )
 })
