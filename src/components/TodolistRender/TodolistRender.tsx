@@ -52,21 +52,12 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
 
   return (
     <>
-      <Container>
+      <Box>
         <Box sx={{ padding: '45px 10px 5px 0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <AddItemForm addTask={addTodoList} />
         </Box>
-      </Container>
-      <Grid
-        container
-        sx={{
-          margin: '10px 0',
-          justifyContent: 'center',
-          flexWrap: 'nowrap',
-          overflowX: 'scroll',
-          paddingLeft: '102%',
-          height: '70vh',
-        }}>
+      </Box>
+      <Box sx={{ display: 'flex', overflow: 'auto', paddingBottom: '40px' }}>
         {todolists.map((l) => {
           let tasksForTodolist = tasks[l.id] as Task[]
           if (l.filter === 'completed') {
@@ -77,14 +68,14 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
           }
 
           return (
-            <Grid item key={l.id} sx={{ padding: '19px 15px 0 0' }}>
+            <Box key={l.id} sx={{ padding: '19px 15px 0 0' }}>
               <Paper sx={{ padding: '18px', width: '240px' }} elevation={1}>
                 <TodoList todolist={l} demo={demo} tasksForTodolist={tasksForTodolist} />
               </Paper>
-            </Grid>
+            </Box>
           )
         })}
-      </Grid>
+      </Box>
     </>
   )
 })

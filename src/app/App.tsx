@@ -105,12 +105,12 @@ export const App: React.FC<AppProps> = ({ demo = false }) => {
         </Toolbar>
         {status === 'loading' && <LinearProgress />}
       </AppBar>
-      <Container>
+      <Box sx={{ margin: '0 60px' }}>
         <Routes>
           <Route path="/" element={<TodolistRender demo={demo} />} />
           <Route path="/login" element={<Login />} />
         </Routes>
-      </Container>
+      </Box>
       <SnackBar />
     </ThemeProvider>
   )

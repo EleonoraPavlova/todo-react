@@ -6,7 +6,7 @@ export function useAddItemForm(addTask: (taskName: string) => void) {
 
   const addItemHandler = useCallback(
     (taskName: string) => {
-      if (/[a-zа-яё]/i.test(taskName) && taskName.length >= 4) {
+      if (/[a-zA-Zа-яА-ЯёЁ0-9]/i.test(taskName) && taskName.length >= 3) {
         if (taskName.length > 100) {
           setInputValue(inputValue)
           setError('max 100 characters')
@@ -15,7 +15,8 @@ export function useAddItemForm(addTask: (taskName: string) => void) {
           setInputValue('')
         }
       } else {
-        setError('min 4 characters')
+        debugger
+        setError('min 3 characters')
       }
     },
     [addTask, setInputValue, setError, inputValue]
@@ -23,7 +24,9 @@ export function useAddItemForm(addTask: (taskName: string) => void) {
 
   const onChangeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      setInputValue(e.currentTarget.value) //тот элемент с которым произошло событие
+      const value = e.currentTarget.value
+      setInputValue(value) //тот элемент с которым произошло событие
+      if (value.length > 100) setError('max 100 characters')
     },
     [setInputValue]
   )

@@ -18,31 +18,29 @@ export const TaskMap: React.FC<TaskProps> = memo(({ task }) => {
   let { status, title } = task
 
   const { onRemoveHandler, changeTaskStatus, changeTaskTitle } = useTask(task)
+  const progress = status === TaskStatuses.InProgress
+  const completed = status === TaskStatuses.Completed
 
   return (
     <ListItem
       sx={{ justifyContent: 'space-between' }}
-      className={`${styled.list} ${status === TaskStatuses.Completed ? styled.done : ''}`}>
+      className={`${styled.list} ${completed || progress ? styled.done : ''}`}>
       <Checkbox
-        checked={status === TaskStatuses.Completed}
+        checked={completed}
         onChange={changeTaskStatus}
         icon={<BookmarkBorderIcon />}
         checkedIcon={<BookmarkIcon />}
         color="success"
-        disabled={status === TaskStatuses.InProgress}
+        disabled={progress}
       />
       <EditableSpan
         value={title}
         additionalClass={s.additionalClassTask}
         onChange={changeTaskTitle}
-        disabled={status === TaskStatuses.InProgress}
-        isDone={status === TaskStatuses.Completed}
+        disabled={progress}
+        isDone={completed || progress}
       />
-      <IconButton
-        aria-label="delete"
-        onClick={onRemoveHandler}
-        size="small"
-        disabled={status === TaskStatuses.InProgress || status === TaskStatuses.Completed}>
+      <IconButton aria-label="delete" onClick={onRemoveHandler} size="small" disabled={progress || completed}>
         <Delete fontSize="inherit" />
       </IconButton>
     </ListItem>

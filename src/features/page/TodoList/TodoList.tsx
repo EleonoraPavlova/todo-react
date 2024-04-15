@@ -64,14 +64,14 @@ export const TodoList: React.FC<TodoListProps> = memo(({ demo = false, todolist,
       <Box sx={{ margin: '0 auto' }}>
         <AddItemForm addTask={addTask} disabled={disabledFor} />
         <List>{mappedTasks()}</List>
-        <div style={{ display: 'flex', gap: '15px' }}>
+        <Box sx={{ display: 'flex', gap: '15px' }}>
           <Buttons
             filter={filter}
             changeFilterAll={changeFilterAll}
             changeFilterActive={changeFilterActive}
             changeFilterCompleted={changeFilterCompleted}
           />
-        </div>
+        </Box>
       </Box>
     </div>
   )
