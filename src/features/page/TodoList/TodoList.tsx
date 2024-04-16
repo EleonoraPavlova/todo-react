@@ -62,7 +62,7 @@ export const TodoList: React.FC<TodoListProps> = memo(({ demo = false, todolist,
         </IconButton>
       </Box>
       <Box sx={{ margin: '0 auto' }}>
-        <AddItemForm addTask={addTask} disabled={disabledFor} />
+        <AddItemForm addTask={addTask} disabled={disabledFor} label={'Type here...'} />
         <List>{mappedTasks()}</List>
         <Box sx={{ display: 'flex', gap: '15px' }}>
           <Buttons

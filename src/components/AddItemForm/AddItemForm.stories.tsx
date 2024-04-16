@@ -11,9 +11,9 @@ const callBack = action('Button was pressed') // обязательно для �
 //покажет содержимое строки
 
 export const AddItemFormBase = () => {
-  return <AddItemForm addTask={callBack} />
+  return <AddItemForm addTask={callBack} label={'Type here...'} />
 }
 
 export const AddItemDisable = () => {
-  return <AddItemForm addTask={callBack} disabled={true} />
+  return <AddItemForm addTask={callBack} disabled={true} label={'Type here...'} />
 }

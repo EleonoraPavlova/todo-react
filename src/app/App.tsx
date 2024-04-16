@@ -107,7 +107,7 @@ export const App: React.FC<AppProps> = ({ demo = false }) => {
       </AppBar>
       <Box sx={{ margin: '0 60px' }}>
         <Routes>
-          <Route path="/" element={<TodolistRender demo={demo} />} />
+          <Route path="/" element={<TodolistRender demo={demo} lightMode={lightMode} />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </Box>

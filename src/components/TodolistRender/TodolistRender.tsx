@@ -1,80 +1,39 @@
-import { Box, Container, Grid, Paper } from '@mui/material'
-import { memo, useCallback, useEffect } from 'react'
+import { memo } from 'react'
+import { Box } from '@mui/material'
 import { AddItemForm } from '../AddItemForm'
-import { useNavigate } from 'react-router-dom'
-import { selectTodolists, todolistsThunks } from 'BLL/reducers/todolistsSlice'
-import { tasksSelector, tasksThunks } from 'BLL/reducers/tasksSlice'
-import { useSelector } from 'react-redux'
-import { selectIsLoggedIn } from 'BLL/reducers/authSlice'
-import { useActions } from 'common/hooks'
-import { TodoList } from 'features/page/TodoList'
-import { Task, Todolist } from 'common/types'
-import { TaskStatuses } from 'common/enums'
+import { useTodolistRender } from './hooks/useTodolistRender'
+import { TodolistsMap } from 'components/TodolistsMap/TodolistsMap'
 
 type TodolistRenderProps = {
   demo: boolean //загрузка мокового state
+  lightMode: boolean
 }
 
-export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = false }) => {
-  const todolists = useSelector(selectTodolists) //выбираем todolist из стора state
-  //TodoListsType[]> означает хотим достать массив todolists из этого типа
-  const tasks = useSelector(tasksSelector)
-  let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены
-
-  const { addTodolistTC, getTodolistTC } = useActions(todolistsThunks)
-  const { getTasksTC } = useActions(tasksThunks)
-
-  const navigate = useNavigate()
-
-  const addTodoList = useCallback(
-    (input: string) => {
-      addTodolistTC(input)
-    },
-    [addTodolistTC]
-  )
-
-  useEffect(() => {
-    if (!isLoggedIn) navigate('/login')
-  }, [isLoggedIn])
-
-  useEffect(() => {
-    const getTodos = async () => {
-      const res = await getTodolistTC()
-      if (todolistsThunks.getTodolistTC.fulfilled.match(res)) {
-        const todolists = res.payload.todolists as Todolist[]
-        todolists.forEach((t: Todolist) => {
-          getTasksTC(t.id)
-        })
-      }
-    }
-    getTodos()
-  }, [])
+export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = false, lightMode }) => {
+  const { addTodoList } = useTodolistRender()
 
   return (
     <>
       <Box>
         <Box sx={{ padding: '45px 10px 5px 0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <AddItemForm addTask={addTodoList} />
+          {lightMode ? (
+            <AddItemForm addTask={addTodoList} label={"Todolist's name"} />
+          ) : (
+            <Box
+              sx={{
+                width: '280px',
+                height: '70px',
+                backgroundColor: '#1e1e1e',
+                borderRadius: '5px',
+                padding: '15px 0 15px 45px',
+              }}>
+              <AddItemForm addTask={addTodoList} label={"Todolist's name"} />
+            </Box>
+          )}
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', overflow: 'auto', paddingBottom: '40px' }}>
-        {todolists.map((l) => {
-          let tasksForTodolist = tasks[l.id] as Task[]
-          if (l.filter === 'completed') {
-            tasksForTodolist = tasks[l.id].filter((t: Task) => t.status === TaskStatuses.Completed)
-          }
-          if (l.filter === 'active') {
-            tasksForTodolist = tasks[l.id].filter((t: Task) => t.status === TaskStatuses.New)
-          }
-
-          return (
-            <Box key={l.id} sx={{ padding: '19px 15px 0 0' }}>
-              <Paper sx={{ padding: '18px', width: '240px' }} elevation={1}>
-                <TodoList todolist={l} demo={demo} tasksForTodolist={tasksForTodolist} />
-              </Paper>
-            </Box>
-          )
-        })}
+      <Box sx={{ display: 'flex', overflow: 'auto', padding: '0 0 40px 5px' }}>
+        <TodolistsMap />
       </Box>
     </>
   )
