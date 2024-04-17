@@ -2,11 +2,6 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { configureStore, UnknownAction } from '@reduxjs/toolkit'
 import { todolistsReducer, appReducer, authReducer, tasksReducer } from '../BLL/reducers'
 
-//обязательно Provider в App
-//отдельный reducer отвечает за каждую ветку
-//tasksReducer - за мофицикац тасок
-//todolistsReducer - за todolist
-
 export const store = configureStore({
   reducer: {
     //все dispatch приходят в rootReducer, а он самостоятельно раскидывает их

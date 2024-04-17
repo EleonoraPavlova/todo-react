@@ -5,7 +5,7 @@ import { AxiosError } from 'axios'
 import { AsyncThunkConfig } from '@reduxjs/toolkit/dist/createAsyncThunk'
 import { clearTasksTodolists } from 'BLL/actions/actions'
 import { setAppStatusAC, setAppSuccessAC } from '../appSlice'
-import { FieldError, FilterValues, RequestStatus, Todolist } from 'common/types'
+import { FilterValues, RequestStatus, ThunkErrorApiConfig, Todolist } from 'common/types'
 import { ResultCode } from 'common/enums'
 import { todolistsApi } from 'api_DAL/todolists-api'
 
@@ -66,28 +66,25 @@ const todolistsSlice = createSlice({
 })
 
 //thunk
-const getTodolistTC = createAppAsyncThunk<
-  { todolists: Todolist[] },
-  void,
-  {
-    rejectValue: { errors: string[]; fieldsErrors?: FieldError[] }
+const getTodolistTC = createAppAsyncThunk<{ todolists: Todolist[] }, void, ThunkErrorApiConfig>(
+  `${todolistsSlice.name}/getTodolist`,
+  async (params, { dispatch, rejectWithValue }) => {
+    dispatch(setAppStatusAC({ status: 'loading' }))
+    try {
+      const res = await todolistsApi.getTodoslists()
+      // dispatch(setTodolistAC({ todolists: res.data })) //уходит в return
+      dispatch(setAppStatusAC({ status: 'succeeded' }))
+      return { todolists: res.data }
+    } catch (err: unknown) {
+      const error: AxiosError = err as AxiosError
+      handleServerNetworkError(err as { message: string }, dispatch)
+      return rejectWithValue({
+        errors: [error.message],
+        fieldsErrors: undefined,
+      })
+    }
   }
->(`${todolistsSlice.name}/getTodolist`, async (params, { dispatch, rejectWithValue }) => {
-  dispatch(setAppStatusAC({ status: 'loading' }))
-  try {
-    const res = await todolistsApi.getTodoslists()
-    // dispatch(setTodolistAC({ todolists: res.data })) //уходит в return
-    dispatch(setAppStatusAC({ status: 'succeeded' }))
-    return { todolists: res.data }
-  } catch (err: unknown) {
-    const error: AxiosError = err as AxiosError
-    handleServerNetworkError(err as { message: string }, dispatch)
-    return rejectWithValue({
-      errors: [error.message],
-      fieldsErrors: undefined,
-    })
-  }
-})
+)
 
 const removeTodolistTC = createAppAsyncThunk<{ todoListId: string }, string>(
   `${todolistsSlice.name}/removeTodolist`,

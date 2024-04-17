@@ -83,6 +83,13 @@ export type FieldError = {
   error: string
 }
 
+export type ThunkErrorApiConfig = {
+  rejectValue: {
+    errors: string[]
+    fieldsErrors?: FieldError[]
+  }
+}
+
 //
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
 

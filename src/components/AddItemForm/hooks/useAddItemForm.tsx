@@ -15,7 +15,6 @@ export function useAddItemForm(addTask: (taskName: string) => void) {
           setInputValue('')
         }
       } else {
-        debugger
         setError('min 3 characters')
       }
     },
