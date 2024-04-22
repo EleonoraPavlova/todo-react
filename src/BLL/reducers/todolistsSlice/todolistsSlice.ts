@@ -5,15 +5,9 @@ import { AxiosError } from 'axios'
 import { AsyncThunkConfig } from '@reduxjs/toolkit/dist/createAsyncThunk'
 import { clearTasksTodolists } from 'BLL/actions/actions'
 import { setAppStatusAC, setAppSuccessAC } from '../appSlice'
-import { FilterValues, RequestStatus, ThunkErrorApiConfig, Todolist } from 'common/types'
+import { FilterValues, RequestStatus, ThunkErrorApiConfig, Todolist, TodolistDomain } from 'common/types'
 import { ResultCode } from 'common/enums'
 import { todolistsApi } from 'api_DAL/todolists-api'
-
-export type TodolistDomain = Todolist & {
-  // расширяем типов, которые приходят с аpi c нужными нам фильтрами
-  filter: FilterValues
-  entityStatus: RequestStatus
-}
 
 type ParamUpdateTodolist = {
   todoListId: string
@@ -66,7 +60,7 @@ const todolistsSlice = createSlice({
 })
 
 //thunk
-const getTodolistTC = createAppAsyncThunk<{ todolists: Todolist[] }, void, ThunkErrorApiConfig>(
+const getTodolistTC = createAppAsyncThunk<{ todolists: Todolist[] }, void, AsyncThunkConfig>(
   `${todolistsSlice.name}/getTodolist`,
   async (params, { dispatch, rejectWithValue }) => {
     dispatch(setAppStatusAC({ status: 'loading' }))
@@ -130,7 +124,7 @@ const addTodolistTC = createAppAsyncThunk<{ todolist: Todolist }, string, AsyncT
   }
 )
 // type ArgsForChangeTodo = { todoListId: string; title: string }
-const updateTodolistTC = createAppAsyncThunk<ParamUpdateTodolist, ParamUpdateTodolist>(
+const updateTodolistTC = createAppAsyncThunk<ParamUpdateTodolist, ParamUpdateTodolist, AsyncThunkConfig>(
   `${todolistsSlice.name}/updateTodolist`,
   async (param, { dispatch, rejectWithValue }) => {
     dispatch(setAppStatusAC({ status: 'loading' }))

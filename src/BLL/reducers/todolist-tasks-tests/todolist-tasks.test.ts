@@ -1,6 +1,6 @@
-import { TodolistDomain, todolistsReducer, todolistsThunks } from 'BLL/reducers/todolistsSlice'
+import { todolistsReducer, todolistsThunks } from 'BLL/reducers/todolistsSlice'
 import { tasksReducer } from 'BLL/reducers/tasksSlice'
-import { Tasks } from 'common/types'
+import { Tasks, TodolistDomain } from 'common/types'
 
 //общий редьюсер для tasks / todolists,
 //если нужно генерировать общие значения для state

@@ -3,7 +3,12 @@ import { useAppDispatch } from 'common/hooks'
 import { handleServerNetworkError } from 'common/utils'
 import { useFormik } from 'formik'
 import { authThunks } from 'BLL/reducers/authSlice'
-import { LoginParams } from 'common/types'
+import { FieldError, LoginParams } from 'common/types'
+
+export type ApiConfig = {
+  errors: string[]
+  fieldsErrors: FieldError[]
+}
 
 export function useLogin() {
   const dispatch = useAppDispatch()
@@ -33,18 +38,18 @@ export function useLogin() {
       rememberMe: false,
     },
 
-    onSubmit: async (values, { setFieldValue, setSubmitting }) => {
+    onSubmit: (values, { setFieldError, setSubmitting }) => {
       setSubmitting(true)
       try {
-        await dispatch(authThunks.loginTC(values))
-        setFieldValue('password', '')
-        // if (loginTC.rejected.match(res)) {
-        //   if (res.payload?.fieldsErrors?.length) {
-        //     const error = res.payload?.fieldsErrors[0]
-        //     setFieldValue("password", "")
-        //     // setFieldValue(error.field, error.error)
-        //   }
-        // }
+        dispatch(authThunks.loginTC(values))
+          .unwrap()
+          .then((res) => {
+            console.log('res', res)
+          })
+          .catch((e: ApiConfig) => {
+            setFieldError('email', e.errors[0])
+            setFieldError('password', e.errors[0])
+          })
       } catch (e) {
         handleServerNetworkError(e, dispatch)
       }

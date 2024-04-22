@@ -21,5 +21,6 @@ export type AppDispatch = ThunkDispatch<AppRootState, unknown, UnknownAction> //
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, UnknownAction> //in thunk to dispatch other thunk and any actions(like a main type)
 //<ReturnType = void>значение по умолчанию
 
+//export type AppDispatch = typeof store.getState // it will be right! the same
 //@ts-ignore
 window.store = store

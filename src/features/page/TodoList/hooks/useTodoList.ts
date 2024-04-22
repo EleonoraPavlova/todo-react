@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { useActions } from 'common/hooks'
 import { tasksThunks } from 'BLL/reducers/tasksSlice'
-import { TodolistDomain, todolistsThunks } from 'BLL/reducers/todolistsSlice'
-import { FilterValues } from 'common/types'
+import { todolistsThunks } from 'BLL/reducers/todolistsSlice'
+import { FilterValues, TodolistDomain } from 'common/types'
 
 export function useTodoList(todolist: TodolistDomain) {
   const { removeTodolistTC, updateTodolistTC } = useActions(todolistsThunks)

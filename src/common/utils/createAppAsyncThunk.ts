@@ -5,5 +5,5 @@ import { ThunkErrorApiConfig } from 'common/types'
 export const createAppAsyncThunk = createAsyncThunk.withTypes<{
   state: AppRootState
   dispatch: AppDispatch
-  rejectValue?: null | ThunkErrorApiConfig
+  rejectValue: Response | ThunkErrorApiConfig | null
 }>()

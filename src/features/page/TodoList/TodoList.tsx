@@ -4,10 +4,9 @@ import { AddItemForm } from '../../../components/AddItemForm'
 import { Delete } from '@mui/icons-material'
 import { EditableSpan } from '../../../components/EditableSpan'
 import s from './TodoList.module.scss'
-import { TodolistDomain } from 'BLL/reducers/todolistsSlice'
 import { useTodoList } from './hooks/useTodoList'
 import { TaskMap } from 'components/TaskMap'
-import { Task } from 'common/types'
+import { Task, TodolistDomain } from 'common/types'
 import { Buttons } from 'components/Buttons'
 
 type TodoListProps = {

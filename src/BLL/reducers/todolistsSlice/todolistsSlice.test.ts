@@ -1,7 +1,7 @@
-import { todolistsReducer, changeStatusTodolistAC, TodolistDomain, todolistsThunks } from './todolistsSlice'
+import { todolistsReducer, changeStatusTodolistAC, todolistsThunks } from './todolistsSlice'
 import { v1 } from 'uuid'
 import { startStateTodolists } from 'moc/initialState/todolistsStartState'
-import { FilterValues, RequestStatus, Todolist } from 'common/types'
+import { FilterValues, RequestStatus, Todolist, TodolistDomain } from 'common/types'
 
 const todoListId1 = v1()
 const todoListId2 = v1()

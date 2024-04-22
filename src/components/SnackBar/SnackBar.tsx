@@ -21,7 +21,7 @@ export const SnackBar = () => {
     dispatch(setAppSuccessAC({ success: null }))
   }
 
-  if (!error && !success) return null
+  if ((!error && !success) || error === 'You are not authorized') return null
 
   return (
     <Snackbar open={!!error || !!success} autoHideDuration={3000} onClose={handleClose}>

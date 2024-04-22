@@ -7,6 +7,7 @@ import { setAppStatusAC, setAppSuccessAC } from '../appSlice'
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { LoginParams, ThunkErrorApiConfig } from 'common/types'
 import { ResultCode } from 'common/enums'
+import { AsyncThunkConfig } from '@reduxjs/toolkit/dist/createAsyncThunk'
 
 export const initialAuthState = {
   email: '',
@@ -37,7 +38,7 @@ const authSlice = createSlice({
   },
 })
 
-const loginTC = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParams, ThunkErrorApiConfig>(
+const loginTC = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParams, AsyncThunkConfig>(
   `${authSlice.name}/login`,
   async (params, { dispatch, rejectWithValue }) => {
     dispatch(setAppStatusAC({ status: 'loading' }))
@@ -57,7 +58,7 @@ const loginTC = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParams, ThunkE
       handleServerNetworkError(err as { message: string }, dispatch)
       return rejectWithValue({
         errors: [error.message],
-        fieldsErrors: undefined,
+        fieldsErrors: error,
       })
     }
   }

@@ -48,14 +48,14 @@ const appSlice = createSlice({
   },
 })
 
-const setAppInitializeTC = createAppAsyncThunk<{ initialized: boolean }, void>(
+const setAppInitializeTC = createAppAsyncThunk<{ initialized: boolean }>(
   `${appSlice.name}/appInitialize`,
   async (params, { dispatch, rejectWithValue }) => {
     dispatch(setAppStatusAC({ status: 'loading' }))
     try {
       const res = await authApi.checkAuthMe()
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
-        dispatch(setIsLoggedInAC({ isLoggedIn: true })) // анонимный пользователь или авторизованный
+        dispatch(setIsLoggedInAC({ isLoggedIn: true })) // анонимный пользователь или авторизованный/and show loader of course
         // return { initialized: true }
       } else {
         handleServerAppError(res.data.messages, dispatch)

@@ -3,8 +3,13 @@ import { TaskPriorities, TaskStatuses } from 'common/enums'
 export type Response<Data = {}> = {
   resultCode: number
   messages: string[]
-  fieldsErrors?: FieldError[]
+  fieldsErrors: FieldError[]
   data: Data
+}
+
+export type ThunkErrorApiConfig = {
+  errors: string[]
+  fieldsErrors: FieldError[]
 }
 
 export type LoginParams = {
@@ -77,17 +82,16 @@ export type Todolist = {
   order: number
 }
 
+export type TodolistDomain = Todolist & {
+  // расширяем типов, которые приходят с аpi c нужными нам фильтрами
+  filter: FilterValues
+  entityStatus: RequestStatus
+}
+
 //
 export type FieldError = {
   field: string
   error: string
-}
-
-export type ThunkErrorApiConfig = {
-  rejectValue: {
-    errors: string[]
-    fieldsErrors?: FieldError[]
-  }
 }
 
 //

@@ -30,7 +30,6 @@ export const TodolistsMap = () => {
       </Box>
     )
   })
-  console.log('todolistsMap', todolistsMap)
-  console.log('todolists', todolists)
+
   return <React.Fragment>{todolistsMap}</React.Fragment>
 }
