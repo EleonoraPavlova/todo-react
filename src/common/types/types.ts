@@ -1,6 +1,6 @@
 import { TaskPriorities, TaskStatuses } from 'common/enums'
 
-export type Response<Data = {}> = {
+export type ResponseData<Data = {}> = {
   resultCode: number
   messages: string[]
   fieldsErrors: FieldError[]

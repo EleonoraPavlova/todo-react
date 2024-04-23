@@ -1,5 +1,5 @@
 import { instance } from 'api_DAL'
-import { LoginParams, Response } from '../common/types'
+import { LoginParams, ResponseData } from '../common/types'
 
 type CheckAuthResponse = {
   id: number
@@ -9,14 +9,14 @@ type CheckAuthResponse = {
 
 export const authApi = {
   login(params: LoginParams) {
-    return instance.post<Response<{ userId?: number }>>('auth/login', params)
+    return instance.post<ResponseData<{ userId?: number }>>('auth/login', params)
   },
 
   checkAuthMe() {
-    return instance.get<Response<CheckAuthResponse>>('/auth/me')
+    return instance.get<ResponseData<CheckAuthResponse>>('/auth/me')
   },
 
   logOut() {
-    return instance.delete<Response>('/auth/login')
+    return instance.delete<ResponseData>('/auth/login')
   },
 }

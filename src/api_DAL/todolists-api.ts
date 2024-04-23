@@ -1,7 +1,5 @@
 import { instance } from 'api_DAL'
-import axios from 'axios'
 import { Todolist } from 'common/types'
-//axios под капотом ts!
 //один файл должен отвечать за что то одно!!!!! принцип единой ответсвенности - single responsibility
 
 type ResponseTodolist<Data = {}> = {

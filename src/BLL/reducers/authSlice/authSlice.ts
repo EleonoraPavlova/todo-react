@@ -5,7 +5,7 @@ import { clearTasksTodolists } from 'BLL/actions/actions'
 import { authApi } from 'api_DAL/login-api'
 import { setAppStatusAC, setAppSuccessAC } from '../appSlice'
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
-import { LoginParams, ThunkErrorApiConfig } from 'common/types'
+import { LoginParams } from 'common/types'
 import { ResultCode } from 'common/enums'
 import { AsyncThunkConfig } from '@reduxjs/toolkit/dist/createAsyncThunk'
 
@@ -50,7 +50,8 @@ const loginTC = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParams, AsyncT
         dispatch(setAppStatusAC({ status: 'succeeded' }))
         return { isLoggedIn: true }
       } else {
-        handleServerAppError(res.data.messages, dispatch)
+        const isShowAppError = !!res.data.messages
+        handleServerAppError(res.data.messages, dispatch, isShowAppError)
         return rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
       }
     } catch (err: unknown) {
@@ -58,7 +59,7 @@ const loginTC = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParams, AsyncT
       handleServerNetworkError(err as { message: string }, dispatch)
       return rejectWithValue({
         errors: [error.message],
-        fieldsErrors: error,
+        fieldsErrors: [error.message],
       })
     }
   }

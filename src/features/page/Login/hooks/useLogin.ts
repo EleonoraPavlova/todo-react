@@ -3,12 +3,7 @@ import { useAppDispatch } from 'common/hooks'
 import { handleServerNetworkError } from 'common/utils'
 import { useFormik } from 'formik'
 import { authThunks } from 'BLL/reducers/authSlice'
-import { FieldError, LoginParams } from 'common/types'
-
-export type ApiConfig = {
-  errors: string[]
-  fieldsErrors: FieldError[]
-}
+import { LoginParams, ResponseData, ThunkErrorApiConfig } from 'common/types'
 
 export function useLogin() {
   const dispatch = useAppDispatch()
@@ -46,9 +41,16 @@ export function useLogin() {
           .then((res) => {
             console.log('res', res)
           })
-          .catch((e: ApiConfig) => {
-            setFieldError('email', e.errors[0])
-            setFieldError('password', e.errors[0])
+          .catch((data: ResponseData | ThunkErrorApiConfig) => {
+            if ('errors' in data) {
+              const error = data as ThunkErrorApiConfig
+              setFieldError('email', error.errors[0])
+              setFieldError('password', error.errors[0])
+            } else {
+              data.fieldsErrors.forEach((el) => {
+                setFieldError(el.field, el.error)
+              })
+            }
           })
       } catch (e) {
         handleServerNetworkError(e, dispatch)

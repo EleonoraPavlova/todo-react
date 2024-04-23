@@ -58,8 +58,7 @@ const setAppInitializeTC = createAppAsyncThunk<{ initialized: boolean }>(
         dispatch(setIsLoggedInAC({ isLoggedIn: true })) // анонимный пользователь или авторизованный/and show loader of course
         // return { initialized: true }
       } else {
-        handleServerAppError(res.data.messages, dispatch)
-        // return rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
+        handleServerAppError(res.data.messages, dispatch, false)
       }
       return { initialized: true }
     } catch (e) {

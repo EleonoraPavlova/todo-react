@@ -1,11 +1,9 @@
 import { setAppErrorAC, setAppStatusAC } from 'BLL/reducers/appSlice'
 import { Dispatch } from 'redux'
 
-export const handleServerAppError = (messages: string[], dispatch: Dispatch) => {
-  if (messages.length) {
-    dispatch(setAppErrorAC({ error: messages[0] })) //приходит текст ошибки из сервера
-  } else {
-    dispatch(setAppErrorAC({ error: 'Some error occurred' })) //если не пришла из сервера, пишу вручную
+export const handleServerAppError = (messages: string[], dispatch: Dispatch, showGlobalError: boolean = true) => {
+  if (showGlobalError) {
+    dispatch(setAppErrorAC({ error: messages.length ? messages[0] : 'Some error occurred' })) //comes error text from server
   }
   dispatch(setAppStatusAC({ status: 'failed' }))
 }
