@@ -1,29 +1,15 @@
 import { Menu } from '@mui/icons-material'
-import {
-  AppBar,
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  IconButton,
-  LinearProgress,
-  ThemeProvider,
-  Toolbar,
-  Typography,
-  createTheme,
-  styled,
-} from '@mui/material'
-import { blue, purple } from '@mui/material/colors'
-import React, { useCallback, useEffect, useState } from 'react'
+import { AppBar, Box, Button, IconButton, LinearProgress, ThemeProvider, Toolbar, Typography } from '@mui/material'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink, Route, Routes } from 'react-router-dom'
-import { appThunks, selectAppInitialized, selectAppStatus } from 'BLL/reducers/appSlice'
-import { authThunks, selectIsLoggedIn } from 'BLL/reducers/authSlice'
+import { selectAppInitialized, selectAppStatus } from 'BLL/reducers/appSlice'
+import { selectIsLoggedIn } from 'BLL/reducers/authSlice'
 import { TodolistRender } from 'components/TodolistRender'
 import { Login } from 'features/page/Login'
-import { useActions } from 'common/hooks'
 import { Task } from 'common/types'
 import { SnackBar } from 'components/SnackBar'
+import { useApp } from './hooks/useApp'
 
 type AppProps = {
   demo: boolean //download moc state
@@ -38,39 +24,7 @@ export const App: React.FC<AppProps> = ({ demo = false }) => {
   let initialized = useSelector(selectAppInitialized) //first initialization
   let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены
 
-  const { setAppInitializeTC } = useActions(appThunks)
-  const { logOutTC } = useActions(authThunks)
-
-  useEffect(() => {
-    //download all todolists from api when loading the component
-    if (!initialized) {
-      setAppInitializeTC()
-    }
-  }, [])
-
-  let [lightMode, setLightMode] = useState<boolean>(true) // для изменения темы стейт
-  let btnText = lightMode ? 'dark' : 'light'
-  const themeHandler = createTheme({
-    palette: {
-      primary: blue,
-      secondary: purple,
-      mode: lightMode ? 'light' : 'dark',
-    },
-  })
-
-  const toggleTheme = () => {
-    setLightMode(!lightMode)
-  }
-
-  const logOutHandler = useCallback(() => {
-    logOutTC()
-  }, [logOutTC])
-
-  const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
-    '& circle': {
-      strokeWidth: 2,
-    },
-  }))
+  const { lightMode, themeHandler, btnText, CustomCircularProgress, toggleTheme, logOutHandler } = useApp()
 
   if (!initialized) {
     return (

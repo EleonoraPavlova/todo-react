@@ -19,7 +19,6 @@ type LoginProps = {
 
 export const Login: React.FC<LoginProps> = ({ lightMode }) => {
   const { formik } = useLogin()
-
   const navigate = useNavigate()
   let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены
 

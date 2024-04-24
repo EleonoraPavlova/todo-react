@@ -1,5 +1,5 @@
 import { instance } from 'api_DAL'
-import { AddTaskParams, DeleteTaskParams, ResponseData, Task, UpdateTaskParams } from '../common/types'
+import { AddTaskParams, ResponseData, Task, UpdateTaskParams } from '../common/types'
 
 type GetTaskResponse = {
   error: string
@@ -18,7 +18,7 @@ export const tasksApi = {
     })
   },
 
-  deleteTask(params: DeleteTaskParams) {
+  deleteTask(params: Omit<UpdateTaskParams, 'domainModel'>) {
     return instance.delete<ResponseData>(`/todo-lists/${params.todoListId}/tasks/${params.taskId}`)
   },
 

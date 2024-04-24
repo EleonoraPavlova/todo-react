@@ -4,10 +4,10 @@ import { clearTasksTodolists } from 'BLL/actions/actions'
 import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from '../appSlice'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
-import { AddTaskParams, DeleteTaskParams, Task, Tasks, UpdateTaskModel, UpdateTaskParams } from 'common/types'
+import { AddTaskParams, Task, Tasks, UpdateTaskModel, UpdateTaskParams } from 'common/types'
 import { ResultCode, TaskPriorities, TaskStatuses } from 'common/enums'
 import { tasksApi } from 'api_DAL/tasks-api'
-import { handleServerNetworkError, thunkTryCatch } from 'common/utils'
+import { thunkTryCatch } from 'common/utils'
 import { todolistsThunks } from '../todolistsSlice'
 import { AppRootState } from 'BLL/store'
 
@@ -43,6 +43,8 @@ const initialStateTasks: Tasks = {
     },
   ],
 }
+
+type DeleteTaskParams = Omit<UpdateTaskParams, 'domainModel'>
 
 const tasksSlice = createSlice({
   name: 'tasks',

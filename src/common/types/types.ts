@@ -12,6 +12,11 @@ export type ThunkErrorApiConfig = {
   fieldsErrors: string[] | FieldError[]
 }
 
+export type FieldError = {
+  field: string
+  error: string
+}
+
 export type LoginParams = {
   email: string
   password: string
@@ -34,9 +39,7 @@ export type Task = {
   addedDate: string
 }
 
-export type Tasks = {
-  [key: string]: Task[]
-}
+export type Tasks = Record<string, Task[]>
 
 export type UpdateTaskModel = {
   //какие поля можно обновить в tasks
@@ -53,25 +56,11 @@ export type AddTaskParams = {
   todoListId: string
 }
 
-export type DeleteTaskParams = {
-  todoListId: string
-  taskId: string
-}
-
 export type UpdateTaskParams = {
+  //какие поля можно обновить в tasks
   todoListId: string
   taskId: string
-  domainModel: UpdateTaskModelForReducerFn
-}
-
-export type UpdateTaskModelForReducerFn = {
-  //какие поля можно обновить в tasks
-  title?: string
-  description?: string
-  status?: number
-  priority?: number
-  startDate?: string
-  deadline?: string
+  domainModel: Partial<UpdateTaskModel>
 }
 
 //
@@ -86,12 +75,6 @@ export type TodolistDomain = Todolist & {
   // расширяем типов, которые приходят с аpi c нужными нам фильтрами
   filter: FilterValues
   entityStatus: RequestStatus
-}
-
-//
-export type FieldError = {
-  field: string
-  error: string
 }
 
 //

@@ -8,8 +8,6 @@ type initialStateType = {
   initialized: boolean
 }
 
-// export type AppInitialState = ReturnType<typeof slice.getInitialState>
-
 let startState: initialStateType
 
 beforeEach(() => {

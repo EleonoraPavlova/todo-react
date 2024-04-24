@@ -4,8 +4,6 @@ import { todolistsReducer, appReducer, authReducer, tasksReducer } from '../BLL/
 
 export const store = configureStore({
   reducer: {
-    //все dispatch приходят в rootReducer, а он самостоятельно раскидывает их
-    //по нужным напрвлениям
     app: appReducer,
     auth: authReducer,
     todolists: todolistsReducer,
