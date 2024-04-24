@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { setIsLoggedInAC } from '../authSlice'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
-import { createAppAsyncThunk, handleServerNetworkError } from 'common/utils'
+import { createAppAsyncThunk, thunkTryCatch } from 'common/utils'
 import { ResultCode } from 'common/enums'
 import { RequestStatus } from 'common/types'
 import { authApi } from 'api_DAL/login-api'
@@ -35,7 +35,7 @@ const appSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    //для обработки чужих редьюсеров
+    //for processing foreign reducers
     builder.addCase(setAppInitializeTC.fulfilled, (state) => {
       state.initialized = true
     })
@@ -50,9 +50,9 @@ const appSlice = createSlice({
 
 const setAppInitializeTC = createAppAsyncThunk<{ initialized: boolean }>(
   `${appSlice.name}/appInitialize`,
-  async (params, { dispatch, rejectWithValue }) => {
-    dispatch(setAppStatusAC({ status: 'loading' }))
-    try {
+  async (params, thunkAPI) => {
+    const { dispatch } = thunkAPI
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await authApi.checkAuthMe()
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
         dispatch(setIsLoggedInAC({ isLoggedIn: true })) // анонимный пользователь или авторизованный/and show loader of course
@@ -61,10 +61,7 @@ const setAppInitializeTC = createAppAsyncThunk<{ initialized: boolean }>(
         handleServerAppError(res.data.messages, dispatch, false)
       }
       return { initialized: true }
-    } catch (e) {
-      handleServerNetworkError(e, dispatch)
-      return rejectWithValue(null)
-    }
+    })
   }
 )
 

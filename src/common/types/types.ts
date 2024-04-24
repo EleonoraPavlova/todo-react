@@ -9,7 +9,7 @@ export type ResponseData<Data = {}> = {
 
 export type ThunkErrorApiConfig = {
   errors: string[]
-  fieldsErrors: FieldError[]
+  fieldsErrors: string[] | FieldError[]
 }
 
 export type LoginParams = {

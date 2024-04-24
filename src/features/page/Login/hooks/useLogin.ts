@@ -41,11 +41,14 @@ export function useLogin() {
           .then((res) => {
             console.log('res', res)
           })
-          .catch((data: ResponseData | ThunkErrorApiConfig) => {
+          .catch((data: ResponseData | ThunkErrorApiConfig | { message: string }) => {
             if ('errors' in data) {
               const error = data as ThunkErrorApiConfig
               setFieldError('email', error.errors[0])
               setFieldError('password', error.errors[0])
+            } else if ('message' in data) {
+              setFieldError('email', data.message)
+              setFieldError('password', data.message)
             } else {
               data.fieldsErrors.forEach((el) => {
                 setFieldError(el.field, el.error)

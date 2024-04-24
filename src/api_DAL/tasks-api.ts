@@ -13,7 +13,9 @@ export const tasksApi = {
   },
 
   createTask(params: AddTaskParams) {
-    return instance.post<ResponseData<{ item: Task }>>(`todo-lists/${params.todoListId}/tasks`, { title: params.title })
+    return instance.post<ResponseData<{ item: Task }>>(`todo-lists/${params.todoListId}/tasks`, {
+      title: params.title,
+    })
   },
 
   deleteTask(params: DeleteTaskParams) {

@@ -11,7 +11,6 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 
 export const SnackBar = () => {
   const error = useSelector(selectAppError)
-  console.log('error', error)
   const success = useSelector(selectAppSuccess)
 
   const dispatch = useAppDispatch()
@@ -22,11 +21,11 @@ export const SnackBar = () => {
     dispatch(setAppSuccessAC({ success: null }))
   }
 
-  if (!error) return null
+  if (!error && !success) return null
 
   return (
     <Snackbar open={!!error || !!success} autoHideDuration={3000} onClose={handleClose}>
-      <Alert severity={success ? 'success' : 'error'} onClose={handleClose} sx={{ width: '100%' }}>
+      <Alert severity={success ? 'success' : 'error'} onClose={handleClose} sx={{ width: '100%', color: 'white' }}>
         {success ? success : error}
       </Alert>
     </Snackbar>
