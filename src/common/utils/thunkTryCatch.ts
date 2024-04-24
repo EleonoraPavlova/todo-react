@@ -20,11 +20,3 @@ export const thunkTryCatch = async <T>(
     dispatch(setAppStatusAC({ status: 'idle' }))
   }
 }
-
-// catch (err: unknown) {
-//         const error: AxiosError = err as AxiosError
-//         handleServerNetworkError(err as { message: string }, dispatch)
-//         return rejectWithValue({
-//           errors: [error.message],
-//           fieldsErrors: undefined,
-//         })
