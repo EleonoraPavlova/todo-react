@@ -15,7 +15,6 @@ export const TodolistsMap = () => {
   const todolistsMap = todolists.map((l) => {
     let tasksForTodolist = tasks[l.id] as Task[]
     if (l.filter === 'completed') {
-      console.log('tasks[l.id]', tasks[l.id])
       tasksForTodolist = tasks[l.id].filter((t: Task) => t.status === TaskStatuses.Completed)
     }
     if (l.filter === 'active') {

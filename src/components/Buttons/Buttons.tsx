@@ -2,14 +2,14 @@ import React, { memo } from 'react'
 import { Box, Button } from '@mui/material'
 import { FilterValues } from 'common/types'
 
-type ButtonsProps = {
+type Props = {
   filter: FilterValues
   changeFilterAll: () => void
   changeFilterActive: () => void
   changeFilterCompleted: () => void
 }
 
-export const Buttons: React.FC<ButtonsProps> = memo(
+export const Buttons: React.FC<Props> = memo(
   ({ changeFilterAll, changeFilterActive, changeFilterCompleted, filter }) => {
     return (
       <Box sx={{ display: 'flex', gap: '10px' }}>

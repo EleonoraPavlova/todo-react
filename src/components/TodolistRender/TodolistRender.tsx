@@ -1,15 +1,14 @@
-import { memo } from 'react'
 import { Box } from '@mui/material'
 import { AddItemForm } from '../AddItemForm'
 import { useTodolistRender } from './hooks/useTodolistRender'
 import { TodolistsMap } from 'components/TodolistsMap/TodolistsMap'
 
-type TodolistRenderProps = {
-  demo: boolean //загрузка мокового state
+type Props = {
+  demo: boolean //mock state
   lightMode: boolean
 }
 
-export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = false, lightMode }) => {
+export const TodolistRender: React.FC<Props> = ({ demo = false, lightMode }) => {
   const { addTodoList } = useTodolistRender()
 
   return (
@@ -37,4 +36,4 @@ export const TodolistRender: React.FC<TodolistRenderProps> = memo(({ demo = fals
       </Box>
     </>
   )
-})
+}

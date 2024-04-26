@@ -5,7 +5,7 @@ import { clearTasksTodolists } from 'BLL/actions/actions'
 import { setAppStatusAC, setAppSuccessAC } from '../appSlice'
 import { FilterValues, RequestStatus, Todolist, TodolistDomain } from 'common/types'
 import { ResultCode } from 'common/enums'
-import { todolistsApi } from 'api_DAL/todolists-api'
+import { todolistsApi } from 'api/todolists-api'
 
 type ParamUpdateTodolist = {
   todoListId: string

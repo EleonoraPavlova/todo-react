@@ -1,4 +1,4 @@
-import { instance } from 'api_DAL'
+import { instance } from 'api'
 import { LoginParams, ResponseData } from '../common/types'
 
 type CheckAuthResponse = {

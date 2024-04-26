@@ -1,7 +1,7 @@
 import { Box, TextField } from '@mui/material'
 import React, { ChangeEvent, useState, KeyboardEvent, memo } from 'react'
 
-type EditableSpan = {
+type Props = {
   value: string
   additionalClass: string
   disabled?: boolean
@@ -9,14 +9,14 @@ type EditableSpan = {
   onChange: (input: string) => void
 }
 
-export const EditableSpan: React.FC<EditableSpan> = memo(({ value, isDone, disabled, additionalClass, onChange }) => {
+export const EditableSpan: React.FC<Props> = memo(({ value, isDone, disabled, additionalClass, onChange }) => {
   let [editMode, setEditMode] = useState<boolean>(false)
   let [input, setInput] = useState<string>('')
 
   const activateEditMode = () => {
     if (!isDone) {
       setEditMode(true)
-      setInput(value) //установила новое значение таски
+      setInput(value) //set a new meaning of task установила новое значение таски
     }
   }
 

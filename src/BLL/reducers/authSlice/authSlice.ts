@@ -1,7 +1,7 @@
 //BLL
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { clearTasksTodolists } from 'BLL/actions/actions'
-import { authApi } from 'api_DAL/login-api'
+import { authApi } from 'api/login-api'
 import { setAppStatusAC, setAppSuccessAC } from '../appSlice'
 import { createAppAsyncThunk, handleServerAppError, thunkTryCatch } from 'common/utils'
 import { LoginParams } from 'common/types'

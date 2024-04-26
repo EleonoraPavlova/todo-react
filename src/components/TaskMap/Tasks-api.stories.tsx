@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { tasksApi } from '../../api_DAL/tasks-api'
+import { tasksApi } from '../../api/tasks-api'
 import { TaskMap } from './TaskMap'
 import { UpdateTaskParams } from 'common/types'
 

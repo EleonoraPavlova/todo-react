@@ -11,15 +11,11 @@ import { Task } from 'common/types'
 import { SnackBar } from 'components/SnackBar'
 import { useApp } from './hooks/useApp'
 
-type AppProps = {
+type Props = {
   demo: boolean //download moc state
 }
 
-export type Tasks = {
-  [key: string]: Task[]
-}
-
-export const App: React.FC<AppProps> = ({ demo = false }) => {
+export const App: React.FC<Props> = ({ demo = false }) => {
   let status = useSelector(selectAppStatus)
   let initialized = useSelector(selectAppInitialized) //first initialization
   let isLoggedIn = useSelector(selectIsLoggedIn) //не залогинены

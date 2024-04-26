@@ -4,7 +4,7 @@ import { handleServerAppError } from 'common/utils/handleServerAppError'
 import { createAppAsyncThunk, thunkTryCatch } from 'common/utils'
 import { ResultCode } from 'common/enums'
 import { RequestStatus } from 'common/types'
-import { authApi } from 'api_DAL/login-api'
+import { authApi } from 'api/login-api'
 
 type AppStartState = {
   status: RequestStatus
@@ -56,7 +56,6 @@ const setAppInitializeTC = createAppAsyncThunk<{ initialized: boolean }>(
       const res = await authApi.checkAuthMe()
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
         dispatch(setIsLoggedInAC({ isLoggedIn: true })) // анонимный пользователь или авторизованный/and show loader of course
-        // return { initialized: true }
       } else {
         handleServerAppError(res.data.messages, dispatch, false)
       }

@@ -1,23 +1,22 @@
-import React, { memo, useCallback } from 'react'
+import React from 'react'
 import { IconButton, TextField } from '@mui/material'
 import styled from './AddItemForm.module.scss'
 import AddTaskIcon from '@mui/icons-material/AddTask'
 import { useAddItemForm } from './hooks/useAddItemForm'
 
-type AddItemFormProps = {
+type Props = {
   disabled?: boolean
   label: string
-  addTask: (inputValue: string) => void //надо обвернуть в useCallback каждый пропс-функц через всю цепочку!!!!!
-  //в данном случае в 2 местах
+  addTask: (inputValue: string) => void
 }
 
 //вся мемоизация работает в паре с React.memo(давать просто каждой компрненте, если есть callback)
-export const AddItemForm: React.FC<AddItemFormProps> = memo(({ disabled = false, label, addTask }) => {
+export const AddItemForm: React.FC<Props> = ({ disabled = false, label, addTask }) => {
   const { error, inputValue, onChangeHandler, onKeyDownHandler, addItemHandler, setError } = useAddItemForm(addTask)
 
-  const onBlurHandler = useCallback(() => {
+  const onBlurHandler = () => {
     setError(null)
-  }, [inputValue])
+  }
 
   return (
     <div className={styled.addItemForm}>
@@ -38,4 +37,4 @@ export const AddItemForm: React.FC<AddItemFormProps> = memo(({ disabled = false,
       </IconButton>
     </div>
   )
-})
+}

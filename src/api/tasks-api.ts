@@ -1,4 +1,4 @@
-import { instance } from 'api_DAL'
+import { instance } from 'api'
 import { AddTaskParams, ResponseData, Task, UpdateTaskParams } from '../common/types'
 
 type GetTaskResponse = {

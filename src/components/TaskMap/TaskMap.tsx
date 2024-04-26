@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { ListItem, Checkbox, IconButton } from '@mui/material'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
@@ -10,11 +10,11 @@ import { useTask } from './hooks/useTask'
 import { Task } from 'common/types'
 import { TaskStatuses } from 'common/enums'
 
-type TaskProps = {
+type Props = {
   task: Task
 }
 
-export const TaskMap: React.FC<TaskProps> = memo(({ task }) => {
+export const TaskMap: React.FC<Props> = ({ task }) => {
   let { status, title } = task
 
   const { onRemoveHandler, changeTaskStatus, changeTaskTitle } = useTask(task)
@@ -45,4 +45,4 @@ export const TaskMap: React.FC<TaskProps> = memo(({ task }) => {
       </IconButton>
     </ListItem>
   )
-})
+}

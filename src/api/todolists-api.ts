@@ -1,4 +1,4 @@
-import { instance } from 'api_DAL'
+import { instance } from 'api'
 import { Todolist } from 'common/types'
 //один файл должен отвечать за что то одно!!!!! принцип единой ответсвенности - single responsibility
 
