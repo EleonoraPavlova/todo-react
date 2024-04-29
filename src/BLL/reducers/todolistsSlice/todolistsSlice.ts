@@ -98,7 +98,7 @@ const addTodolistTC = createAppAsyncThunk<{ todolist: Todolist }, string>(
         dispatch(setAppStatusAC({ status: 'succeeded' }))
         return { todolist: res.data.data.item }
       } else {
-        handleServerAppError(res.data.messages, dispatch)
+        handleServerAppError(res.data.messages, dispatch, false)
         return rejectWithValue(null)
       }
     })
@@ -118,7 +118,7 @@ const updateTodolistTC = createAppAsyncThunk<ParamUpdateTodolist, ParamUpdateTod
         return param
       } else {
         handleServerAppError(res.data.messages, dispatch)
-        return rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
+        return rejectWithValue(null)
       }
     })
   }

@@ -168,7 +168,7 @@ const addTaskTC = createAppAsyncThunk<{ task: Task }, AddTaskParams>(
         dispatch(setAppStatusAC({ status: 'succeeded' }))
         return { task }
       } else {
-        handleServerAppError(res.data.messages, dispatch)
+        handleServerAppError(res.data.messages, dispatch, false)
         return rejectWithValue(null)
       }
     })

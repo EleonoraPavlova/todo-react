@@ -7,14 +7,14 @@ import { useAddItemForm } from './hooks/useAddItemForm'
 type Props = {
   disabled?: boolean
   label: string
-  addTask: (inputValue: string) => void
+  addTask: (inputValue: string) => Promise<any>
 }
 
 //вся мемоизация работает в паре с React.memo(давать просто каждой компрненте, если есть callback)
 export const AddItemForm: React.FC<Props> = ({ disabled = false, label, addTask }) => {
   const { error, inputValue, onChangeHandler, onKeyDownHandler, addItemHandler, setError } = useAddItemForm(addTask)
 
-  const onBlurHandler = () => {
+  const setErrorBlurHandler = () => {
     setError(null)
   }
 
@@ -25,7 +25,7 @@ export const AddItemForm: React.FC<Props> = ({ disabled = false, label, addTask 
         label={label}
         value={inputValue}
         onChange={onChangeHandler}
-        onBlur={onBlurHandler}
+        onBlur={setErrorBlurHandler}
         onKeyDown={onKeyDownHandler}
         variant={'outlined'}
         error={!!error}

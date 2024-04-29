@@ -7,13 +7,17 @@ export default {
   component: AddItemForm,
 }
 
-const callBack = action('Button was pressed') // обязательно для тестирования приходящих колбеков
-//покажет содержимое строки
+const addTask = (inputValue: string) => {
+  return new Promise((resolve, reject) => {
+    action('addTask')(inputValue) // вызов action
+    resolve('resovle')
+  })
+}
 
 export const AddItemFormBase = () => {
-  return <AddItemForm addTask={callBack} label={'Type here...'} />
+  return <AddItemForm addTask={addTask} label={'Type here...'} />
 }
 
 export const AddItemDisable = () => {
-  return <AddItemForm addTask={callBack} disabled={true} label={'Type here...'} />
+  return <AddItemForm addTask={addTask} disabled={true} label={'Type here...'} />
 }
