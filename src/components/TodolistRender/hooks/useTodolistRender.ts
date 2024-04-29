@@ -17,7 +17,9 @@ export function useTodolistRender() {
 
   const addTodoList = useCallback(
     (input: string) => {
-      return addTodolistTC(input).unwrap()
+      let res = addTodolistTC(input).unwrap()
+      console.log('res', res)
+      return res
     },
     [addTodolistTC]
   )

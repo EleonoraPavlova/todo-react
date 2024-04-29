@@ -1,8 +1,8 @@
 //BLL
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice, isAnyOf, isFulfilled } from '@reduxjs/toolkit'
 import { clearTasksTodolists } from 'BLL/actions/actions'
 import { authApi } from 'api/login-api'
-import { setAppStatusAC, setAppSuccessAC } from '../appSlice'
+import { appThunks, setAppSuccessAC } from '../appSlice'
 import { createAppAsyncThunk, handleServerAppError, thunkTryCatch } from 'common/utils'
 import { LoginParams } from 'common/types'
 import { ResultCode } from 'common/enums'
@@ -24,11 +24,15 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginTC.fulfilled, (state) => {
-        state.isLoggedIn = true
-      })
-      .addCase(logOutTC.fulfilled, (state) => {
-        state.isLoggedIn = false
+      // .addCase(loginTC.fulfilled, (state) => {
+      //   state.isLoggedIn = true
+      // })
+      // .addCase(logOutTC.fulfilled, (state) => {
+      //   state.isLoggedIn = false
+      // })
+      .addMatcher(isFulfilled(loginTC, logOutTC), (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
+        //appThunks.setAppInitializeTC?? need or not
+        state.isLoggedIn = action.payload.isLoggedIn
       })
   },
   selectors: {
@@ -45,7 +49,6 @@ const loginTC = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParams>(
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
         //dispatch(setIsLoggedInAC({ isLoggedIn: true })) //   return { isLoggedIn: true }
         dispatch(setAppSuccessAC({ success: 'Authorization was successful' }))
-        dispatch(setAppStatusAC({ status: 'succeeded' }))
         return { isLoggedIn: true }
       } else {
         const isShowAppError = !!res.data.messages
@@ -63,7 +66,6 @@ const logOutTC = createAppAsyncThunk<{ isLoggedIn: boolean }>(`${authSlice.name}
     if (res.data.resultCode === ResultCode.SUCCEEDED) {
       // dispatch(setIsLoggedInAC({ isLoggedIn: false }))
       dispatch(setAppSuccessAC({ success: 'You have successfully logged out' }))
-      dispatch(setAppStatusAC({ status: 'succeeded' }))
       dispatch(clearTasksTodolists())
       return { isLoggedIn: false }
     } else {

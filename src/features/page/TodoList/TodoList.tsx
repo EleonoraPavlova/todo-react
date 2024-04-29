@@ -1,8 +1,7 @@
 import React, { memo, useCallback } from 'react'
-import { Box, List } from '@mui/material'
+import { Box } from '@mui/material'
 import { AddItemForm } from 'components/AddItemForm'
 import s from './TodoList.module.scss'
-import { TaskMap } from 'components/TaskMap'
 import { Task, TodolistDomain } from 'common/types'
 import { Buttons } from 'components/Buttons'
 import { TodoListTitle } from 'components/TodolistTitle/TodolistTitle'
@@ -17,7 +16,7 @@ type Props = {
 }
 
 export const TodoList: React.FC<Props> = memo(({ demo = false, todolist, tasksForTodolist }) => {
-  const { entityStatus, id, filter, title } = todolist
+  const { entityStatus, id } = todolist
   const { addTaskTC } = useActions(tasksThunks)
   let disabledFor = entityStatus === 'loading'
 

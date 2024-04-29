@@ -38,9 +38,7 @@ export function useLogin() {
       try {
         dispatch(authThunks.loginTC(values))
           .unwrap()
-          .then((res) => {
-            console.log('res', res)
-          })
+          .then(() => {})
           .catch((data: ResponseData | ThunkErrorApiConfig | { message: string }) => {
             if ('errors' in data) {
               const error = data as ThunkErrorApiConfig

@@ -8,8 +8,8 @@ export default {
 }
 
 const addTask = (inputValue: string) => {
-  return new Promise((resolve, reject) => {
-    action('addTask')(inputValue) // вызов action
+  return new Promise((resolve) => {
+    action('addTask')(inputValue)
     resolve('resovle')
   })
 }

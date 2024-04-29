@@ -1,3 +1,4 @@
+import { ResponseData } from 'common/types'
 import React, { ChangeEvent, useState, KeyboardEvent, useCallback } from 'react'
 
 export function useAddItemForm(addTask: (taskName: string) => Promise<any>) {
@@ -9,9 +10,10 @@ export function useAddItemForm(addTask: (taskName: string) => Promise<any>) {
       if (/[a-zA-Zа-яА-ЯёЁ0-9]/i.test(taskName) && taskName.length >= 3) {
         addTask(taskName)
           .then(() => setInputValue(''))
-          .catch((e: { message: string }) => {
-            setError(`${e.message}: max 100 characters`)
-            setInputValue(inputValue)
+          .catch((e: ResponseData) => {
+            if ('fieldsErrors' in e) {
+              setError(e.messages[0])
+            }
           })
       } else {
         setError('min 3 characters')

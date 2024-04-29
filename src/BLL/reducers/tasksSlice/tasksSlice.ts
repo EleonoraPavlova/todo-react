@@ -1,7 +1,7 @@
 //BLL
 import { PayloadAction, createSlice, current } from '@reduxjs/toolkit'
 import { clearTasksTodolists } from 'BLL/actions/actions'
-import { setAppErrorAC, setAppStatusAC, setAppSuccessAC } from '../appSlice'
+import { setAppErrorAC, setAppSuccessAC } from '../appSlice'
 import { createAppAsyncThunk } from 'common/utils/createAppAsyncThunk'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
 import { AddTaskParams, Task, Tasks, UpdateTaskModel, UpdateTaskParams } from 'common/types'
@@ -128,12 +128,10 @@ const tasksSlice = createSlice({
 const getTasksTC = createAppAsyncThunk<{ tasks: Task[]; todoListId: string }, string>(
   `${tasksSlice.name}/getTasks`,
   async (todoListId: string, thunkAPI) => {
-    const { dispatch } = thunkAPI
     return thunkTryCatch(thunkAPI, async () => {
       const res = await tasksApi.getTasks(todoListId)
       const tasks = res.data.items
       //thunkApi.dispatch(setTasksAC({ tasks, todoListId })) extraReducers
-      dispatch(setAppStatusAC({ status: 'succeeded' }))
       return { tasks, todoListId }
     })
   }
@@ -149,7 +147,6 @@ const removeTaskTC = createAppAsyncThunk<DeleteTaskParams, DeleteTaskParams>(
       await tasksApi.deleteTask(params)
       // thunkApi.dispatch(removeTaskAC({ todoListId, taskId }))
       dispatch(setAppSuccessAC({ success: 'task was successful removed' }))
-      dispatch(setAppStatusAC({ status: 'succeeded' }))
       return { todoListId, taskId }
     })
   }
@@ -165,11 +162,10 @@ const addTaskTC = createAppAsyncThunk<{ task: Task }, AddTaskParams>(
         const task = res.data.data.item
         // dispatch(addTaskAC({ task }))
         dispatch(setAppSuccessAC({ success: 'task was successful added' }))
-        dispatch(setAppStatusAC({ status: 'succeeded' }))
         return { task }
       } else {
         handleServerAppError(res.data.messages, dispatch, false)
-        return rejectWithValue(null)
+        return rejectWithValue(res.data)
       }
     })
   }
@@ -204,7 +200,6 @@ const updateTaskTC = createAppAsyncThunk<UpdateTaskParams, UpdateTaskParams>(
       if (res.data.resultCode === ResultCode.SUCCEEDED) {
         // dispatch(updateTaskAC({ todoListId, id, model }))
         dispatch(setAppSuccessAC({ success: 'task was successful updated' }))
-        dispatch(setAppStatusAC({ status: 'succeeded' }))
         dispatch(changeTaskStatusAC({ todoListId, id: taskId, status: TaskStatuses.New }))
         return params //возвращает updateTaskAC action creator
       } else {

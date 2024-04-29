@@ -7,7 +7,6 @@ import { selectAppInitialized, selectAppStatus } from 'BLL/reducers/appSlice'
 import { selectIsLoggedIn } from 'BLL/reducers/authSlice'
 import { TodolistRender } from 'components/TodolistRender'
 import { Login } from 'features/page/Login'
-import { Task } from 'common/types'
 import { SnackBar } from 'components/SnackBar'
 import { useApp } from './hooks/useApp'
 

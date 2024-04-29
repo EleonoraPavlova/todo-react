@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, UnknownAction, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
 import { setIsLoggedInAC } from '../authSlice'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
 import { createAppAsyncThunk, thunkTryCatch } from 'common/utils'
@@ -27,18 +27,30 @@ const appSlice = createSlice({
     setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
       state.error = action.payload.error
     },
-    setAppStatusAC(state, action: PayloadAction<{ status: RequestStatus }>) {
-      state.status = action.payload.status
-    },
+    // setAppStatusAC(state, action: PayloadAction<{ status: RequestStatus }>) {
+    //   state.status = action.payload.status
+    // },
     setAppSuccessAC(state, action: PayloadAction<{ success: string | null }>) {
       state.success = action.payload.success
     },
   },
   extraReducers: (builder) => {
     //for processing foreign reducers
-    builder.addCase(setAppInitializeTC.fulfilled, (state) => {
-      state.initialized = true
-    })
+    builder
+      .addCase(setAppInitializeTC.fulfilled, (state) => {
+        state.initialized = true
+      })
+      //if we have the same boolean reducers
+      .addMatcher(isPending, (state) => {
+        state.status = 'loading'
+      })
+
+      .addMatcher(isRejected, (state) => {
+        state.status = 'failed'
+      })
+      .addMatcher(isFulfilled, (state) => {
+        state.status = 'succeeded'
+      })
   },
   selectors: {
     selectAppStatus: (sliceState) => sliceState.status,
@@ -66,5 +78,5 @@ const setAppInitializeTC = createAppAsyncThunk<{ initialized: boolean }>(
 
 export const appReducer = appSlice.reducer
 export const appThunks = { setAppInitializeTC }
-export const { setAppErrorAC, setAppStatusAC, setAppSuccessAC } = appSlice.actions
+export const { setAppErrorAC, setAppSuccessAC } = appSlice.actions
 export const { selectAppStatus, selectAppError, selectAppSuccess, selectAppInitialized } = appSlice.selectors

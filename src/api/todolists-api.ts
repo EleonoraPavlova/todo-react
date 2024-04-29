@@ -1,13 +1,6 @@
 import { instance } from 'api'
-import { Todolist } from 'common/types'
+import { ResponseData, Todolist } from 'common/types'
 //один файл должен отвечать за что то одно!!!!! принцип единой ответсвенности - single responsibility
-
-type ResponseTodolist<Data = {}> = {
-  resultCode: number
-  messages: string[]
-  fieldsErrors: string[]
-  data: Data
-}
 
 export const todolistsApi = {
   getTodoslists() {
@@ -15,17 +8,17 @@ export const todolistsApi = {
   },
 
   createTodoslist(title: string) {
-    return instance.post<ResponseTodolist<{ item: Todolist }>>('/todo-lists', {
+    return instance.post<ResponseData<{ item: Todolist }>>('/todo-lists', {
       title: title,
     })
   },
 
   deleteTodoslist(todoListId: string) {
-    return instance.delete<ResponseTodolist>(`todo-lists/${todoListId}`)
+    return instance.delete<ResponseData>(`todo-lists/${todoListId}`)
   },
 
   updateTodoslist(todoListId: string, title: string) {
-    return instance.put<ResponseTodolist>(`todo-lists/${todoListId}`, {
+    return instance.put<ResponseData>(`todo-lists/${todoListId}`, {
       title: title,
     })
   },

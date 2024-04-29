@@ -1,6 +1,6 @@
-import axios, { isAxiosError } from 'axios'
+import { isAxiosError } from 'axios'
 import { AppDispatch } from '../../BLL/store'
-import { setAppErrorAC, setAppStatusAC } from 'BLL/reducers/appSlice/appSlice'
+import { setAppErrorAC } from 'BLL/reducers/appSlice/appSlice'
 
 export const handleServerNetworkError = (err: unknown, dispatch: AppDispatch): void => {
   let errorMessage = 'Some error occurred'
@@ -13,10 +13,4 @@ export const handleServerNetworkError = (err: unknown, dispatch: AppDispatch): v
   }
 
   dispatch(setAppErrorAC({ error: errorMessage }))
-  dispatch(setAppStatusAC({ status: 'failed' }))
 }
-
-// export const handleServerNetworkError = (error: { message: string }, dispatch: Dispatch) => {
-//   dispatch(setAppErrorAC({ error: error.message ? error.message : 'Some error occurred' }))
-//   dispatch(setAppStatusAC({ status: 'failed' }))
-// }
