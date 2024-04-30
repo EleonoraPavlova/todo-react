@@ -1,4 +1,4 @@
-import { Box, CircularProgress, createTheme, styled } from '@mui/material'
+import { CircularProgress, createTheme, styled } from '@mui/material'
 import { blue, purple } from '@mui/material/colors'
 import { appThunks, selectAppInitialized } from 'BLL/reducers/appSlice'
 import { authThunks } from 'BLL/reducers/authSlice'

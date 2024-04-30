@@ -31,6 +31,7 @@ export const AddItemForm: React.FC<Props> = ({ disabled = false, label, addTask 
         error={!!error}
         helperText={error}
         size="small"
+        sx={{ width: '198px' }}
       />
       <IconButton onClick={() => addItemHandler(inputValue)}>
         <AddTaskIcon fontSize="small" color="success" />

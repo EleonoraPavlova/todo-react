@@ -1,5 +1,5 @@
 //BLL
-import { createAppAsyncThunk, handleServerAppError, thunkTryCatch } from 'common/utils'
+import { createAppAsyncThunk, handleServerAppError } from 'common/utils'
 import { PayloadAction, createSlice, current } from '@reduxjs/toolkit'
 import { clearTasksTodolists } from 'BLL/actions/actions'
 import { setAppSuccessAC } from '../appSlice'
@@ -58,64 +58,58 @@ const todolistsSlice = createSlice({
 })
 
 //thunk
-const getTodolistTC = createAppAsyncThunk<{ todolists: Todolist[] }>(
+const getTodolistTC = createAppAsyncThunk<{ todolists: Todolist[] }>( //doesn't work reject
   `${todolistsSlice.name}/getTodolist`,
-  async (params, thunkAPI) => {
-    return thunkTryCatch(thunkAPI, async () => {
-      const res = await todolistsApi.getTodoslists()
-      // dispatch(setTodolistAC({ todolists: res.data })) //уходит в return
-      return { todolists: res.data }
-    })
+  async (params) => {
+    const res = await todolistsApi.getTodoslists()
+    // dispatch(setTodolistAC({ todolists: res.data })) //уходит в return
+    return { todolists: res.data }
   }
 )
 
 const removeTodolistTC = createAppAsyncThunk<{ todoListId: string }, string>(
   `${todolistsSlice.name}/removeTodolist`,
-  async (todoListId, thunkAPI) => {
-    const { dispatch } = thunkAPI
-    return thunkTryCatch(thunkAPI, async () => {
-      dispatch(changeStatusTodolistAC({ entityStatus: 'loading', todoListId }))
-      await todolistsApi.deleteTodoslist(todoListId)
+  async (todoListId, { dispatch, rejectWithValue }) => {
+    dispatch(changeStatusTodolistAC({ entityStatus: 'loading', todoListId }))
+    const res = await todolistsApi.deleteTodoslist(todoListId).finally(() => {
+      dispatch(changeStatusTodolistAC({ entityStatus: 'idle', todoListId })) // undisable button delete
+    })
+    if (res.data.resultCode === ResultCode.SUCCEEDED) {
       // dispatch(removeTodolistAC({ todoListId: todoListId }))
       dispatch(setAppSuccessAC({ success: 'todolist was successful removed' }))
       return { todoListId }
-    })
+    } else {
+      return rejectWithValue(res.data)
+    }
   }
 )
 
 const addTodolistTC = createAppAsyncThunk<{ todolist: Todolist }, string>(
   `${todolistsSlice.name}/addNewTodolist`,
-  async (title: string, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI
-    return thunkTryCatch(thunkAPI, async () => {
-      const res = await todolistsApi.createTodoslist(title)
-      if (res.data.resultCode === ResultCode.SUCCEEDED) {
-        // dispatch(addTodolistAC({ todolist: res.data.data.item }))
-        dispatch(setAppSuccessAC({ success: 'todolist was successful added' }))
-        return { todolist: res.data.data.item }
-      } else {
-        handleServerAppError(res.data.messages, dispatch, false)
-        return rejectWithValue(res.data)
-      }
-    })
+  async (title: string, { dispatch, rejectWithValue }) => {
+    const res = await todolistsApi.createTodoslist(title)
+    if (res.data.resultCode === ResultCode.SUCCEEDED) {
+      // dispatch(addTodolistAC({ todolist: res.data.data.item }))
+      dispatch(setAppSuccessAC({ success: 'todolist was successful added' }))
+      return { todolist: res.data.data.item }
+    } else {
+      return rejectWithValue(res.data)
+    }
   }
 )
 
 const updateTodolistTC = createAppAsyncThunk<ParamUpdateTodolist, ParamUpdateTodolist>(
   `${todolistsSlice.name}/updateTodolist`,
-  (param, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI
-    return thunkTryCatch(thunkAPI, async () => {
-      const res = await todolistsApi.updateTodoslist(param.todoListId, param.title)
-      if (res.data.resultCode === ResultCode.SUCCEEDED) {
-        // dispatch(changeFilterTodolistAC({ filter: filter, todoListId: todoListId }))
-        dispatch(setAppSuccessAC({ success: 'todolist was successfully updated' }))
-        return param
-      } else {
-        handleServerAppError(res.data.messages, dispatch)
-        return rejectWithValue(null)
-      }
-    })
+  async (param, { dispatch, rejectWithValue }) => {
+    const res = await todolistsApi.updateTodoslist(param.todoListId, param.title)
+    if (res.data.resultCode === ResultCode.SUCCEEDED) {
+      // dispatch(changeFilterTodolistAC({ filter: filter, todoListId: todoListId }))
+      dispatch(setAppSuccessAC({ success: 'todolist was successfully updated' }))
+      return param
+    } else {
+      handleServerAppError(res.data.messages, dispatch, false)
+      return rejectWithValue(null)
+    }
   }
 )
 

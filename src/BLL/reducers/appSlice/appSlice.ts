@@ -1,10 +1,9 @@
-import { PayloadAction, UnknownAction, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
-import { setIsLoggedInAC } from '../authSlice'
-import { handleServerAppError } from 'common/utils/handleServerAppError'
-import { createAppAsyncThunk, thunkTryCatch } from 'common/utils'
+import { PayloadAction, createSlice, isAnyOf, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
+import { createAppAsyncThunk } from 'common/utils'
 import { ResultCode } from 'common/enums'
 import { RequestStatus } from 'common/types'
 import { authApi } from 'api/login-api'
+import { todolistsThunks } from '../todolistsSlice'
 
 type AppStartState = {
   status: RequestStatus
@@ -37,16 +36,25 @@ const appSlice = createSlice({
   extraReducers: (builder) => {
     //for processing foreign reducers
     builder
-      .addCase(setAppInitializeTC.fulfilled, (state) => {
+      // .addCase(setAppInitializeTC.fulfilled, (state) => {
+      //   state.initialized = true
+      // })
+      .addMatcher(isAnyOf(setAppInitializeTC.fulfilled, setAppInitializeTC.rejected), (state) => {
         state.initialized = true
       })
       //if we have the same boolean reducers
       .addMatcher(isPending, (state) => {
         state.status = 'loading'
       })
-
-      .addMatcher(isRejected, (state) => {
+      .addMatcher(isRejected, (state, action: any) => {
+        //error processing here!
         state.status = 'failed'
+        if (action.payload) {
+          if (action.type === todolistsThunks.addTodolistTC.rejected.type) return
+          state.error = action.payload.messages[0]
+        } else {
+          state.error = action.error.message ? action.error.message : 'Some error occurred'
+        }
       })
       .addMatcher(isFulfilled, (state) => {
         state.status = 'succeeded'
@@ -60,19 +68,16 @@ const appSlice = createSlice({
   },
 })
 
-const setAppInitializeTC = createAppAsyncThunk<{ initialized: boolean }>(
+const setAppInitializeTC = createAppAsyncThunk<{ isLoggedIn: boolean }, void>(
   `${appSlice.name}/appInitialize`,
-  async (params, thunkAPI) => {
-    const { dispatch } = thunkAPI
-    return thunkTryCatch(thunkAPI, async () => {
-      const res = await authApi.checkAuthMe()
-      if (res.data.resultCode === ResultCode.SUCCEEDED) {
-        dispatch(setIsLoggedInAC({ isLoggedIn: true })) // анонимный пользователь или авторизованный/and show loader of course
-      } else {
-        handleServerAppError(res.data.messages, dispatch, false)
-      }
-      return { initialized: true }
-    })
+  async (_, { rejectWithValue }) => {
+    const res = await authApi.checkAuthMe()
+    if (res.data.resultCode === ResultCode.SUCCEEDED) {
+      // dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+      return { isLoggedIn: true } // анонимный пользователь или авторизованный/and show loader of course
+    } else {
+      return rejectWithValue(res.data)
+    }
   }
 )
 
