@@ -4,7 +4,6 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import Delete from '@mui/icons-material/Delete'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
-import styled from '../../features/page/TodoList/TodoList.module.scss'
 import s from './TaskMap.module.scss'
 import { useTask } from './hooks/useTask'
 import { Task } from 'common/types'
@@ -22,9 +21,7 @@ export const TaskMap: React.FC<Props> = ({ task }) => {
   const completed = status === TaskStatuses.Completed
 
   return (
-    <ListItem
-      sx={{ justifyContent: 'space-between' }}
-      className={`${styled.list} ${completed || progress ? styled.done : ''}`}>
+    <ListItem sx={{ justifyContent: 'space-between' }} className={`${s.list} ${completed || progress ? s.done : ''}`}>
       <Checkbox
         checked={completed}
         onChange={changeTaskStatus}

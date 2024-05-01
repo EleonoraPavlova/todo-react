@@ -5,7 +5,7 @@ import { TaskStatuses } from 'common/enums'
 import { useSelector } from 'react-redux'
 import { tasksSelector } from 'BLL/reducers/tasksSlice'
 import { selectTodolists } from 'BLL/reducers/todolistsSlice'
-import { TodoList } from 'features/page/TodoList'
+import { TodoList } from 'features/pages/TodoList'
 
 export const TodolistsMap = () => {
   const todolists = useSelector(selectTodolists) //выбираем todolist из стора state

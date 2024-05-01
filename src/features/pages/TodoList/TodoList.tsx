@@ -1,7 +1,6 @@
 import React, { memo, useCallback } from 'react'
 import { Box } from '@mui/material'
 import { AddItemForm } from 'components/AddItemForm'
-import s from './TodoList.module.scss'
 import { Task, TodolistDomain } from 'common/types'
 import { Buttons } from 'components/Buttons'
 import { TodoListTitle } from 'components/TodolistTitle/TodolistTitle'
@@ -28,7 +27,7 @@ export const TodoList: React.FC<Props> = memo(({ demo = false, todolist, tasksFo
   )
 
   return (
-    <div className={s.todolist}>
+    <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', flexDirection: 'column' }}>
       <Box
         component={'div'}
         sx={{
@@ -48,6 +47,6 @@ export const TodoList: React.FC<Props> = memo(({ demo = false, todolist, tasksFo
           <Buttons todolist={todolist} />
         </Box>
       </Box>
-    </div>
+    </Box>
   )
 })

@@ -4,7 +4,7 @@ import { useTodolistRender } from './hooks/useTodolistRender'
 import { TodolistsMap } from 'components/TodolistsMap/TodolistsMap'
 
 type Props = {
-  demo: boolean //mock state
+  demo?: boolean //mock state
   lightMode: boolean
 }
 

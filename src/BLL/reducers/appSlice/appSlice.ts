@@ -49,9 +49,14 @@ const appSlice = createSlice({
       .addMatcher(isRejected, (state, action: any) => {
         //error processing here!
         state.status = 'failed'
+        console.log('action', action)
         if (action.payload) {
-          if (action.type === todolistsThunks.addTodolistTC.rejected.type) return
-          state.error = action.payload.messages[0]
+          if (
+            action.type === todolistsThunks.addTodolistTC.rejected.type ||
+            action.type === setAppInitializeTC.rejected.type
+          )
+            return
+          state.error = action.payload.errors[0]
         } else {
           state.error = action.error.message ? action.error.message : 'Some error occurred'
         }
@@ -67,7 +72,7 @@ const appSlice = createSlice({
     selectAppInitialized: (sliceState) => sliceState.initialized,
   },
 })
-
+//action.payload.messages[0] ||
 const setAppInitializeTC = createAppAsyncThunk<{ isLoggedIn: boolean }, void>(
   `${appSlice.name}/appInitialize`,
   async (_, { rejectWithValue }) => {

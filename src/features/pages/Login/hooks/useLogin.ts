@@ -35,27 +35,24 @@ export function useLogin() {
 
     onSubmit: (values, { setFieldError, setSubmitting }) => {
       setSubmitting(true)
-      try {
-        dispatch(authThunks.loginTC(values))
-          .unwrap()
-          .then(() => {})
-          .catch((data: ResponseData | ThunkErrorApiConfig | { message: string }) => {
-            if ('errors' in data) {
-              const error = data as ThunkErrorApiConfig
-              setFieldError('email', error.errors[0])
-              setFieldError('password', error.errors[0])
-            } else if ('message' in data) {
-              setFieldError('email', data.message)
-              setFieldError('password', data.message)
-            } else {
-              data.fieldsErrors.forEach((el) => {
-                setFieldError(el.field, el.error)
-              })
-            }
-          })
-      } catch (e) {
-        handleServerNetworkError(e, dispatch)
-      }
+
+      dispatch(authThunks.loginTC(values))
+        .unwrap()
+        .then(() => {})
+        .catch((data: ResponseData | ThunkErrorApiConfig | { message: string }) => {
+          if ('errors' in data) {
+            const error = data as ThunkErrorApiConfig
+            setFieldError('email', error.errors[0])
+            setFieldError('password', error.errors[0])
+          } else if ('message' in data) {
+            setFieldError('email', data.message)
+            setFieldError('password', data.message)
+          } else {
+            data.fieldsErrors.forEach((el) => {
+              setFieldError(el.field, el.error)
+            })
+          }
+        })
       setSubmitting(false)
     },
   })
